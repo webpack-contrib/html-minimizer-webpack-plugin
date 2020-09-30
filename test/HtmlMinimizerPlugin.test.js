@@ -1,3 +1,5 @@
+import HtmlMinimizerPlugin from '../src/index';
+
 import {
   compile,
   getCompiler,
@@ -7,15 +9,15 @@ import {
 } from './helpers';
 
 describe('HtmlMinimizerPlugin', () => {
-  it('should work', async () => {
-    const compiler = getCompiler({
-      entry: {
-        foo: `${__dirname}/fixtures/simple.js`,
-      },
-    });
+  it('should work (without options)', async () => {
+    const testHtmlId = './simple.html';
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin().apply(compiler);
+
     const stats = await compile(compiler);
 
-    expect(readAsset('foo.js', compiler, stats)).toMatchSnapshot('result');
+    expect(readAsset('simple.html', compiler, stats)).toMatchSnapshot('result');
     expect(getErrors(stats)).toMatchSnapshot('errors');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });

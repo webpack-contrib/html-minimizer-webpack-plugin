@@ -1,12 +1,10 @@
 import readAsset from './readAsset';
 
-export default function readAssets(compiler, stats, extension) {
+export default function readAssets(compiler, stats, extRegexp) {
   const assets = {};
 
   Object.keys(stats.compilation.assets).forEach((asset) => {
-    if (typeof extension === 'undefined') {
-      assets[asset] = readAsset(asset, compiler, stats);
-    } else if (asset.endsWith(extension)) {
+    if (extRegexp && extRegexp.test(asset)) {
       assets[asset] = readAsset(asset, compiler, stats);
     }
   });

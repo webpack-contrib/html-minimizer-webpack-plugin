@@ -2,24 +2,40 @@ import path from 'path';
 
 import webpack from 'webpack';
 import { createFsFromVolume, Volume } from 'memfs';
+import CopyPlugin from 'copy-webpack-plugin';
 
-export default function getCompiler(config) {
-  const compiler = webpack({
-    mode: 'development',
-    devtool: config.devtool || false,
-    context: path.resolve(__dirname, '../fixtures'),
-    optimization: {
-      minimize: false,
-    },
-    output: {
-      path: path.resolve(__dirname, '../outputs'),
-      filename: '[name].js',
-      chunkFilename: '[id].[name].js',
-    },
-    plugins: [],
-    module: {},
-    ...config,
-  });
+export default function getCompiler(htmlFixture, config = {}) {
+  const compiler = webpack(
+    Array.isArray(config)
+      ? config
+      : {
+          mode: 'production',
+          bail: true,
+          devtool: config.devtool || false,
+          context: path.resolve(__dirname, '../fixtures'),
+          entry: path.resolve(__dirname, '../fixtures/entry.js'),
+          optimization: {
+            minimize: false,
+          },
+          output: {
+            pathinfo: false,
+            path: path.resolve(__dirname, '../dist'),
+            filename: '[name].js',
+            chunkFilename: '[id].[name].js',
+          },
+          plugins: [
+            new CopyPlugin({
+              patterns: [
+                {
+                  context: path.resolve(__dirname, '..', 'fixtures'),
+                  from: htmlFixture,
+                },
+              ],
+            }),
+          ],
+          ...config,
+        }
+  );
 
   if (!config.outputFileSystem) {
     const outputFileSystem = createFsFromVolume(new Volume());
