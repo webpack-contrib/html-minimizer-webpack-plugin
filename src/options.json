@@ -1,8 +1,69 @@
 {
+  "definitions": {
+    "Rule": {
+      "description": "Filtering rule as regex or string.",
+      "anyOf": [
+        {
+          "instanceof": "RegExp",
+          "tsType": "RegExp"
+        },
+        {
+          "type": "string",
+          "minLength": 1
+        }
+      ]
+    },
+    "Rules": {
+      "description": "Filtering rules.",
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "description": "A rule condition.",
+            "oneOf": [
+              {
+                "$ref": "#/definitions/Rule"
+              }
+            ]
+          }
+        },
+        {
+          "$ref": "#/definitions/Rule"
+        }
+      ]
+    }
+  },
+  "title": "HtmlMinimizerWebpackPluginOptions",
   "type": "object",
   "properties": {
-    "name": {
-      "type": "boolean"
+    "test": {
+      "description": "Include all modules that pass test assertion.",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Rules"
+        }
+      ]
+    },
+    "include": {
+      "description": "Include all modules matching any of these conditions.",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Rules"
+        }
+      ]
+    },
+    "exclude": {
+      "description": "Exclude all modules matching any of these conditions.",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/Rules"
+        }
+      ]
+    },
+    "minimizerOptions": {
+      "description": "Options for `htmlMinimizerOptions`.",
+      "additionalProperties": true,
+      "type": "object"
     }
   },
   "additionalProperties": false
