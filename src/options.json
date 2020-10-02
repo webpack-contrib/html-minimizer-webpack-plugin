@@ -79,6 +79,17 @@
     "cacheKeys": {
       "description": "Allows you to override default cache keys. Ignored in webpack 5, for webpack 5 please use https://webpack.js.org/configuration/other-options/#cache.",
       "instanceof": "Function"
+    },
+    "parallel": {
+      "description": "Use multi-process parallel running to improve the build speed.",
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "integer"
+        }
+      ]
     }
   },
   "additionalProperties": false
