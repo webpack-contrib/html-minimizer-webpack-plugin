@@ -1,13 +1,8 @@
-import os from 'os';
-
 import serialize from 'serialize-javascript';
 
 import { transform } from '../src/minify';
 
 import { normalizeErrors } from './helpers';
-
-// eslint-disable-next-line no-console
-console.log('OS', os.cpus());
 
 describe('worker', () => {
   it('should minify html', async () => {
