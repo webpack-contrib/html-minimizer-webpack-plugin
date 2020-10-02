@@ -8,8 +8,10 @@ import webpack, {
 } from 'webpack';
 
 import validateOptions from 'schema-utils';
-
+import serialize from 'serialize-javascript';
 import HtmlMinimizerPackageJson from 'html-minifier-terser/package.json';
+import pLimit from 'p-limit';
+import Worker from 'jest-worker';
 
 import schema from './options.json';
 
@@ -136,6 +138,41 @@ class HtmlMinimizerPlugin {
       return Promise.resolve();
     }
 
+    const availableNumberOfCores = HtmlMinimizerPlugin.getAvailableNumberOfCores(
+      this.options.parallel
+    );
+
+    let concurrency = Infinity;
+    let worker;
+
+    if (availableNumberOfCores > 0) {
+      // Do not create unnecessary workers when the number of files is less than the available cores, it saves memory
+      const numWorkers = Math.min(assetNames.length, availableNumberOfCores);
+
+      concurrency = numWorkers;
+
+      worker = new Worker(require.resolve('./minify'), { numWorkers });
+
+      // https://github.com/facebook/jest/issues/8872#issuecomment-524822081
+      const workerStdout = worker.getStdout();
+
+      if (workerStdout) {
+        workerStdout.on('data', (chunk) => {
+          return process.stdout.write(chunk);
+        });
+      }
+
+      const workerStderr = worker.getStderr();
+
+      if (workerStderr) {
+        workerStderr.on('data', (chunk) => {
+          return process.stderr.write(chunk);
+        });
+      }
+    }
+
+    const limit = pLimit(concurrency);
+
     const cache = new CacheEngine(
       compilation,
       {
@@ -148,7 +185,7 @@ class HtmlMinimizerPlugin {
 
     for (const assetName of assetNames) {
       scheduledTasks.push(
-        (async () => {
+        limit(async () => {
           const { source: assetSource, info } = HtmlMinimizerPlugin.getAsset(
             compilation,
             assetName
@@ -200,7 +237,9 @@ class HtmlMinimizerPlugin {
                 minify: this.options.minify,
               };
 
-              output = await minifyFn(minimizerOptions);
+              output = await (worker
+                ? worker.transform(serialize(minimizerOptions))
+                : minifyFn(minimizerOptions));
             } catch (error) {
               compilation.errors.push(
                 HtmlMinimizerPlugin.buildError(
@@ -227,11 +266,17 @@ class HtmlMinimizerPlugin {
               minimized: true,
             }
           );
-        })()
+        })
       );
     }
 
-    return Promise.all(scheduledTasks);
+    const result = await Promise.all(scheduledTasks);
+
+    if (worker) {
+      await worker.end();
+    }
+
+    return result;
   }
 
   static isWebpack4() {
