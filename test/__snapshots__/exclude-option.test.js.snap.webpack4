@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`exclude option should match snapshot for a single RegExp value exclude: assets 1`] = `
+Object {
+  "include-exclude/exclude-1.html": "<!doctype html>
+<html lang=\\"en\\">
+<head>
+  <meta charset=\\"UTF-8\\">
+  <title>Document</title>
+</head>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+<h2>An Unordered HTML List</h2>
+
+</body>
+</html>
+",
+  "include-exclude/exclude-2.html": "<!doctype html>
+<html lang=\\"en\\">
+<head>
+  <meta charset=\\"UTF-8\\">
+  <title>Document</title>
+</head>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+<h2>An Unordered HTML List</h2>
+
+</body>
+</html>
+",
+  "include-exclude/include-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+}
+`;
+
+exports[`exclude option should match snapshot for a single RegExp value exclude: errors 1`] = `Array []`;
+
+exports[`exclude option should match snapshot for a single RegExp value exclude: warnings 1`] = `Array []`;
+
+exports[`exclude option should match snapshot for multiple RegExp values exclude: assets 1`] = `
+Object {
+  "include-exclude/exclude-1.html": "<!doctype html>
+<html lang=\\"en\\">
+<head>
+  <meta charset=\\"UTF-8\\">
+  <title>Document</title>
+</head>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+<h2>An Unordered HTML List</h2>
+
+</body>
+</html>
+",
+  "include-exclude/exclude-2.html": "<!doctype html>
+<html lang=\\"en\\">
+<head>
+  <meta charset=\\"UTF-8\\">
+  <title>Document</title>
+</head>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+<h2>An Unordered HTML List</h2>
+
+</body>
+</html>
+",
+  "include-exclude/include-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+}
+`;
+
+exports[`exclude option should match snapshot for multiple RegExp values exclude: errors 1`] = `Array []`;
+
+exports[`exclude option should match snapshot for multiple RegExp values exclude: warnings 1`] = `Array []`;
+
+exports[`exclude option should match snapshot for multiple String values exclude: assets 1`] = `
+Object {
+  "include-exclude/exclude-1.html": "<!doctype html>
+<html lang=\\"en\\">
+<head>
+  <meta charset=\\"UTF-8\\">
+  <title>Document</title>
+</head>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+<h2>An Unordered HTML List</h2>
+
+</body>
+</html>
+",
+  "include-exclude/exclude-2.html": "<!doctype html>
+<html lang=\\"en\\">
+<head>
+  <meta charset=\\"UTF-8\\">
+  <title>Document</title>
+</head>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+<h2>An Unordered HTML List</h2>
+
+</body>
+</html>
+",
+  "include-exclude/include-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+}
+`;
+
+exports[`exclude option should match snapshot for multiple String values exclude: errors 1`] = `Array []`;
+
+exports[`exclude option should match snapshot for multiple String values exclude: warnings 1`] = `Array []`;
