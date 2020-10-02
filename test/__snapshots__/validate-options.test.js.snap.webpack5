@@ -115,11 +115,31 @@ exports[`validation 9`] = `
 
 exports[`validation 10`] = `
 "Invalid options object. Html Minimizer Plugin has been initialized using an options object that does not match the API schema.
+ - options.parallel should be one of these:
+   boolean | integer
+   -> Use multi-process parallel running to improve the build speed.
+   Details:
+    * options.parallel should be a boolean.
+    * options.parallel should be a integer."
+`;
+
+exports[`validation 11`] = `
+"Invalid options object. Html Minimizer Plugin has been initialized using an options object that does not match the API schema.
+ - options.parallel should be one of these:
+   boolean | integer
+   -> Use multi-process parallel running to improve the build speed.
+   Details:
+    * options.parallel should be a boolean.
+    * options.parallel should be a integer."
+`;
+
+exports[`validation 12`] = `
+"Invalid options object. Html Minimizer Plugin has been initialized using an options object that does not match the API schema.
  - options has an unknown property 'minify'. These properties are valid:
    object { test?, include?, exclude?, minimizerOptions?, cache?, cacheKeys?, parallel? }"
 `;
 
-exports[`validation 11`] = `
+exports[`validation 13`] = `
 "Invalid options object. Html Minimizer Plugin has been initialized using an options object that does not match the API schema.
  - options has an unknown property 'unknown'. These properties are valid:
    object { test?, include?, exclude?, minimizerOptions?, cache?, cacheKeys?, parallel? }"

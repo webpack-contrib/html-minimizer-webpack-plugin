@@ -137,6 +137,26 @@ it('validation', () => {
   }).toThrowErrorMatchingSnapshot();
 
   expect(() => {
+    new HtmlMinimizerPlugin({ parallel: true });
+  }).not.toThrow();
+
+  expect(() => {
+    new HtmlMinimizerPlugin({ parallel: false });
+  }).not.toThrow();
+
+  expect(() => {
+    new HtmlMinimizerPlugin({ parallel: 2 });
+  }).not.toThrow();
+
+  expect(() => {
+    new HtmlMinimizerPlugin({ parallel: '2' });
+  }).toThrowErrorMatchingSnapshot();
+
+  expect(() => {
+    new HtmlMinimizerPlugin({ parallel: {} });
+  }).toThrowErrorMatchingSnapshot();
+
+  expect(() => {
     new HtmlMinimizerPlugin({ minify: true });
   }).toThrowErrorMatchingSnapshot();
 
