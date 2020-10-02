@@ -1,7 +1,6 @@
 import os from 'os';
 import crypto from 'crypto';
 
-import RequestShortener from 'webpack/lib/RequestShortener';
 import webpack, {
   ModuleFilenameHelpers,
   version as webpackVersion,
@@ -52,43 +51,10 @@ class HtmlMinimizerPlugin {
     };
   }
 
-  static buildError(error, file, sourceMap, requestShortener) {
-    if (error.line) {
-      const original =
-        sourceMap &&
-        sourceMap.originalPositionFor({
-          line: error.line,
-          column: error.column,
-        });
-
-      if (original && original.source && requestShortener) {
-        return new Error(
-          `${file} from Html Minimizer Webpack Plugin\n${
-            error.message
-          } [${requestShortener.shorten(original.source)}:${original.line},${
-            original.column
-          }][${file}:${error.line},${error.column}]${
-            error.stack
-              ? `\n${error.stack.split('\n').slice(1).join('\n')}`
-              : ''
-          }`
-        );
-      }
-
-      return new Error(
-        `${file} from Html Minimizer \n${error.message} [${file}:${
-          error.line
-        },${error.column}]${
-          error.stack ? `\n${error.stack.split('\n').slice(1).join('\n')}` : ''
-        }`
-      );
-    }
-
-    if (error.stack) {
-      return new Error(`${file} from Html Minimizer\n${error.stack}`);
-    }
-
-    return new Error(`${file} from Html Minimizer\n${error.message}`);
+  static buildError(error, file, context) {
+    return new Error(
+      `${file} in "${context}" from Html Minimizer\n${error.stack}`
+    );
   }
 
   static getAvailableNumberOfCores(parallel) {
@@ -245,7 +211,7 @@ class HtmlMinimizerPlugin {
                 HtmlMinimizerPlugin.buildError(
                   error,
                   assetName,
-                  new RequestShortener(compiler.context)
+                  compiler.context
                 )
               );
 

@@ -128,6 +128,37 @@ describe('HtmlMinimizerPlugin', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
+  it('should emit error', async () => {
+    const testHtmlId = './simple.html';
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin({
+      minify: () => {
+        // eslint-disable-next-line global-require
+        const htmlMinifier = require('html-minifier-terser');
+
+        return htmlMinifier.minify(null);
+      },
+    }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should emit error when broken html syntax', async () => {
+    const testHtmlId = './broken-html-syntax.html';
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin().apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
   // Todo unskip when copy-webpack-plugin will have weekCache
   it.skip('should work and use cache by default', async () => {
     const testHtmlId = './cache/*.html';
