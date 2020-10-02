@@ -1,9 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`when applied with "minimizerOptions" option should rewrite default options: errors 1`] = `Array []`;
-
-exports[`when applied with "minimizerOptions" option should rewrite default options: result 1`] = `
-"<!doctype html>
+exports[`when applied with "minimizerOptions" option should rewrite default options: assets 1`] = `
+Object {
+  "simple.html": "<!doctype html>
 <html lang=\\"en\\">
 <head>
   <meta charset=\\"UTF-8\\">
@@ -33,7 +32,10 @@ exports[`when applied with "minimizerOptions" option should rewrite default opti
 
 </body>
 </html>
-"
+",
+}
 `;
+
+exports[`when applied with "minimizerOptions" option should rewrite default options: errors 1`] = `Array []`;
 
 exports[`when applied with "minimizerOptions" option should rewrite default options: warnings 1`] = `Array []`;

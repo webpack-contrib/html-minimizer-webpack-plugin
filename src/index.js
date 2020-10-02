@@ -1,11 +1,15 @@
 import os from 'os';
+import crypto from 'crypto';
 
 import RequestShortener from 'webpack/lib/RequestShortener';
 import webpack, {
   ModuleFilenameHelpers,
   version as webpackVersion,
 } from 'webpack';
+
 import validateOptions from 'schema-utils';
+
+import HtmlMinimizerPackageJson from 'html-minifier-terser/package.json';
 
 import schema from './options.json';
 
@@ -117,7 +121,7 @@ class HtmlMinimizerPlugin {
     compilation.assets[name] = newSource;
   }
 
-  async optimize(compiler, compilation, assets) {
+  async optimize(compiler, compilation, assets, CacheEngine, weakCache) {
     const matchObject = ModuleFilenameHelpers.matchObject.bind(
       // eslint-disable-next-line no-undefined
       undefined,
@@ -131,6 +135,14 @@ class HtmlMinimizerPlugin {
     if (assetNames.length === 0) {
       return Promise.resolve();
     }
+
+    const cache = new CacheEngine(
+      compilation,
+      {
+        cache: this.options.cache,
+      },
+      weakCache
+    );
 
     const scheduledTasks = [];
 
@@ -153,30 +165,58 @@ class HtmlMinimizerPlugin {
             input = input.toString();
           }
 
-          let output;
+          const cacheData = { assetName, assetSource };
 
-          try {
-            const minimizerOptions = {
-              assetName,
-              input,
-              minimizerOptions: this.options.minimizerOptions,
-              minify: this.options.minify,
-            };
-
-            output = await minifyFn(minimizerOptions);
-          } catch (error) {
-            compilation.errors.push(
-              HtmlMinimizerPlugin.buildError(
-                error,
-                assetName,
-                new RequestShortener(compiler.context)
-              )
-            );
-
-            return;
+          if (HtmlMinimizerPlugin.isWebpack4()) {
+            if (this.options.cache) {
+              cacheData.input = input;
+              cacheData.cacheKeys = this.options.cacheKeys(
+                {
+                  nodeVersion: process.version,
+                  // eslint-disable-next-line global-require
+                  'html-minimizer-webpack-plugin': require('../package.json')
+                    .version,
+                  htmlMinimizer: HtmlMinimizerPackageJson.version,
+                  'html-minimizer-webpack-plugin-options': this.options,
+                  assetName,
+                  contentHash: crypto
+                    .createHash('md4')
+                    .update(input)
+                    .digest('hex'),
+                },
+                assetName
+              );
+            }
           }
 
-          output.source = new RawSource(output.html);
+          let output = await cache.get(cacheData, { RawSource });
+
+          if (!output) {
+            try {
+              const minimizerOptions = {
+                assetName,
+                input,
+                minimizerOptions: this.options.minimizerOptions,
+                minify: this.options.minify,
+              };
+
+              output = await minifyFn(minimizerOptions);
+            } catch (error) {
+              compilation.errors.push(
+                HtmlMinimizerPlugin.buildError(
+                  error,
+                  assetName,
+                  new RequestShortener(compiler.context)
+                )
+              );
+
+              return;
+            }
+
+            output.source = new RawSource(output.html);
+
+            await cache.store({ ...output, ...cacheData });
+          }
 
           HtmlMinimizerPlugin.updateAsset(
             compilation,
@@ -205,7 +245,7 @@ class HtmlMinimizerPlugin {
     compiler.hooks.compilation.tap(pluginName, (compilation) => {
       if (HtmlMinimizerPlugin.isWebpack4()) {
         // eslint-disable-next-line global-require
-        const CacheEngine = {};
+        const CacheEngine = require('./Webpack4Cache').default;
 
         compilation.hooks.optimizeChunkAssets.tapPromise(pluginName, () => {
           return this.optimize(
@@ -218,16 +258,8 @@ class HtmlMinimizerPlugin {
           );
         });
       } else {
-        if (this.options.sourceMap) {
-          compilation.hooks.buildModule.tap(pluginName, (moduleArg) => {
-            // to get detailed location info about errors
-            // eslint-disable-next-line no-param-reassign
-            moduleArg.useSourceMap = true;
-          });
-        }
-
         // eslint-disable-next-line global-require
-        const CacheEngine = {};
+        const CacheEngine = require('./Webpack5Cache').default;
 
         // eslint-disable-next-line global-require
         const Compilation = require('webpack/lib/Compilation');

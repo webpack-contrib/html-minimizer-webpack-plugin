@@ -5,10 +5,15 @@ import {
   getCompiler,
   getErrors,
   getWarnings,
-  readAsset,
+  readAssets,
+  removeCache,
 } from './helpers';
 
 describe('HtmlMinimizerPlugin', () => {
+  beforeEach(() => Promise.all([removeCache()]));
+
+  afterEach(() => Promise.all([removeCache()]));
+
   it('should work (without options)', async () => {
     const testHtmlId = './simple.html';
     const compiler = getCompiler(testHtmlId);
@@ -17,7 +22,7 @@ describe('HtmlMinimizerPlugin', () => {
 
     const stats = await compile(compiler);
 
-    expect(readAsset('simple.html', compiler, stats)).toMatchSnapshot('result');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
     expect(getErrors(stats)).toMatchSnapshot('errors');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
@@ -30,7 +35,7 @@ describe('HtmlMinimizerPlugin', () => {
 
     const stats = await compile(compiler);
 
-    expect(readAsset('empty.html', compiler, stats)).toMatchSnapshot('result');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
     expect(getErrors(stats)).toMatchSnapshot('errors');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });

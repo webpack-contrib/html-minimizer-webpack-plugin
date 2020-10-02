@@ -6,6 +6,7 @@ import normalizedSourceMap from './normalizedSourceMap';
 import getErrors from './getErrors';
 import getWarnings from './getWarnings';
 import normalizeErrors from './normalizeErrors';
+import removeCache from './removeCache';
 
 export {
   compile,
@@ -16,4 +17,5 @@ export {
   getErrors,
   getWarnings,
   normalizeErrors,
+  removeCache,
 };
