@@ -157,6 +157,10 @@ it('validation', () => {
   }).toThrowErrorMatchingSnapshot();
 
   expect(() => {
+    new HtmlMinimizerPlugin({ minify() {} });
+  }).not.toThrow();
+
+  expect(() => {
     new HtmlMinimizerPlugin({ minify: true });
   }).toThrowErrorMatchingSnapshot();
 

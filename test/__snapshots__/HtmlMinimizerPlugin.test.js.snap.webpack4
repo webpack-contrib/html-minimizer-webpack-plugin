@@ -19,3 +19,80 @@ Object {
 exports[`HtmlMinimizerPlugin should work with an empty file: errors 1`] = `Array []`;
 
 exports[`HtmlMinimizerPlugin should work with an empty file: warnings 1`] = `Array []`;
+
+exports[`HtmlMinimizerPlugin should work with child compilation: assets 1`] = `
+Object {
+  "simple.html": "<p title=\\"blah\\" id=\\"moo\\"> foo </p>",
+}
+`;
+
+exports[`HtmlMinimizerPlugin should work with child compilation: errors 1`] = `Array []`;
+
+exports[`HtmlMinimizerPlugin should work with child compilation: warnings 1`] = `Array []`;
+
+exports[`HtmlMinimizerPlugin should work without files: assets 1`] = `
+Object {
+  "simple.html": "<!doctype html>
+<html lang=\\"en\\">
+<head>
+  <meta charset=\\"UTF-8\\">
+  <meta name=\\"viewport\\"
+        content=\\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\\">
+  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\">
+  <title>Document</title>
+</head>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+<h2>An Unordered HTML List</h2>
+
+<ul>
+  <li>Coffee</li>
+  <li>Tea</li>
+  <li>Milk</li>
+</ul>
+
+<h2>An Ordered HTML List</h2>
+
+<ol>
+  <li>Coffee</li>
+  <li>Tea</li>
+  <li>Milk</li>
+</ol>
+
+</body>
+</html>
+",
+}
+`;
+
+exports[`HtmlMinimizerPlugin should work without files: errors 1`] = `Array []`;
+
+exports[`HtmlMinimizerPlugin should work without files: warnings 1`] = `Array []`;
+
+exports[`HtmlMinimizerPlugin should write stdout and stderr of workers to stdout and stderr of main process in parallel mode: assets 1`] = `
+Object {
+  "parallel/foo-1.html": "<!-- Comment --><p title=\\"blah\\" id=\\"moo\\">  foo  </p>",
+  "parallel/foo-2.html": "<!-- Comment --><p title=\\"blah\\" id=\\"moo\\">  foo  </p>",
+  "parallel/foo-3.html": "<!-- Comment --><p title=\\"blah\\" id=\\"moo\\">  foo  </p>",
+}
+`;
+
+exports[`HtmlMinimizerPlugin should write stdout and stderr of workers to stdout and stderr of main process in parallel mode: errors 1`] = `Array []`;
+
+exports[`HtmlMinimizerPlugin should write stdout and stderr of workers to stdout and stderr of main process in parallel mode: process stderr output 1`] = `
+"stderr
+stderr
+stderr
+"
+`;
+
+exports[`HtmlMinimizerPlugin should write stdout and stderr of workers to stdout and stderr of main process in parallel mode: process stdout output 1`] = `
+"stdout
+stdout
+stdout
+"
+`;
+
+exports[`HtmlMinimizerPlugin should write stdout and stderr of workers to stdout and stderr of main process in parallel mode: warnings 1`] = `Array []`;
