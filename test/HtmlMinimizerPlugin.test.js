@@ -1,3 +1,5 @@
+import path from 'path';
+
 import HtmlMinimizerPlugin from '../src/index';
 
 import {
@@ -30,6 +32,92 @@ describe('HtmlMinimizerPlugin', () => {
   it('should work with an empty file', async () => {
     const testHtmlId = './empty.html';
     const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin().apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should work without files', async () => {
+    const testHtmlId = './simple.html';
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin({
+      include: 'nothing',
+    }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+  });
+
+  it('should write stdout and stderr of workers to stdout and stderr of main process in parallel mode', async () => {
+    const { write: stdoutWrite } = process.stdout;
+    const { write: stderrWrite } = process.stderr;
+
+    let stdoutOutput = '';
+    let stderrOutput = '';
+
+    process.stdout.write = (str) => {
+      stdoutOutput += str;
+    };
+
+    process.stderr.write = (str) => {
+      stderrOutput += str;
+    };
+
+    const testHtmlId = './parallel/foo-[1-3].html';
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin({
+      parallel: true,
+      minify: () => {
+        // eslint-disable-next-line no-console
+        process.stdout.write('stdout\n');
+        // eslint-disable-next-line no-console
+        process.stderr.write('stderr\n');
+
+        return '<!-- Comment --><p title="blah" id="moo">  foo  </p>';
+      },
+    }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(stdoutOutput).toMatchSnapshot('process stdout output');
+    expect(stderrOutput).toMatchSnapshot('process stderr output');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+
+    process.stdout.write = stdoutWrite;
+    process.stderr.write = stderrWrite;
+  });
+
+  it('should work with child compilation', async () => {
+    const testHtmlId = './simple.html';
+    const compiler = getCompiler(testHtmlId, {
+      module: {
+        rules: [
+          {
+            test: /entry.js$/i,
+            use: [
+              {
+                loader: path.resolve(
+                  __dirname,
+                  './helpers/emitAssetInChildCompilationLoader'
+                ),
+              },
+            ],
+          },
+        ],
+      },
+    });
 
     new HtmlMinimizerPlugin().apply(compiler);
 

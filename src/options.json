@@ -90,6 +90,10 @@
           "type": "integer"
         }
       ]
+    },
+    "minify": {
+      "description": "Allows you to override default minify function.",
+      "instanceof": "Function"
     }
   },
   "additionalProperties": false
