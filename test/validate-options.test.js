@@ -113,6 +113,30 @@ it('validation', () => {
   }).not.toThrow();
 
   expect(() => {
+    new HtmlMinimizerPlugin({ cache: true });
+  }).not.toThrow();
+
+  expect(() => {
+    new HtmlMinimizerPlugin({ cache: false });
+  }).not.toThrow();
+
+  expect(() => {
+    new HtmlMinimizerPlugin({ cache: 'path/to/cache/directory' });
+  }).not.toThrow();
+
+  expect(() => {
+    new HtmlMinimizerPlugin({ cache: {} });
+  }).toThrowErrorMatchingSnapshot();
+
+  expect(() => {
+    new HtmlMinimizerPlugin({ cacheKeys() {} });
+  }).not.toThrow();
+
+  expect(() => {
+    new HtmlMinimizerPlugin({ cacheKeys: 'test' });
+  }).toThrowErrorMatchingSnapshot();
+
+  expect(() => {
     new HtmlMinimizerPlugin({ minify: true });
   }).toThrowErrorMatchingSnapshot();
 

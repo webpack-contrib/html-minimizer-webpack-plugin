@@ -5,7 +5,7 @@ import {
   getCompiler,
   getErrors,
   getWarnings,
-  readAsset,
+  readAssets,
 } from './helpers';
 
 describe('when applied with "minimizerOptions" option', () => {
@@ -21,7 +21,7 @@ describe('when applied with "minimizerOptions" option', () => {
 
     const stats = await compile(compiler);
 
-    expect(readAsset('simple.html', compiler, stats)).toMatchSnapshot('result');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
     expect(getErrors(stats)).toMatchSnapshot('errors');
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
