@@ -9,6 +9,7 @@ import {
   getWarnings,
   readAssets,
   removeCache,
+  ModifyExistingAsset,
 } from './helpers';
 
 describe('HtmlMinimizerPlugin', () => {
@@ -159,10 +160,14 @@ describe('HtmlMinimizerPlugin', () => {
     expect(getWarnings(stats)).toMatchSnapshot('warnings');
   });
 
-  // Todo unskip when copy-webpack-plugin will have weekCache
-  it.skip('should work and use cache by default', async () => {
-    const testHtmlId = './cache/*.html';
-    const compiler = getCompiler(testHtmlId);
+  it('should work and use cache by default in "development" mode', async () => {
+    const testHtmlId = false;
+    const compiler = getCompiler(testHtmlId, {
+      mode: 'development',
+      entry: {
+        foo: path.resolve(__dirname, './fixtures/cache.js'),
+      },
+    });
 
     new HtmlMinimizerPlugin().apply(compiler);
 
@@ -173,9 +178,9 @@ describe('HtmlMinimizerPlugin', () => {
         Object.keys(stats.compilation.assets).filter((assetName) => {
           return stats.compilation.assets[assetName].emitted;
         }).length
-      ).toBe(5);
+      ).toBe(6);
     } else {
-      expect(stats.compilation.emittedAssets.size).toBe(5);
+      expect(stats.compilation.emittedAssets.size).toBe(6);
     }
 
     expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('result');
@@ -190,9 +195,214 @@ describe('HtmlMinimizerPlugin', () => {
           Object.keys(newStats.compilation.assets).filter((assetName) => {
             return newStats.compilation.assets[assetName].emitted;
           }).length
-        ).toBe(5);
+        ).toBe(0);
       } else {
         expect(newStats.compilation.emittedAssets.size).toBe(0);
+      }
+
+      expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
+        'assets'
+      );
+      expect(getWarnings(newStats)).toMatchSnapshot('errors');
+      expect(getErrors(newStats)).toMatchSnapshot('warnings');
+
+      resolve();
+    });
+  });
+
+  it('should work and use memory cache', async () => {
+    const testHtmlId = false;
+    const compiler = getCompiler(testHtmlId, {
+      ...(getCompiler.isWebpack4()
+        ? { cache: true }
+        : { cache: { type: 'memory' } }),
+      entry: {
+        foo: path.resolve(__dirname, './fixtures/cache.js'),
+      },
+    });
+
+    new HtmlMinimizerPlugin().apply(compiler);
+
+    const stats = await compile(compiler);
+
+    if (getCompiler.isWebpack4()) {
+      expect(
+        Object.keys(stats.compilation.assets).filter((assetName) => {
+          return stats.compilation.assets[assetName].emitted;
+        }).length
+      ).toBe(6);
+    } else {
+      expect(stats.compilation.emittedAssets.size).toBe(6);
+    }
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('result');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+
+    await new Promise(async (resolve) => {
+      const newStats = await compile(compiler);
+
+      if (getCompiler.isWebpack4()) {
+        expect(
+          Object.keys(newStats.compilation.assets).filter((assetName) => {
+            return newStats.compilation.assets[assetName].emitted;
+          }).length
+        ).toBe(0);
+      } else {
+        expect(newStats.compilation.emittedAssets.size).toBe(0);
+      }
+
+      expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
+        'assets'
+      );
+      expect(getWarnings(newStats)).toMatchSnapshot('errors');
+      expect(getErrors(newStats)).toMatchSnapshot('warnings');
+
+      resolve();
+    });
+  });
+
+  it('should work and use memory cache when the "cache" option is "true"', async () => {
+    const testHtmlId = false;
+    const compiler = getCompiler(testHtmlId, {
+      cache: true,
+      entry: {
+        foo: path.resolve(__dirname, './fixtures/cache.js'),
+      },
+    });
+
+    new HtmlMinimizerPlugin().apply(compiler);
+
+    const stats = await compile(compiler);
+
+    if (getCompiler.isWebpack4()) {
+      expect(
+        Object.keys(stats.compilation.assets).filter((assetName) => {
+          return stats.compilation.assets[assetName].emitted;
+        }).length
+      ).toBe(6);
+    } else {
+      expect(stats.compilation.emittedAssets.size).toBe(6);
+    }
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('result');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+
+    await new Promise(async (resolve) => {
+      const newStats = await compile(compiler);
+
+      if (getCompiler.isWebpack4()) {
+        expect(
+          Object.keys(newStats.compilation.assets).filter((assetName) => {
+            return newStats.compilation.assets[assetName].emitted;
+          }).length
+        ).toBe(0);
+      } else {
+        expect(newStats.compilation.emittedAssets.size).toBe(0);
+      }
+
+      expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
+        'assets'
+      );
+      expect(getWarnings(newStats)).toMatchSnapshot('errors');
+      expect(getErrors(newStats)).toMatchSnapshot('warnings');
+
+      resolve();
+    });
+  });
+
+  it('should work and use memory cache when the "cache" option is "true" and the asset has been changed', async () => {
+    const testHtmlId = false;
+    const compiler = getCompiler(testHtmlId, {
+      cache: true,
+      entry: {
+        foo: path.resolve(__dirname, './fixtures/cache.js'),
+      },
+    });
+
+    new HtmlMinimizerPlugin().apply(compiler);
+
+    const stats = await compile(compiler);
+
+    if (getCompiler.isWebpack4()) {
+      expect(
+        Object.keys(stats.compilation.assets).filter((assetName) => {
+          return stats.compilation.assets[assetName].emitted;
+        }).length
+      ).toBe(6);
+    } else {
+      expect(stats.compilation.emittedAssets.size).toBe(6);
+    }
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('result');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+
+    new ModifyExistingAsset({ name: 'cache.html' }).apply(compiler);
+    new ModifyExistingAsset({ name: 'cache-1.html' }).apply(compiler);
+
+    await new Promise(async (resolve) => {
+      const newStats = await compile(compiler);
+
+      if (getCompiler.isWebpack4()) {
+        expect(
+          Object.keys(newStats.compilation.assets).filter((assetName) => {
+            return newStats.compilation.assets[assetName].emitted;
+          }).length
+        ).toBe(2);
+      } else {
+        expect(newStats.compilation.emittedAssets.size).toBe(2);
+      }
+
+      expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
+        'assets'
+      );
+      expect(getWarnings(newStats)).toMatchSnapshot('errors');
+      expect(getErrors(newStats)).toMatchSnapshot('warnings');
+
+      resolve();
+    });
+  });
+
+  it('should work and do not use memory cache when the "cache" option is "false"', async () => {
+    const testHtmlId = false;
+    const compiler = getCompiler(testHtmlId, {
+      cache: false,
+      entry: {
+        foo: path.resolve(__dirname, './fixtures/cache.js'),
+      },
+    });
+
+    new HtmlMinimizerPlugin().apply(compiler);
+
+    const stats = await compile(compiler);
+
+    if (getCompiler.isWebpack4()) {
+      expect(
+        Object.keys(stats.compilation.assets).filter((assetName) => {
+          return stats.compilation.assets[assetName].emitted;
+        }).length
+      ).toBe(6);
+    } else {
+      expect(stats.compilation.emittedAssets.size).toBe(6);
+    }
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('result');
+    expect(getErrors(stats)).toMatchSnapshot('errors');
+    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+
+    await new Promise(async (resolve) => {
+      const newStats = await compile(compiler);
+
+      if (getCompiler.isWebpack4()) {
+        expect(
+          Object.keys(newStats.compilation.assets).filter((assetName) => {
+            return newStats.compilation.assets[assetName].emitted;
+          }).length
+        ).toBe(6);
+      } else {
+        expect(newStats.compilation.emittedAssets.size).toBe(6);
       }
 
       expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(

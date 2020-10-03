@@ -23,16 +23,39 @@ export default function getCompiler(htmlFixture, config = {}) {
             filename: '[name].js',
             chunkFilename: '[id].[name].js',
           },
-          plugins: [
-            new CopyPlugin({
-              patterns: [
-                {
-                  context: path.resolve(__dirname, '..', 'fixtures'),
-                  from: htmlFixture,
-                },
-              ],
-            }),
-          ],
+          plugins: [].concat(
+            htmlFixture
+              ? [
+                  new CopyPlugin({
+                    patterns: [
+                      {
+                        context: path.resolve(__dirname, '..', 'fixtures'),
+                        from: htmlFixture,
+                      },
+                    ],
+                  }),
+                ]
+              : []
+          ),
+          module: {
+            rules: [].concat(
+              !htmlFixture
+                ? [
+                    {
+                      test: /\.html$/i,
+                      use: [
+                        {
+                          loader: 'file-loader',
+                          options: {
+                            name: '[name].[ext]',
+                          },
+                        },
+                      ],
+                    },
+                  ]
+                : []
+            ),
+          },
           ...config,
         }
   );

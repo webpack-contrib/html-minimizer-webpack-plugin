@@ -1,3 +1,7 @@
+import path from 'path';
+
+import del from 'del';
+
 import cacache from 'cacache';
 import findCacheDir from 'find-cache-dir';
 
@@ -274,208 +278,213 @@ if (getCompiler.isWebpack4()) {
     });
   });
 } else {
-  it('should work', async () => {
-    expect(true).toBe(true);
+  describe('"cache" option', () => {
+    const fileSystemCacheDirectory = path.resolve(
+      __dirname,
+      './outputs/type-filesystem'
+    );
+    const fileSystemCacheDirectory1 = path.resolve(
+      __dirname,
+      './outputs/type-filesystem-1'
+    );
+    const fileSystemCacheDirectory2 = path.resolve(
+      __dirname,
+      './outputs/type-filesystem-2'
+    );
+    const fileSystemCacheDirectory3 = path.resolve(
+      __dirname,
+      './outputs/type-filesystem-3'
+    );
+
+    beforeAll(() => {
+      return Promise.all([
+        del(fileSystemCacheDirectory),
+        del(fileSystemCacheDirectory1),
+        del(fileSystemCacheDirectory2),
+        del(fileSystemCacheDirectory3),
+      ]);
+    });
+
+    it('should work with the "false" value for the "cache" option', async () => {
+      const testHtmlId = false;
+      const compiler = getCompiler(testHtmlId, {
+        cache: false,
+        entry: {
+          foo: path.resolve(__dirname, './fixtures/cache.js'),
+        },
+      });
+
+      new HtmlMinimizerPlugin().apply(compiler);
+
+      let getCounter = 0;
+
+      compiler.cache.hooks.get.tap(
+        { name: 'TestCache', stage: -100 },
+        (identifier) => {
+          if (identifier.indexOf('HtmlMinimizerWebpackPlugin') !== -1) {
+            getCounter += 1;
+          }
+        }
+      );
+
+      let storeCounter = 0;
+
+      compiler.cache.hooks.store.tap(
+        { name: 'TestCache', stage: -100 },
+        (identifier) => {
+          if (identifier.indexOf('HtmlMinimizerWebpackPlugin') !== -1) {
+            storeCounter += 1;
+          }
+        }
+      );
+
+      const stats = await compile(compiler);
+
+      // Without cache webpack always try to get
+      expect(getCounter).toBe(5);
+      // Without cache webpack always try to store
+      expect(storeCounter).toBe(5);
+      expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
+      expect(getErrors(stats)).toMatchSnapshot('errors');
+      expect(getWarnings(stats)).toMatchSnapshot('warnings');
+
+      getCounter = 0;
+      storeCounter = 0;
+
+      const newStats = await compile(compiler);
+
+      // Without cache webpack always try to get
+      expect(getCounter).toBe(5);
+      // Without cache webpack always try to store
+      expect(storeCounter).toBe(5);
+      expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
+        'assets'
+      );
+      expect(getErrors(newStats)).toMatchSnapshot('errors');
+      expect(getWarnings(newStats)).toMatchSnapshot('warnings');
+    });
+
+    it('should work with the "memory" value for the "cache.type" option', async () => {
+      const testHtmlId = false;
+      const compiler = getCompiler(testHtmlId, {
+        cache: {
+          type: 'memory',
+        },
+        entry: {
+          foo: path.resolve(__dirname, './fixtures/cache.js'),
+        },
+      });
+
+      new HtmlMinimizerPlugin().apply(compiler);
+
+      let getCounter = 0;
+
+      compiler.cache.hooks.get.tap(
+        { name: 'TestCache', stage: -100 },
+        (identifier) => {
+          if (identifier.indexOf('HtmlMinimizerWebpackPlugin') !== -1) {
+            getCounter += 1;
+          }
+        }
+      );
+
+      let storeCounter = 0;
+
+      compiler.cache.hooks.store.tap(
+        { name: 'TestCache', stage: -100 },
+        (identifier) => {
+          if (identifier.indexOf('HtmlMinimizerWebpackPlugin') !== -1) {
+            storeCounter += 1;
+          }
+        }
+      );
+
+      const stats = await compile(compiler);
+
+      // Get cache for assets
+      expect(getCounter).toBe(5);
+      // Store cached assets
+      expect(storeCounter).toBe(5);
+      expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
+      expect(getErrors(stats)).toMatchSnapshot('errors');
+      expect(getWarnings(stats)).toMatchSnapshot('warnings');
+
+      getCounter = 0;
+      storeCounter = 0;
+
+      const newStats = await compile(compiler);
+
+      // Get cache for assets
+      expect(getCounter).toBe(5);
+      // No need to store, we got cached assets
+      expect(storeCounter).toBe(0);
+      expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
+        'assets'
+      );
+      expect(getErrors(newStats)).toMatchSnapshot('errors');
+      expect(getWarnings(newStats)).toMatchSnapshot('warnings');
+    });
+
+    it('should work with the "filesystem" value for the "cache.type" option', async () => {
+      const testHtmlId = false;
+      const compiler = getCompiler(testHtmlId, {
+        cache: {
+          type: 'filesystem',
+          cacheDirectory: fileSystemCacheDirectory,
+        },
+        entry: {
+          foo: path.resolve(__dirname, './fixtures/cache.js'),
+        },
+      });
+
+      new HtmlMinimizerPlugin().apply(compiler);
+
+      let getCounter = 0;
+
+      compiler.cache.hooks.get.tap(
+        { name: 'TestCache', stage: -100 },
+        (identifier) => {
+          if (identifier.indexOf('HtmlMinimizerWebpackPlugin') !== -1) {
+            getCounter += 1;
+          }
+        }
+      );
+
+      let storeCounter = 0;
+
+      compiler.cache.hooks.store.tap(
+        { name: 'TestCache', stage: -100 },
+        (identifier) => {
+          if (identifier.indexOf('HtmlMinimizerWebpackPlugin') !== -1) {
+            storeCounter += 1;
+          }
+        }
+      );
+
+      const stats = await compile(compiler);
+
+      // Get cache for assets
+      expect(getCounter).toBe(5);
+      // Store cached assets
+      expect(storeCounter).toBe(5);
+      expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
+      expect(getErrors(stats)).toMatchSnapshot('errors');
+      expect(getWarnings(stats)).toMatchSnapshot('warnings');
+
+      getCounter = 0;
+      storeCounter = 0;
+
+      const newStats = await compile(compiler);
+
+      // Get cache for assets
+      expect(getCounter).toBe(5);
+      // No need to store, we got cached assets
+      expect(storeCounter).toBe(0);
+      expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
+        'assets'
+      );
+      expect(getErrors(newStats)).toMatchSnapshot('errors');
+      expect(getWarnings(newStats)).toMatchSnapshot('warnings');
+    });
   });
-  // Todo uncomment when copy-webpack-plugin will have weekCache
-  // describe('"cache" option', () => {
-  //   const fileSystemCacheDirectory = path.resolve(
-  //     __dirname,
-  //     './outputs/type-filesystem'
-  //   );
-  //   const fileSystemCacheDirectory1 = path.resolve(
-  //     __dirname,
-  //     './outputs/type-filesystem-1'
-  //   );
-  //   const fileSystemCacheDirectory2 = path.resolve(
-  //     __dirname,
-  //     './outputs/type-filesystem-2'
-  //   );
-  //   const fileSystemCacheDirectory3 = path.resolve(
-  //     __dirname,
-  //     './outputs/type-filesystem-3'
-  //   );
-  //
-  //   beforeAll(() => {
-  //     return Promise.all([
-  //       del(fileSystemCacheDirectory),
-  //       del(fileSystemCacheDirectory1),
-  //       del(fileSystemCacheDirectory2),
-  //       del(fileSystemCacheDirectory3),
-  //     ]);
-  //   });
-  //
-  //   it('should work with the "false" value for the "cache" option', async () => {
-  //     const testHtmlId = './cache/*.html';
-  //     const compiler = getCompiler(testHtmlId, {
-  //       cache: false,
-  //     });
-  //
-  //     new HtmlMinimizerPlugin().apply(compiler);
-  //
-  //     let getCounter = 0;
-  //
-  //     compiler.cache.hooks.get.tap(
-  //       { name: 'TestCache', stage: -100 },
-  //       (identifier) => {
-  //         if (identifier.indexOf('HtmlMinimizerWebpackPlugin') !== -1) {
-  //           getCounter += 1;
-  //         }
-  //       }
-  //     );
-  //
-  //     let storeCounter = 0;
-  //
-  //     compiler.cache.hooks.store.tap(
-  //       { name: 'TestCache', stage: -100 },
-  //       (identifier) => {
-  //         if (identifier.indexOf('HtmlMinimizerWebpackPlugin') !== -1) {
-  //           storeCounter += 1;
-  //         }
-  //       }
-  //     );
-  //
-  //     const stats = await compile(compiler);
-  //
-  //     // Without cache webpack always try to get
-  //     expect(getCounter).toBe(5);
-  //     // Without cache webpack always try to store
-  //     expect(storeCounter).toBe(5);
-  //     expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-  //     expect(getErrors(stats)).toMatchSnapshot('errors');
-  //     expect(getWarnings(stats)).toMatchSnapshot('warnings');
-  //
-  //     getCounter = 0;
-  //     storeCounter = 0;
-  //
-  //     const newStats = await compile(compiler);
-  //
-  //     // Without cache webpack always try to get
-  //     expect(getCounter).toBe(5);
-  //     // Without cache webpack always try to store
-  //     expect(storeCounter).toBe(5);
-  //     expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
-  //       'assets'
-  //     );
-  //     expect(getErrors(newStats)).toMatchSnapshot('errors');
-  //     expect(getWarnings(newStats)).toMatchSnapshot('warnings');
-  //   });
-  //
-  //   it('should work with the "memory" value for the "cache.type" option', async () => {
-  //     const testHtmlId = './cache/*.html';
-  //     const compiler = getCompiler(testHtmlId, {
-  //       cache: {
-  //         type: 'memory',
-  //       },
-  //     });
-  //
-  //     new HtmlMinimizerPlugin().apply(compiler);
-  //
-  //     let getCounter = 0;
-  //
-  //     compiler.cache.hooks.get.tap(
-  //       { name: 'TestCache', stage: -100 },
-  //       (identifier) => {
-  //         if (identifier.indexOf('HtmlMinimizerWebpackPlugin') !== -1) {
-  //           getCounter += 1;
-  //         }
-  //       }
-  //     );
-  //
-  //     let storeCounter = 0;
-  //
-  //     compiler.cache.hooks.store.tap(
-  //       { name: 'TestCache', stage: -100 },
-  //       (identifier) => {
-  //         if (identifier.indexOf('HtmlMinimizerWebpackPlugin') !== -1) {
-  //           storeCounter += 1;
-  //         }
-  //       }
-  //     );
-  //
-  //     const stats = await compile(compiler);
-  //
-  //     // Get cache for assets
-  //     expect(getCounter).toBe(5);
-  //     // Store cached assets
-  //     expect(storeCounter).toBe(5);
-  //     expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-  //     expect(getErrors(stats)).toMatchSnapshot('errors');
-  //     expect(getWarnings(stats)).toMatchSnapshot('warnings');
-  //
-  //     getCounter = 0;
-  //     storeCounter = 0;
-  //
-  //     const newStats = await compile(compiler);
-  //
-  //     // Get cache for assets
-  //     expect(getCounter).toBe(5);
-  //     // No need to store, we got cached assets
-  //     expect(storeCounter).toBe(0);
-  //     expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
-  //       'assets'
-  //     );
-  //     expect(getErrors(newStats)).toMatchSnapshot('errors');
-  //     expect(getWarnings(newStats)).toMatchSnapshot('warnings');
-  //   });
-  //
-  //   it('should work with the "filesystem" value for the "cache.type" option', async () => {
-  //     const testHtmlId = './cache/cache.html';
-  //     const compiler = getCompiler(testHtmlId, {
-  //       cache: {
-  //         type: 'filesystem',
-  //         cacheDirectory: fileSystemCacheDirectory,
-  //       },
-  //     });
-  //
-  //     new HtmlMinimizerPlugin().apply(compiler);
-  //
-  //     let getCounter = 0;
-  //
-  //     compiler.cache.hooks.get.tap(
-  //       { name: 'TestCache', stage: -100 },
-  //       (identifier) => {
-  //         if (identifier.indexOf('HtmlMinimizerWebpackPlugin') !== -1) {
-  //           getCounter += 1;
-  //         }
-  //       }
-  //     );
-  //
-  //     let storeCounter = 0;
-  //
-  //     compiler.cache.hooks.store.tap(
-  //       { name: 'TestCache', stage: -100 },
-  //       (identifier) => {
-  //         if (identifier.indexOf('HtmlMinimizerWebpackPlugin') !== -1) {
-  //           storeCounter += 1;
-  //         }
-  //       }
-  //     );
-  //
-  //     const stats = await compile(compiler);
-  //
-  //     // Get cache for assets
-  //     expect(getCounter).toBe(1);
-  //     // Store cached assets
-  //     expect(storeCounter).toBe(1);
-  //     expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-  //     expect(getErrors(stats)).toMatchSnapshot('errors');
-  //     expect(getWarnings(stats)).toMatchSnapshot('warnings');
-  //
-  //     getCounter = 0;
-  //     storeCounter = 0;
-  //
-  //     const newStats = await compile(compiler);
-  //
-  //     // Get cache for assets
-  //     expect(getCounter).toBe(1);
-  //     // No need to store, we got cached assets
-  //     expect(storeCounter).toBe(0);
-  //     expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
-  //       'assets'
-  //     );
-  //     expect(getErrors(newStats)).toMatchSnapshot('errors');
-  //     expect(getWarnings(newStats)).toMatchSnapshot('warnings');
-  //   });
-  // });
 }
