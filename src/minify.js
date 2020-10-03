@@ -53,13 +53,7 @@ async function transform(options) {
     `'use strict'\nreturn ${options}`
   )(exports, require, module, __filename, __dirname);
 
-  const result = await minify(options);
-
-  if (result.error) {
-    throw result.error;
-  } else {
-    return result;
-  }
+  return minify(options);
 }
 
 module.exports.minify = minify;
