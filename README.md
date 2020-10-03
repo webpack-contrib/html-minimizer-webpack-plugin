@@ -30,6 +30,7 @@ Then add the plugin to your `webpack` configuration. For example:
 
 ```js
 const HtmlMinimizerPlugin = require('html-minifier-terser');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   module: {
@@ -47,6 +48,16 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          context: path.resolve(__dirname, 'dist'),
+          from: './src/*.html',
+        },
+      ],
+    }),
+  ],
   optimization: {
     minimize: true,
     minimizer: [
@@ -287,6 +298,9 @@ module.exports = {
     minimize: true,
     minimizer: [
       new HtmlMinimizerPlugin({
+        minimizerOptions: {
+          collapseWhitespace: true,
+        },
         minify: (data, minimizerOptions) => {
           const htmlMinifier = require('html-minifier-terser');
           const [[filename, input]] = Object.entries(data);
