@@ -351,8 +351,8 @@ Please take a moment to read our contributing guidelines if you haven't yet done
 [node-url]: https://nodejs.org
 [deps]: https://david-dm.org/webpack-contrib/html-minimizer-webpack-plugin.svg
 [deps-url]: https://david-dm.org/webpack-contrib/html-minimizer-webpack-plugin
-[tests]: https://dev.azure.com/webpack-contrib/html-minimizer-webpack-plugin/_apis/build/status/webpack-contrib.html-minimizer-webpack-plugin?branchName=master
-[tests-url]: https://dev.azure.com/webpack-contrib/html-minimizer-webpack-plugin/_build/latest?definitionId=2&branchName=master
+[tests]: https://github.com/webpack-contrib/html-minimizer-webpack-plugin/workflows/html-minimizer-webpack-plugin/badge.svg
+[tests-url]: https://github.com/webpack-contrib/html-minimizer-webpack-plugin/actions
 [cover]: https://codecov.io/gh/webpack-contrib/html-minimizer-webpack-plugin/branch/master/graph/badge.svg
 [cover-url]: https://codecov.io/gh/webpack-contrib/html-minimizer-webpack-plugin
 [chat]: https://img.shields.io/badge/gitter-webpack%2Fwebpack-brightgreen.svg
