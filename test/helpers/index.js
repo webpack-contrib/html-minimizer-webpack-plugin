@@ -7,6 +7,7 @@ import getErrors from './getErrors';
 import getWarnings from './getWarnings';
 import normalizeErrors from './normalizeErrors';
 import removeCache from './removeCache';
+import ModifyExistingAsset from './ModifyExistingAsset';
 
 export {
   compile,
@@ -18,4 +19,5 @@ export {
   getWarnings,
   normalizeErrors,
   removeCache,
+  ModifyExistingAsset,
 };
