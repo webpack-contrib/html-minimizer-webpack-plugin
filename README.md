@@ -29,7 +29,7 @@ Then add the plugin to your `webpack` configuration. For example:
 **webpack.config.js**
 
 ```js
-const HtmlMinimizerPlugin = require('html-minifier-terser');
+const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
