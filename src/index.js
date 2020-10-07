@@ -6,7 +6,7 @@ import webpack, {
   version as webpackVersion,
 } from 'webpack';
 
-import validateOptions from 'schema-utils';
+import { validate } from 'schema-utils';
 import serialize from 'serialize-javascript';
 import HtmlMinimizerPackageJson from 'html-minifier-terser/package.json';
 import pLimit from 'p-limit';
@@ -23,7 +23,7 @@ const { RawSource } =
 
 class HtmlMinimizerPlugin {
   constructor(options = {}) {
-    validateOptions(schema, options, {
+    validate(schema, options, {
       name: 'Html Minimizer Plugin',
       baseDataPath: 'options',
     });
