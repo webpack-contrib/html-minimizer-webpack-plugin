@@ -26,7 +26,7 @@ const minify = async (options) => {
     const result = await minifyFn({ [assetName]: input }, minimizerOptions);
 
     return {
-      html: result,
+      code: result,
     };
   }
 
@@ -36,7 +36,7 @@ const minify = async (options) => {
   });
 
   return {
-    html: result,
+    code: result,
   };
 };
 

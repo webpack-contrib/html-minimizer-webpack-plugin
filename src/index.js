@@ -177,7 +177,7 @@ class HtmlMinimizerPlugin {
               return;
             }
 
-            output.source = new RawSource(output.html);
+            output.source = new RawSource(output.code);
 
             await cacheItem.storePromise({
               source: output.source,

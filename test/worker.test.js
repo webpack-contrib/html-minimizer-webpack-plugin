@@ -11,9 +11,9 @@ describe('worker', () => {
       input: '<!-- Comment --><p title="blah" id="moo">     foo     </p>',
       minimizerOptions: { removeComments: false },
     };
-    const { html } = await transform(serialize(options));
+    const { code } = await transform(serialize(options));
 
-    expect(html).toMatchSnapshot('html');
+    expect(code).toMatchSnapshot('html');
   });
 
   it('should minify html', async () => {
@@ -28,9 +28,9 @@ describe('worker', () => {
         };
       },
     };
-    const { html } = await transform(serialize(options));
+    const { code } = await transform(serialize(options));
 
-    expect(html).toMatchSnapshot('html');
+    expect(code).toMatchSnapshot('html');
   });
 
   it('should emit error', async () => {
