@@ -1,10 +1,4 @@
 import os from 'os';
-import crypto from 'crypto';
-
-import webpack, {
-  ModuleFilenameHelpers,
-  version as webpackVersion,
-} from 'webpack';
 
 import { validate } from 'schema-utils';
 import serialize from 'serialize-javascript';
@@ -15,11 +9,6 @@ import Worker from 'jest-worker';
 import schema from './options.json';
 
 import { minify as minifyFn } from './minify';
-
-// webpack 5 exposes the sources property to ensure the right version of webpack-sources is used
-const { RawSource } =
-  // eslint-disable-next-line global-require
-  webpack.sources || require('webpack-sources');
 
 class HtmlMinimizerPlugin {
   constructor(options = {}) {
@@ -32,8 +21,6 @@ class HtmlMinimizerPlugin {
       minify,
       minimizerOptions = {},
       test = /\.html(\?.*)?$/i,
-      cache = true,
-      cacheKeys = (defaultCacheKeys) => defaultCacheKeys,
       parallel = true,
       include,
       exclude,
@@ -41,8 +28,6 @@ class HtmlMinimizerPlugin {
 
     this.options = {
       test,
-      cache,
-      cacheKeys,
       parallel,
       include,
       exclude,
@@ -67,152 +52,126 @@ class HtmlMinimizerPlugin {
       : Math.min(Number(parallel) || 0, cpus.length - 1);
   }
 
-  // eslint-disable-next-line consistent-return
-  static getAsset(compilation, name) {
-    // New API
-    if (compilation.getAsset) {
-      return compilation.getAsset(name);
-    }
-
-    if (compilation.assets[name]) {
-      return { name, source: compilation.assets[name], info: {} };
-    }
-  }
-
-  static updateAsset(compilation, name, newSource, assetInfo) {
-    // New API
-    if (compilation.updateAsset) {
-      compilation.updateAsset(name, newSource, assetInfo);
-    }
-
-    // eslint-disable-next-line no-param-reassign
-    compilation.assets[name] = newSource;
-  }
-
-  async optimize(compiler, compilation, assets, CacheEngine, weakCache) {
-    const matchObject = ModuleFilenameHelpers.matchObject.bind(
-      // eslint-disable-next-line no-undefined
-      undefined,
-      this.options
-    );
-
-    const assetNames = Object.keys(
-      typeof assets === 'undefined' ? compilation.assets : assets
-    ).filter((assetName) => matchObject(assetName));
-
-    if (assetNames.length === 0) {
-      return Promise.resolve();
-    }
-
-    const availableNumberOfCores = HtmlMinimizerPlugin.getAvailableNumberOfCores(
-      this.options.parallel
-    );
-
-    let concurrency = Infinity;
-    let worker;
-
-    if (availableNumberOfCores > 0) {
-      // Do not create unnecessary workers when the number of files is less than the available cores, it saves memory
-      const numWorkers = Math.min(assetNames.length, availableNumberOfCores);
-
-      concurrency = numWorkers;
-
-      worker = new Worker(require.resolve('./minify'), { numWorkers });
-
-      // https://github.com/facebook/jest/issues/8872#issuecomment-524822081
-      const workerStdout = worker.getStdout();
-
-      if (workerStdout) {
-        workerStdout.on('data', (chunk) => {
-          return process.stdout.write(chunk);
-        });
-      }
-
-      const workerStderr = worker.getStderr();
-
-      if (workerStderr) {
-        workerStderr.on('data', (chunk) => {
-          return process.stderr.write(chunk);
-        });
-      }
-    }
-
-    const limit = pLimit(concurrency);
-
-    const cache = new CacheEngine(
-      compilation,
-      {
-        cache: this.options.cache,
-      },
-      weakCache
-    );
-
-    const scheduledTasks = [];
-
-    for (const assetName of assetNames) {
-      scheduledTasks.push(
-        limit(async () => {
-          const { source: assetSource, info } = HtmlMinimizerPlugin.getAsset(
-            compilation,
-            assetName
-          );
+  async optimize(compiler, compilation, assets, optimizeOptions) {
+    const cache = compilation.getCache('HtmlMinimizerWebpackPlugin');
+    let numberOfAssetsForMinify = 0;
+    const assetsForMinify = await Promise.all(
+      Object.keys(assets)
+        .filter((name) => {
+          const { info } = compilation.getAsset(name);
 
           // Skip double minimize assets from child compilation
           if (info.minimized) {
-            return;
+            return false;
           }
 
-          let input = assetSource.source();
-
-          if (Buffer.isBuffer(input)) {
-            input = input.toString();
+          if (
+            !compiler.webpack.ModuleFilenameHelpers.matchObject.bind(
+              // eslint-disable-next-line no-undefined
+              undefined,
+              this.options
+            )(name)
+          ) {
+            return false;
           }
 
-          const cacheData = { assetName, assetSource };
+          return true;
+        })
+        .map(async (name) => {
+          const { info, source } = compilation.getAsset(name);
 
-          if (HtmlMinimizerPlugin.isWebpack4()) {
-            if (this.options.cache) {
-              cacheData.input = input;
-              cacheData.cacheKeys = this.options.cacheKeys(
-                {
-                  nodeVersion: process.version,
-                  // eslint-disable-next-line global-require
-                  'html-minimizer-webpack-plugin': require('../package.json')
-                    .version,
-                  htmlMinimizer: HtmlMinimizerPackageJson.version,
-                  'html-minimizer-webpack-plugin-options': this.options,
-                  assetName,
-                  contentHash: crypto
-                    .createHash('md4')
-                    .update(input)
-                    .digest('hex'),
-                },
-                assetName
-              );
-            }
-          }
-
-          let output = await cache.get(cacheData, { RawSource });
+          const eTag = cache.getLazyHashedEtag(source);
+          const cacheItem = cache.getItemCache(name, eTag);
+          const output = await cacheItem.getPromise();
 
           if (!output) {
-            try {
-              const minimizerOptions = {
-                assetName,
-                input,
-                minimizerOptions: this.options.minimizerOptions,
-                minify: this.options.minify,
-              };
+            numberOfAssetsForMinify += 1;
+          }
 
-              output = await (worker
-                ? worker.transform(serialize(minimizerOptions))
-                : minifyFn(minimizerOptions));
+          return { name, info, inputSource: source, output, cacheItem };
+        })
+    );
+
+    let getWorker;
+    let initializedWorker;
+    let numberOfWorkers;
+
+    if (optimizeOptions.availableNumberOfCores > 0) {
+      // Do not create unnecessary workers when the number of files is less than the available cores, it saves memory
+      numberOfWorkers = Math.min(
+        numberOfAssetsForMinify,
+        optimizeOptions.availableNumberOfCores
+      );
+      // eslint-disable-next-line consistent-return
+      getWorker = () => {
+        if (initializedWorker) {
+          return initializedWorker;
+        }
+
+        initializedWorker = new Worker(require.resolve('./minify'), {
+          numWorkers: numberOfWorkers,
+          enableWorkerThreads: true,
+        });
+
+        // https://github.com/facebook/jest/issues/8872#issuecomment-524822081
+        const workerStdout = initializedWorker.getStdout();
+
+        if (workerStdout) {
+          workerStdout.on('data', (chunk) => {
+            return process.stdout.write(chunk);
+          });
+        }
+
+        const workerStderr = initializedWorker.getStderr();
+
+        if (workerStderr) {
+          workerStderr.on('data', (chunk) => {
+            return process.stderr.write(chunk);
+          });
+        }
+
+        return initializedWorker;
+      };
+    }
+
+    const limit = pLimit(
+      getWorker && numberOfAssetsForMinify > 0 ? numberOfWorkers : Infinity
+    );
+
+    const { RawSource } = compiler.webpack.sources;
+
+    const scheduledTasks = [];
+
+    for (const asset of assetsForMinify) {
+      scheduledTasks.push(
+        limit(async () => {
+          const { name, inputSource, cacheItem } = asset;
+          let { output } = asset;
+          let input;
+
+          const sourceFromInputSource = inputSource.source();
+
+          if (!output) {
+            input = sourceFromInputSource;
+
+            if (Buffer.isBuffer(input)) {
+              input = input.toString();
+            }
+
+            const options = {
+              name,
+              input,
+              minimizerOptions: { ...this.options.minimizerOptions },
+              minify: this.options.minify,
+            };
+
+            try {
+              output = await (getWorker
+                ? getWorker().transform(serialize(options))
+                : minifyFn(options));
             } catch (error) {
               compilation.errors.push(
-                HtmlMinimizerPlugin.buildError(
-                  error,
-                  assetName,
-                  compiler.context
-                )
+                HtmlMinimizerPlugin.buildError(error, name, compiler.context)
               );
 
               return;
@@ -220,80 +179,69 @@ class HtmlMinimizerPlugin {
 
             output.source = new RawSource(output.html);
 
-            await cache.store({ ...output, ...cacheData });
+            await cacheItem.storePromise({
+              source: output.source,
+            });
           }
 
-          HtmlMinimizerPlugin.updateAsset(
-            compilation,
-            assetName,
-            output.source,
-            {
-              ...info,
-              minimized: true,
-            }
-          );
+          const newInfo = { minimized: true };
+          const { source } = output;
+
+          compilation.updateAsset(name, source, newInfo);
         })
       );
     }
 
-    const result = await Promise.all(scheduledTasks);
+    await Promise.all(scheduledTasks);
 
-    if (worker) {
-      await worker.end();
+    if (initializedWorker) {
+      await initializedWorker.end();
     }
-
-    return result;
-  }
-
-  static isWebpack4() {
-    return webpackVersion[0] === '4';
   }
 
   apply(compiler) {
     const pluginName = this.constructor.name;
-    const weakCache = new WeakMap();
+    const availableNumberOfCores = HtmlMinimizerPlugin.getAvailableNumberOfCores(
+      this.options.parallel
+    );
 
     compiler.hooks.compilation.tap(pluginName, (compilation) => {
-      if (HtmlMinimizerPlugin.isWebpack4()) {
-        // eslint-disable-next-line global-require
-        const CacheEngine = require('./Webpack4Cache').default;
+      const hooks = compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(
+        compilation
+      );
 
-        compilation.hooks.optimizeChunkAssets.tapPromise(pluginName, () => {
-          return this.optimize(
-            compiler,
-            compilation,
-            // eslint-disable-next-line no-undefined
-            undefined,
-            CacheEngine,
-            weakCache
+      const data = serialize({
+        htmlMinifierTerser: HtmlMinimizerPackageJson.version,
+        htmlMinifierTerserOptions: this.options.minimizerOptions,
+      });
+
+      hooks.chunkHash.tap(pluginName, (chunk, hash) => {
+        hash.update('HtmlMinimizerPlugin');
+        hash.update(data);
+      });
+
+      compilation.hooks.processAssets.tapPromise(
+        {
+          name: pluginName,
+          stage:
+            compiler.webpack.Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_SIZE,
+        },
+        (assets) =>
+          this.optimize(compiler, compilation, assets, {
+            availableNumberOfCores,
+          })
+      );
+
+      compilation.hooks.statsPrinter.tap(pluginName, (stats) => {
+        stats.hooks.print
+          .for('asset.info.minimized')
+          .tap(
+            'html-minimizer-webpack-plugin',
+            (minimized, { green, formatFlag }) =>
+              // eslint-disable-next-line no-undefined
+              minimized ? green(formatFlag('minimized')) : undefined
           );
-        });
-      } else {
-        // eslint-disable-next-line global-require
-        const CacheEngine = require('./Webpack5Cache').default;
-
-        // eslint-disable-next-line global-require
-        const Compilation = require('webpack/lib/Compilation');
-
-        compilation.hooks.processAssets.tapPromise(
-          {
-            name: pluginName,
-            stage: Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_SIZE,
-          },
-          (assets) => this.optimize(compiler, compilation, assets, CacheEngine)
-        );
-
-        compilation.hooks.statsPrinter.tap(pluginName, (stats) => {
-          stats.hooks.print
-            .for('asset.info.minimized')
-            .tap(
-              'html-minimizer-webpack-plugin',
-              (minimized, { green, formatFlag }) =>
-                // eslint-disable-next-line no-undefined
-                minimized ? green(formatFlag('minimized')) : undefined
-            );
-        });
-      }
+      });
     });
   }
 }
