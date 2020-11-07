@@ -6,14 +6,9 @@ import {
   getErrors,
   getWarnings,
   readAssets,
-  removeCache,
 } from './helpers';
 
 describe('"minify" option', () => {
-  beforeEach(() => Promise.all([removeCache()]));
-
-  afterEach(() => Promise.all([removeCache()]));
-
   it('should work minify function', async () => {
     const testHtmlId = './simple.html';
     const compiler = getCompiler(testHtmlId);

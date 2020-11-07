@@ -6,7 +6,6 @@ import normalizedSourceMap from './normalizedSourceMap';
 import getErrors from './getErrors';
 import getWarnings from './getWarnings';
 import normalizeErrors from './normalizeErrors';
-import removeCache from './removeCache';
 import ModifyExistingAsset from './ModifyExistingAsset';
 
 export {
@@ -18,6 +17,5 @@ export {
   getErrors,
   getWarnings,
   normalizeErrors,
-  removeCache,
   ModifyExistingAsset,
 };

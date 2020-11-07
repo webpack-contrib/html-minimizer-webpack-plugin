@@ -6,7 +6,6 @@ import {
   getErrors,
   getWarnings,
   readAssets,
-  removeCache,
 } from './helpers';
 
 describe('when applied with "test" option', () => {
@@ -18,11 +17,7 @@ describe('when applied with "test" option', () => {
     const testHtmlId = './parallel/foo-[0-4].html';
 
     compiler = getCompiler(testHtmlId);
-
-    return Promise.all([removeCache()]);
   });
-
-  afterEach(() => Promise.all([removeCache()]));
 
   it('matches snapshot with empty value', async () => {
     new HtmlMinimizerPlugin().apply(compiler);

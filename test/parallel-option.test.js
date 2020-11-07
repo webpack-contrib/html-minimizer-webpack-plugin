@@ -10,7 +10,6 @@ import {
   getErrors,
   getWarnings,
   readAssets,
-  removeCache,
 } from './helpers';
 
 jest.mock('os', () => {
@@ -55,11 +54,7 @@ describe('parallel option', () => {
     const testHtmlId = './parallel/foo-(0|1|2|3|4).html';
 
     compiler = getCompiler(testHtmlId);
-
-    return Promise.all([removeCache()]);
   });
-
-  afterEach(() => Promise.all([removeCache()]));
 
   it('should match snapshot when a value is not specify', async () => {
     new HtmlMinimizerPlugin().apply(compiler);
