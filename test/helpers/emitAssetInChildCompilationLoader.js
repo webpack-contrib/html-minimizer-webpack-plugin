@@ -5,13 +5,13 @@ class PreCopyPlugin {
 
   // eslint-disable-next-line class-methods-use-this
   apply(compiler) {
-    const plugin = { name: 'PreCopyPlugin' };
+    const plugin = { name: "PreCopyPlugin" };
     const { RawSource } = compiler.webpack.sources;
 
     compiler.hooks.compilation.tap(plugin, (compilation) => {
       compilation.hooks.additionalAssets.tapAsync(plugin, (callback) => {
         compilation.emitAsset(
-          'simple.html',
+          "simple.html",
           new RawSource('<p title="blah" id="moo">  foo  </p>')
         );
 
@@ -36,6 +36,6 @@ export default function loader() {
       return callback(error);
     }
 
-    return callback(null, 'export default 1');
+    return callback(null, "export default 1");
   });
 }

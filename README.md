@@ -29,8 +29,8 @@ Then add the plugin to your `webpack` configuration. For example:
 **webpack.config.js**
 
 ```js
-const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   module: {
@@ -39,9 +39,9 @@ module.exports = {
         test: /\.html$/i,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
             options: {
-              name: '[name].[ext]',
+              name: "[name].[ext]",
             },
           },
         ],
@@ -52,8 +52,8 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          context: path.resolve(__dirname, 'dist'),
-          from: './src/*.html',
+          context: path.resolve(__dirname, "dist"),
+          from: "./src/*.html",
         },
       ],
     }),
@@ -210,7 +210,7 @@ module.exports = {
           collapseWhitespace: true,
         },
         minify: (data, minimizerOptions) => {
-          const htmlMinifier = require('html-minifier-terser');
+          const htmlMinifier = require("html-minifier-terser");
           const [[filename, input]] = Object.entries(data);
 
           return htmlMinifier.minify(input, minimizerOptions);

@@ -1,4 +1,4 @@
-import HtmlMinimizerPlugin from '../src/index';
+import HtmlMinimizerPlugin from "../src/index";
 
 import {
   compile,
@@ -6,11 +6,11 @@ import {
   getErrors,
   getWarnings,
   readAssets,
-} from './helpers';
+} from "./helpers";
 
 describe('"minify" option', () => {
-  it('should work minify function', async () => {
-    const testHtmlId = './simple.html';
+  it("should work minify function", async () => {
+    const testHtmlId = "./simple.html";
     const compiler = getCompiler(testHtmlId);
 
     new HtmlMinimizerPlugin({
@@ -19,7 +19,7 @@ describe('"minify" option', () => {
       },
       minify: (data, minimizerOptions) => {
         // eslint-disable-next-line global-require
-        const htmlMinifier = require('html-minifier-terser');
+        const htmlMinifier = require("html-minifier-terser");
         const [[, input]] = Object.entries(data);
 
         return htmlMinifier.minify(input, minimizerOptions);
@@ -28,8 +28,8 @@ describe('"minify" option', () => {
 
     const stats = await compile(compiler);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 });

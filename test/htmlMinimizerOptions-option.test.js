@@ -1,4 +1,4 @@
-import HtmlMinimizerPlugin from '../src/index';
+import HtmlMinimizerPlugin from "../src/index";
 
 import {
   compile,
@@ -6,11 +6,11 @@ import {
   getErrors,
   getWarnings,
   readAssets,
-} from './helpers';
+} from "./helpers";
 
 describe('when applied with "minimizerOptions" option', () => {
-  it('should rewrite default options', async () => {
-    const testHtmlId = './simple.html';
+  it("should rewrite default options", async () => {
+    const testHtmlId = "./simple.html";
     const compiler = getCompiler(testHtmlId);
 
     new HtmlMinimizerPlugin({
@@ -21,8 +21,8 @@ describe('when applied with "minimizerOptions" option', () => {
 
     const stats = await compile(compiler);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 });

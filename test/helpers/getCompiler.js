@@ -1,27 +1,27 @@
-import path from 'path';
+import path from "path";
 
-import webpack from 'webpack';
-import { createFsFromVolume, Volume } from 'memfs';
-import CopyPlugin from 'copy-webpack-plugin';
+import webpack from "webpack";
+import { createFsFromVolume, Volume } from "memfs";
+import CopyPlugin from "copy-webpack-plugin";
 
 export default function getCompiler(htmlFixture, config = {}) {
   const compiler = webpack(
     Array.isArray(config)
       ? config
       : {
-          mode: 'production',
+          mode: "production",
           bail: true,
           devtool: config.devtool || false,
-          context: path.resolve(__dirname, '../fixtures'),
-          entry: path.resolve(__dirname, '../fixtures/entry.js'),
+          context: path.resolve(__dirname, "../fixtures"),
+          entry: path.resolve(__dirname, "../fixtures/entry.js"),
           optimization: {
             minimize: false,
           },
           output: {
             pathinfo: false,
-            path: path.resolve(__dirname, '../dist'),
-            filename: '[name].js',
-            chunkFilename: '[id].[name].js',
+            path: path.resolve(__dirname, "../dist"),
+            filename: "[name].js",
+            chunkFilename: "[id].[name].js",
           },
           plugins: [].concat(
             htmlFixture
@@ -29,7 +29,7 @@ export default function getCompiler(htmlFixture, config = {}) {
                   new CopyPlugin({
                     patterns: [
                       {
-                        context: path.resolve(__dirname, '..', 'fixtures'),
+                        context: path.resolve(__dirname, "..", "fixtures"),
                         from: htmlFixture,
                       },
                     ],
@@ -45,9 +45,9 @@ export default function getCompiler(htmlFixture, config = {}) {
                       test: /\.html$/i,
                       use: [
                         {
-                          loader: 'file-loader',
+                          loader: "file-loader",
                           options: {
-                            name: '[name].[ext]',
+                            name: "[name].[ext]",
                           },
                         },
                       ],
@@ -71,4 +71,4 @@ export default function getCompiler(htmlFixture, config = {}) {
   return compiler;
 }
 
-getCompiler.isWebpack4 = () => webpack.version[0] === '4';
+getCompiler.isWebpack4 = () => webpack.version[0] === "4";

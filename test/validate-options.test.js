@@ -1,13 +1,13 @@
-import HtmlMinimizerPlugin from '../src';
+import HtmlMinimizerPlugin from "../src";
 
-it('validation', () => {
+it("validation", () => {
   /* eslint-disable no-new */
   expect(() => {
     new HtmlMinimizerPlugin({ test: /foo/ });
   }).not.toThrow();
 
   expect(() => {
-    new HtmlMinimizerPlugin({ test: 'foo' });
+    new HtmlMinimizerPlugin({ test: "foo" });
   }).not.toThrow();
 
   expect(() => {
@@ -19,11 +19,11 @@ it('validation', () => {
   }).not.toThrow();
 
   expect(() => {
-    new HtmlMinimizerPlugin({ test: ['foo', 'bar'] });
+    new HtmlMinimizerPlugin({ test: ["foo", "bar"] });
   }).not.toThrow();
 
   expect(() => {
-    new HtmlMinimizerPlugin({ test: [/foo/, 'bar'] });
+    new HtmlMinimizerPlugin({ test: [/foo/, "bar"] });
   }).not.toThrow();
 
   expect(() => {
@@ -39,7 +39,7 @@ it('validation', () => {
   }).not.toThrow();
 
   expect(() => {
-    new HtmlMinimizerPlugin({ include: 'foo' });
+    new HtmlMinimizerPlugin({ include: "foo" });
   }).not.toThrow();
 
   expect(() => {
@@ -51,11 +51,11 @@ it('validation', () => {
   }).not.toThrow();
 
   expect(() => {
-    new HtmlMinimizerPlugin({ include: ['foo', 'bar'] });
+    new HtmlMinimizerPlugin({ include: ["foo", "bar"] });
   }).not.toThrow();
 
   expect(() => {
-    new HtmlMinimizerPlugin({ include: [/foo/, 'bar'] });
+    new HtmlMinimizerPlugin({ include: [/foo/, "bar"] });
   }).not.toThrow();
 
   expect(() => {
@@ -71,7 +71,7 @@ it('validation', () => {
   }).not.toThrow();
 
   expect(() => {
-    new HtmlMinimizerPlugin({ exclude: 'foo' });
+    new HtmlMinimizerPlugin({ exclude: "foo" });
   }).not.toThrow();
 
   expect(() => {
@@ -83,11 +83,11 @@ it('validation', () => {
   }).not.toThrow();
 
   expect(() => {
-    new HtmlMinimizerPlugin({ exclude: ['foo', 'bar'] });
+    new HtmlMinimizerPlugin({ exclude: ["foo", "bar"] });
   }).not.toThrow();
 
   expect(() => {
-    new HtmlMinimizerPlugin({ exclude: [/foo/, 'bar'] });
+    new HtmlMinimizerPlugin({ exclude: [/foo/, "bar"] });
   }).not.toThrow();
 
   expect(() => {
@@ -125,7 +125,7 @@ it('validation', () => {
   }).not.toThrow();
 
   expect(() => {
-    new HtmlMinimizerPlugin({ parallel: '2' });
+    new HtmlMinimizerPlugin({ parallel: "2" });
   }).toThrowErrorMatchingSnapshot();
 
   expect(() => {

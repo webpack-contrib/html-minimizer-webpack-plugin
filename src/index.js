@@ -1,20 +1,20 @@
-import os from 'os';
+import os from "os";
 
-import { validate } from 'schema-utils';
-import serialize from 'serialize-javascript';
-import HtmlMinimizerPackageJson from 'html-minifier-terser/package.json';
-import pLimit from 'p-limit';
-import Worker from 'jest-worker';
+import { validate } from "schema-utils";
+import serialize from "serialize-javascript";
+import HtmlMinimizerPackageJson from "html-minifier-terser/package.json";
+import pLimit from "p-limit";
+import Worker from "jest-worker";
 
-import schema from './options.json';
+import schema from "./options.json";
 
-import { minify as minifyFn } from './minify';
+import { minify as minifyFn } from "./minify";
 
 class HtmlMinimizerPlugin {
   constructor(options = {}) {
     validate(schema, options, {
-      name: 'Html Minimizer Plugin',
-      baseDataPath: 'options',
+      name: "Html Minimizer Plugin",
+      baseDataPath: "options",
     });
 
     const {
@@ -53,7 +53,7 @@ class HtmlMinimizerPlugin {
   }
 
   async optimize(compiler, compilation, assets, optimizeOptions) {
-    const cache = compilation.getCache('HtmlMinimizerWebpackPlugin');
+    const cache = compilation.getCache("HtmlMinimizerWebpackPlugin");
     let numberOfAssetsForMinify = 0;
     const assetsForMinify = await Promise.all(
       Object.keys(assets)
@@ -108,7 +108,7 @@ class HtmlMinimizerPlugin {
           return initializedWorker;
         }
 
-        initializedWorker = new Worker(require.resolve('./minify'), {
+        initializedWorker = new Worker(require.resolve("./minify"), {
           numWorkers: numberOfWorkers,
           enableWorkerThreads: true,
         });
@@ -117,7 +117,7 @@ class HtmlMinimizerPlugin {
         const workerStdout = initializedWorker.getStdout();
 
         if (workerStdout) {
-          workerStdout.on('data', (chunk) => {
+          workerStdout.on("data", (chunk) => {
             return process.stdout.write(chunk);
           });
         }
@@ -125,7 +125,7 @@ class HtmlMinimizerPlugin {
         const workerStderr = initializedWorker.getStderr();
 
         if (workerStderr) {
-          workerStderr.on('data', (chunk) => {
+          workerStderr.on("data", (chunk) => {
             return process.stderr.write(chunk);
           });
         }
@@ -216,7 +216,7 @@ class HtmlMinimizerPlugin {
       });
 
       hooks.chunkHash.tap(pluginName, (chunk, hash) => {
-        hash.update('HtmlMinimizerPlugin');
+        hash.update("HtmlMinimizerPlugin");
         hash.update(data);
       });
 
@@ -234,12 +234,12 @@ class HtmlMinimizerPlugin {
 
       compilation.hooks.statsPrinter.tap(pluginName, (stats) => {
         stats.hooks.print
-          .for('asset.info.minimized')
+          .for("asset.info.minimized")
           .tap(
-            'html-minimizer-webpack-plugin',
+            "html-minimizer-webpack-plugin",
             (minimized, { green, formatFlag }) =>
               // eslint-disable-next-line no-undefined
-              minimized ? green(formatFlag('minimized')) : undefined
+              minimized ? green(formatFlag("minimized")) : undefined
           );
       });
     });
