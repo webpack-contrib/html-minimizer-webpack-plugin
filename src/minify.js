@@ -1,4 +1,4 @@
-const htmlMinifier = require('html-minifier-terser');
+const htmlMinifier = require("html-minifier-terser");
 
 const defaultMinimizerOptions = {
   caseSensitive: true,
@@ -26,7 +26,7 @@ const minify = async (options) => {
     const result = await minifyFn({ [assetName]: input }, minimizerOptions);
 
     return {
-      html: result,
+      code: result,
     };
   }
 
@@ -36,7 +36,7 @@ const minify = async (options) => {
   });
 
   return {
-    html: result,
+    code: result,
   };
 };
 
@@ -45,11 +45,11 @@ async function transform(options) {
   // Safer for possible security issues, albeit not critical at all here
   // eslint-disable-next-line no-new-func, no-param-reassign
   options = new Function(
-    'exports',
-    'require',
-    'module',
-    '__filename',
-    '__dirname',
+    "exports",
+    "require",
+    "module",
+    "__filename",
+    "__dirname",
     `'use strict'\nreturn ${options}`
   )(exports, require, module, __filename, __dirname);
 

@@ -1,4 +1,4 @@
-import HtmlMinimizerPlugin from '../src/index';
+import HtmlMinimizerPlugin from "../src/index";
 
 import {
   compile,
@@ -6,8 +6,7 @@ import {
   getErrors,
   getWarnings,
   readAssets,
-  removeCache,
-} from './helpers';
+} from "./helpers";
 
 describe('when applied with "test" option', () => {
   let compiler;
@@ -15,23 +14,19 @@ describe('when applied with "test" option', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    const testHtmlId = './parallel/foo-[0-4].html';
+    const testHtmlId = "./parallel/foo-[0-4].html";
 
     compiler = getCompiler(testHtmlId);
-
-    return Promise.all([removeCache()]);
   });
 
-  afterEach(() => Promise.all([removeCache()]));
-
-  it('matches snapshot with empty value', async () => {
+  it("matches snapshot with empty value", async () => {
     new HtmlMinimizerPlugin().apply(compiler);
 
     const stats = await compile(compiler);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
   it('matches snapshot for a single "test" value (RegExp)', async () => {
@@ -41,9 +36,9 @@ describe('when applied with "test" option', () => {
 
     const stats = await compile(compiler);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
   it('matches snapshot for multiple "test" value (RegExp)', async () => {
@@ -53,8 +48,8 @@ describe('when applied with "test" option', () => {
 
     const stats = await compile(compiler);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 });

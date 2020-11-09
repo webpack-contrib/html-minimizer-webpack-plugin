@@ -1,24 +1,24 @@
-import serialize from 'serialize-javascript';
+import serialize from "serialize-javascript";
 
-import { transform } from '../src/minify';
+import { transform } from "../src/minify";
 
-import { normalizeErrors } from './helpers';
+import { normalizeErrors } from "./helpers";
 
-describe('worker', () => {
-  it('should minify html', async () => {
+describe("worker", () => {
+  it("should minify html", async () => {
     const options = {
-      name: 'entry.html',
+      name: "entry.html",
       input: '<!-- Comment --><p title="blah" id="moo">     foo     </p>',
       minimizerOptions: { removeComments: false },
     };
-    const { html } = await transform(serialize(options));
+    const { code } = await transform(serialize(options));
 
-    expect(html).toMatchSnapshot('html');
+    expect(code).toMatchSnapshot("html");
   });
 
-  it('should minify html', async () => {
+  it("should minify html", async () => {
     const options = {
-      name: 'entry.html',
+      name: "entry.html",
       input: '<!-- Comment --><p title="blah" id="moo">     foo     </p>',
       minimizerOptions: { removeComments: false },
       minify: () => {
@@ -28,14 +28,14 @@ describe('worker', () => {
         };
       },
     };
-    const { html } = await transform(serialize(options));
+    const { code } = await transform(serialize(options));
 
-    expect(html).toMatchSnapshot('html');
+    expect(code).toMatchSnapshot("html");
   });
 
-  it('should emit error', async () => {
+  it("should emit error", async () => {
     const options = {
-      name: 'entry.html',
+      name: "entry.html",
       input: false,
     };
 
@@ -44,9 +44,9 @@ describe('worker', () => {
     } catch (error) {
       const normalizeError = { ...error };
 
-      normalizeError.message = [error.message.split('\n')];
+      normalizeError.message = [error.message.split("\n")];
 
-      expect(normalizeErrors(normalizeError.message)).toMatchSnapshot('error');
+      expect(normalizeErrors(normalizeError.message)).toMatchSnapshot("error");
     }
   });
 });

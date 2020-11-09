@@ -1,8 +1,8 @@
-import os from 'os';
+import os from "os";
 
-import Worker from 'jest-worker';
+import Worker from "jest-worker";
 
-import HtmlMinimizerPlugin from '../src/index';
+import HtmlMinimizerPlugin from "../src/index";
 
 import {
   compile,
@@ -10,11 +10,15 @@ import {
   getErrors,
   getWarnings,
   readAssets,
-  removeCache,
-} from './helpers';
+} from "./helpers";
 
-jest.mock('os', () => {
-  const actualOs = jest.requireActual('os');
+const ENABLE_WORKER_THREADS =
+  typeof process.env.ENABLE_WORKER_THREADS !== "undefined"
+    ? process.env.ENABLE_WORKER_THREADS === "true"
+    : true;
+
+jest.mock("os", () => {
+  const actualOs = jest.requireActual("os");
 
   const mocked = {
     cpus: jest.fn(() => {
@@ -29,7 +33,7 @@ jest.mock('os', () => {
 let workerTransform;
 let workerEnd;
 
-jest.mock('jest-worker', () => {
+jest.mock("jest-worker", () => {
   return jest.fn().mockImplementation((workerPath) => {
     return {
       // eslint-disable-next-line global-require, import/no-dynamic-require
@@ -44,30 +48,27 @@ jest.mock('jest-worker', () => {
   });
 });
 
-const workerPath = require.resolve('../src/minify');
+const workerPath = require.resolve("../src/minify");
 
-describe('parallel option', () => {
+describe("parallel option", () => {
   let compiler;
 
   beforeEach(() => {
     jest.clearAllMocks();
 
-    const testHtmlId = './parallel/foo-(0|1|2|3|4).html';
+    const testHtmlId = "./parallel/foo-(0|1|2|3|4).html";
 
     compiler = getCompiler(testHtmlId);
-
-    return Promise.all([removeCache()]);
   });
 
-  afterEach(() => Promise.all([removeCache()]));
-
-  it('should match snapshot when a value is not specify', async () => {
+  it("should match snapshot when a value is not specify", async () => {
     new HtmlMinimizerPlugin().apply(compiler);
 
     const stats = await compile(compiler);
 
     expect(Worker).toHaveBeenCalledTimes(1);
     expect(Worker).toHaveBeenLastCalledWith(workerPath, {
+      enableWorkerThreads: ENABLE_WORKER_THREADS,
       numWorkers: os.cpus().length - 1,
     });
     expect(workerTransform).toHaveBeenCalledTimes(
@@ -75,9 +76,9 @@ describe('parallel option', () => {
     );
     expect(workerEnd).toHaveBeenCalledTimes(1);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
   it('should match snapshot for the "false" value', async () => {
@@ -87,9 +88,9 @@ describe('parallel option', () => {
 
     expect(Worker).toHaveBeenCalledTimes(0);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
   it('should match snapshot for the "true" value', async () => {
@@ -99,6 +100,7 @@ describe('parallel option', () => {
 
     expect(Worker).toHaveBeenCalledTimes(1);
     expect(Worker).toHaveBeenLastCalledWith(workerPath, {
+      enableWorkerThreads: ENABLE_WORKER_THREADS,
       numWorkers: os.cpus().length - 1,
     });
     expect(workerTransform).toHaveBeenCalledTimes(
@@ -106,9 +108,9 @@ describe('parallel option', () => {
     );
     expect(workerEnd).toHaveBeenCalledTimes(1);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
   it('should match snapshot for the "2" value', async () => {
@@ -118,6 +120,7 @@ describe('parallel option', () => {
 
     expect(Worker).toHaveBeenCalledTimes(1);
     expect(Worker).toHaveBeenLastCalledWith(workerPath, {
+      enableWorkerThreads: ENABLE_WORKER_THREADS,
       numWorkers: 2,
     });
     expect(workerTransform).toHaveBeenCalledTimes(
@@ -125,13 +128,13 @@ describe('parallel option', () => {
     );
     expect(workerEnd).toHaveBeenCalledTimes(1);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
   it('should match snapshot for the "true" value when only one file passed', async () => {
-    const testHtmlId = './simple.html';
+    const testHtmlId = "./simple.html";
 
     compiler = getCompiler(testHtmlId);
 
@@ -141,6 +144,7 @@ describe('parallel option', () => {
 
     expect(Worker).toHaveBeenCalledTimes(1);
     expect(Worker).toHaveBeenLastCalledWith(workerPath, {
+      enableWorkerThreads: ENABLE_WORKER_THREADS,
       numWorkers: Math.min(1, os.cpus().length - 1),
     });
     expect(workerTransform).toHaveBeenCalledTimes(
@@ -148,9 +152,9 @@ describe('parallel option', () => {
     );
     expect(workerEnd).toHaveBeenCalledTimes(1);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
   it('should match snapshot for the "true" value and the number of files is less than the number of cores', async () => {
@@ -160,7 +164,7 @@ describe('parallel option', () => {
       entries.push(i);
     }
 
-    const testHtmlId = `./parallel/foo-(${entries.join('|')}).html`;
+    const testHtmlId = `./parallel/foo-(${entries.join("|")}).html`;
 
     compiler = getCompiler(testHtmlId);
 
@@ -170,6 +174,7 @@ describe('parallel option', () => {
 
     expect(Worker).toHaveBeenCalledTimes(1);
     expect(Worker).toHaveBeenLastCalledWith(workerPath, {
+      enableWorkerThreads: ENABLE_WORKER_THREADS,
       numWorkers: Math.min(entries.length, os.cpus().length - 1),
     });
     expect(workerTransform).toHaveBeenCalledTimes(
@@ -177,9 +182,9 @@ describe('parallel option', () => {
     );
     expect(workerEnd).toHaveBeenCalledTimes(1);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
   it('should match snapshot for the "true" value and the number of files is same than the number of cores', async () => {
@@ -189,7 +194,7 @@ describe('parallel option', () => {
       entries.push(i);
     }
 
-    const testHtmlId = `./parallel/foo-(${entries.join('|')}).html`;
+    const testHtmlId = `./parallel/foo-(${entries.join("|")}).html`;
 
     compiler = getCompiler(testHtmlId);
 
@@ -199,6 +204,7 @@ describe('parallel option', () => {
 
     expect(Worker).toHaveBeenCalledTimes(1);
     expect(Worker).toHaveBeenLastCalledWith(workerPath, {
+      enableWorkerThreads: ENABLE_WORKER_THREADS,
       numWorkers: Math.min(Object.keys(entries).length, os.cpus().length - 1),
     });
     expect(workerTransform).toHaveBeenCalledTimes(
@@ -206,9 +212,9 @@ describe('parallel option', () => {
     );
     expect(workerEnd).toHaveBeenCalledTimes(1);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
   it('should match snapshot for the "true" value and the number of files is more than the number of cores', async () => {
@@ -218,7 +224,7 @@ describe('parallel option', () => {
       entries.push(i);
     }
 
-    const testHtmlId = `./parallel/foo-(${entries.join('|')}).html`;
+    const testHtmlId = `./parallel/foo-(${entries.join("|")}).html`;
 
     compiler = getCompiler(testHtmlId);
 
@@ -228,6 +234,7 @@ describe('parallel option', () => {
 
     expect(Worker).toHaveBeenCalledTimes(1);
     expect(Worker).toHaveBeenLastCalledWith(workerPath, {
+      enableWorkerThreads: ENABLE_WORKER_THREADS,
       numWorkers: Math.min(Object.keys(entries).length, os.cpus().length - 1),
     });
     expect(workerTransform).toHaveBeenCalledTimes(
@@ -235,8 +242,8 @@ describe('parallel option', () => {
     );
     expect(workerEnd).toHaveBeenCalledTimes(1);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot('assets');
-    expect(getErrors(stats)).toMatchSnapshot('errors');
-    expect(getWarnings(stats)).toMatchSnapshot('warnings');
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 });
