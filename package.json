@@ -38,7 +38,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "webpack": "^5.4.0"
+    "webpack": "^5.1.0"
   },
   "dependencies": {
     "html-minifier-terser": "^5.1.1",
