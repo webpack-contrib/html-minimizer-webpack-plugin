@@ -9,6 +9,7 @@ import {
   getWarnings,
   readAssets,
   ModifyExistingAsset,
+  EmitNewAsset,
 } from "./helpers";
 
 describe("HtmlMinimizerPlugin", () => {
@@ -326,5 +327,19 @@ describe("HtmlMinimizerPlugin", () => {
 
       resolve();
     });
+  });
+
+  it("should run plugin against assets added later by plugins", async () => {
+    const testHtmlId = "./simple.html";
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin().apply(compiler);
+    new EmitNewAsset({ name: "newFile.html" }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 });
