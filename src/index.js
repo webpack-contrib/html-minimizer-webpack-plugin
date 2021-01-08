@@ -2,7 +2,6 @@ import os from "os";
 
 import { validate } from "schema-utils";
 import serialize from "serialize-javascript";
-import HtmlMinimizerPackageJson from "html-minifier-terser/package.json";
 import pLimit from "p-limit";
 import Worker from "jest-worker";
 
@@ -117,17 +116,13 @@ class HtmlMinimizerPlugin {
         const workerStdout = initializedWorker.getStdout();
 
         if (workerStdout) {
-          workerStdout.on("data", (chunk) => {
-            return process.stdout.write(chunk);
-          });
+          workerStdout.on("data", (chunk) => process.stdout.write(chunk));
         }
 
         const workerStderr = initializedWorker.getStderr();
 
         if (workerStderr) {
-          workerStderr.on("data", (chunk) => {
-            return process.stderr.write(chunk);
-          });
+          workerStderr.on("data", (chunk) => process.stderr.write(chunk));
         }
 
         return initializedWorker;
@@ -206,20 +201,6 @@ class HtmlMinimizerPlugin {
     );
 
     compiler.hooks.compilation.tap(pluginName, (compilation) => {
-      const hooks = compiler.webpack.javascript.JavascriptModulesPlugin.getCompilationHooks(
-        compilation
-      );
-
-      const data = serialize({
-        htmlMinifierTerser: HtmlMinimizerPackageJson.version,
-        htmlMinifierTerserOptions: this.options.minimizerOptions,
-      });
-
-      hooks.chunkHash.tap(pluginName, (chunk, hash) => {
-        hash.update("HtmlMinimizerPlugin");
-        hash.update(data);
-      });
-
       compilation.hooks.processAssets.tapPromise(
         {
           name: pluginName,
