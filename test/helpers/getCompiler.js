@@ -22,6 +22,7 @@ export default function getCompiler(htmlFixture, config = {}) {
             path: path.resolve(__dirname, "../dist"),
             filename: "[name].js",
             chunkFilename: "[id].[name].js",
+            assetModuleFilename: "[name][ext]",
           },
           plugins: [].concat(
             htmlFixture
@@ -43,14 +44,7 @@ export default function getCompiler(htmlFixture, config = {}) {
                 ? [
                     {
                       test: /\.html$/i,
-                      use: [
-                        {
-                          loader: "file-loader",
-                          options: {
-                            name: "[name].[ext]",
-                          },
-                        },
-                      ],
+                      type: "asset/resource",
                     },
                   ]
                 : []
