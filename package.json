@@ -63,7 +63,6 @@
     "eslint": "^7.17.0",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-import": "^2.22.0",
-    "file-loader": "^6.1.0",
     "husky": "^4.3.7",
     "jest": "^26.5.2",
     "lint-staged": "^10.5.3",
