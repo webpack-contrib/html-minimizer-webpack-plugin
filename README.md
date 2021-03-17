@@ -37,14 +37,7 @@ module.exports = {
     loaders: [
       {
         test: /\.html$/i,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "[name].[ext]",
-            },
-          },
-        ],
+        type: "asset/resource",
       },
     ],
   },
