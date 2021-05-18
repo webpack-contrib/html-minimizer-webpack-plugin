@@ -1,5 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`"minify" option should work if minify is array && minimizerOptions is array: assets 1`] = `
+Object {
+  "simple.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> <div>Second function: text from option</div>",
+}
+`;
+
+exports[`"minify" option should work if minify is array && minimizerOptions is array: errors 1`] = `Array []`;
+
+exports[`"minify" option should work if minify is array && minimizerOptions is array: warnings 1`] = `Array []`;
+
+exports[`"minify" option should work if minify is array && minimizerOptions is object: assets 1`] = `
+Object {
+  "simple.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> <div>Second function: true</div><div>Third function: true</div>",
+}
+`;
+
+exports[`"minify" option should work if minify is array && minimizerOptions is object: errors 1`] = `Array []`;
+
+exports[`"minify" option should work if minify is array && minimizerOptions is object: warnings 1`] = `Array []`;
+
 exports[`"minify" option should work minify function: assets 1`] = `
 Object {
   "simple.html": "<!doctype html><html lang=\\"en\\"><head><meta charset=\\"UTF-8\\"><meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"><meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"><title>Document</title></head><body><h1>My First Heading</h1><p>My first paragraph.</p><h2>An Unordered HTML List</h2><ul><li>Coffee</li><li>Tea</li><li>Milk</li></ul><h2>An Ordered HTML List</h2><ol><li>Coffee</li><li>Tea</li><li>Milk</li></ol></body></html>",

@@ -103,6 +103,10 @@ it("validation", () => {
   }).not.toThrow();
 
   expect(() => {
+    new HtmlMinimizerPlugin({ minimizerOptions: [{}, {}] });
+  }).not.toThrow();
+
+  expect(() => {
     new HtmlMinimizerPlugin({ minimizerOptions: null });
   }).toThrowErrorMatchingSnapshot();
 
@@ -134,6 +138,10 @@ it("validation", () => {
 
   expect(() => {
     new HtmlMinimizerPlugin({ minify() {} });
+  }).not.toThrow();
+
+  expect(() => {
+    new HtmlMinimizerPlugin({ minify: [() => {}] });
   }).not.toThrow();
 
   expect(() => {
