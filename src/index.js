@@ -7,6 +7,7 @@ import Worker from "jest-worker";
 
 import schema from "./options.json";
 
+import { htmlMinifierTerser } from "./utils";
 import { minify as minifyFn } from "./minify";
 
 class HtmlMinimizerPlugin {
@@ -17,8 +18,8 @@ class HtmlMinimizerPlugin {
     });
 
     const {
-      minify,
-      minimizerOptions = {},
+      minify = htmlMinifierTerser,
+      minimizerOptions,
       test = /\.html(\?.*)?$/i,
       parallel = true,
       include,
@@ -156,7 +157,7 @@ class HtmlMinimizerPlugin {
             const options = {
               name,
               input,
-              minimizerOptions: { ...this.options.minimizerOptions },
+              minimizerOptions: this.options.minimizerOptions,
               minify: this.options.minify,
             };
 
@@ -227,5 +228,7 @@ class HtmlMinimizerPlugin {
     });
   }
 }
+
+HtmlMinimizerPlugin.htmlMinifierTerser = htmlMinifierTerser;
 
 export default HtmlMinimizerPlugin;

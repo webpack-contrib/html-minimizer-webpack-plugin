@@ -1,6 +1,7 @@
 import serialize from "serialize-javascript";
 
 import { transform } from "../src/minify";
+import HtmlMinimizerPlugin from "../src";
 
 import { normalizeErrors } from "./helpers";
 
@@ -9,7 +10,10 @@ describe("worker", () => {
     const options = {
       name: "entry.html",
       input: '<!-- Comment --><p title="blah" id="moo">     foo     </p>',
-      minimizerOptions: { removeComments: false },
+      minimizerOptions: {
+        removeComments: false,
+      },
+      minify: HtmlMinimizerPlugin.htmlMinifierTerser,
     };
     const { code } = await transform(serialize(options));
 
@@ -37,6 +41,7 @@ describe("worker", () => {
     const options = {
       name: "entry.html",
       input: false,
+      minify: HtmlMinimizerPlugin.htmlMinifierTerser,
     };
 
     try {
