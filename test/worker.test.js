@@ -27,8 +27,7 @@ describe("worker", () => {
       minimizerOptions: { removeComments: false },
       minify: () => {
         return {
-          html:
-            '<!-- From minify function --><p class="atata">from-minify-function</p>',
+          html: '<!-- From minify function --><p class="atata">from-minify-function</p>',
         };
       },
     };
