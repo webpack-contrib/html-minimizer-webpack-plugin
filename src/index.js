@@ -3,7 +3,7 @@ import os from "os";
 import { validate } from "schema-utils";
 import serialize from "serialize-javascript";
 import pLimit from "p-limit";
-import Worker from "jest-worker";
+import { Worker } from "jest-worker";
 
 import schema from "./options.json";
 
