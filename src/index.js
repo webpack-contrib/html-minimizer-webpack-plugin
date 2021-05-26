@@ -197,9 +197,8 @@ class HtmlMinimizerPlugin {
 
   apply(compiler) {
     const pluginName = this.constructor.name;
-    const availableNumberOfCores = HtmlMinimizerPlugin.getAvailableNumberOfCores(
-      this.options.parallel
-    );
+    const availableNumberOfCores =
+      HtmlMinimizerPlugin.getAvailableNumberOfCores(this.options.parallel);
 
     compiler.hooks.compilation.tap(pluginName, (compilation) => {
       compilation.hooks.processAssets.tapPromise(
