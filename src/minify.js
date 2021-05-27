@@ -4,6 +4,8 @@ const minify = async (options) => {
 
   const result = {
     code: options.input,
+    warnings: [],
+    errors: [],
   };
 
   for (let i = 0; i <= minifyFns.length - 1; i++) {
@@ -14,11 +16,17 @@ const minify = async (options) => {
       : options.minimizerOptions;
     // eslint-disable-next-line no-await-in-loop
     const minifyResult = await minifyFn(
-      { [options.assetName]: result.code },
+      { [options.name]: result.code },
       minifyOptions
     );
 
-    result.code = minifyResult;
+    if (typeof minifyResult === "object" && "code" in minifyResult) {
+      result.code = minifyResult.code;
+      result.warnings = result.warnings.concat(minifyResult.warnings || []);
+      result.errors = result.errors.concat(minifyResult.errors || []);
+    } else {
+      result.code = minifyResult;
+    }
   }
 
   return result;

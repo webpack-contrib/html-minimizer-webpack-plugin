@@ -189,11 +189,6 @@ Allows you to override default minify function.
 By default plugin uses [html-minifier-terser](https://github.com/terser/html-minifier-terser) package.
 Useful for using and testing unpublished versions or forks.
 
-Possible options:
-
-- HtmlMinimizerPlugin.htmlMinifierTerser
-- async (data, minimizerOptions) => `<div>minified html</div>`
-
 > ⚠️ **Always use `require` inside `minify` function when `parallel` option enabled**.
 
 #### `Function`
@@ -213,7 +208,11 @@ module.exports = {
           const htmlMinifier = require("html-minifier-terser");
           const [[filename, input]] = Object.entries(data);
 
-          return htmlMinifier.minify(input, minimizerOptions);
+          return {
+            code: htmlMinifier.minify(input, minimizerOptions),
+            warnings: [],
+            errors: [],
+          };
         },
       }),
     ],
@@ -246,9 +245,13 @@ module.exports = {
         minify: [
           HtmlMinimizerPlugin.htmlMinifierTerser,
           (data, minimizerOptions) => {
-            const [code] = Object.values(data);
+            const [[filename, input]] = Object.entries(data);
             // To do something
-            return `optimised code`;
+            return {
+              code: `optimised code`,
+              warnings: [],
+              errors: [],
+            };
           },
         ],
       }),
@@ -305,9 +308,13 @@ module.exports = {
         minify: [
           HtmlMinimizerPlugin.htmlMinifierTerser,
           (data, minimizerOptions) => {
-            const [code] = Object.values(data);
+            const [[filename, input]] = Object.entries(data);
             // To do something
-            return `optimised code`;
+            return {
+              code: `optimised code`,
+              warnings: [],
+              errors: [],
+            };
           },
         ],
       }),
