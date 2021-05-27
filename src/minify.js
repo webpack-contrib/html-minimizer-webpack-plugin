@@ -20,7 +20,11 @@ const minify = async (options) => {
       minifyOptions
     );
 
-    if (typeof minifyResult === "object" && "code" in minifyResult) {
+    if (
+      Object.prototype.toString.call(minifyResult) === "[object Object]" &&
+      minifyResult !== null &&
+      "code" in minifyResult
+    ) {
       result.code = minifyResult.code;
       result.warnings = result.warnings.concat(minifyResult.warnings || []);
       result.errors = result.errors.concat(minifyResult.errors || []);
