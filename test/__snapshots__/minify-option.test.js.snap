@@ -1,11 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`"minify" option should emit error: assets 1`] = `
-Object {
-  "simple.html": "Error: ENOENT: no such file or directory, open '/media/veracrypt1/OS/html-minimizer-webpack-plugin/test/dist/simple.html'",
-}
-`;
-
 exports[`"minify" option should emit error: errors 1`] = `
 Array [
   "Error: test error",
