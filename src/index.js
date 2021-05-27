@@ -173,15 +173,30 @@ class HtmlMinimizerPlugin {
               return;
             }
 
+            if (output.errors.length > 0) {
+              output.errors.forEach((error) => {
+                compilation.errors.push(error);
+              });
+
+              return;
+            }
+
             output.source = new RawSource(output.code);
 
             await cacheItem.storePromise({
               source: output.source,
+              warnings: output.warnings,
             });
           }
 
           const newInfo = { minimized: true };
-          const { source } = output;
+          const { source, warnings } = output;
+
+          if (warnings && warnings.length > 0) {
+            warnings.forEach((warning) => {
+              compilation.warnings.push(warning);
+            });
+          }
 
           compilation.updateAsset(name, source, newInfo);
         })

@@ -44,12 +44,13 @@ describe('"minify" option', () => {
       minify: [
         HtmlMinimizerPlugin.htmlMinifierTerser,
         async (data, minimizerOptions) => {
-          const [input] = Object.values(data);
+          const [[, input]] = Object.entries(data);
+
           return `${input}<div>Second function: ${minimizerOptions.collapseWhitespace}</div>`;
         },
         async (data, minimizerOptions) => {
-          const [input] = Object.values(data);
-          return `${input}<div>Third function: ${minimizerOptions.collapseWhitespace}</div>`;
+          const [[name, input]] = Object.entries(data);
+          return `${name} - ${input}<div>Third function: ${minimizerOptions.collapseWhitespace}</div>`;
         },
       ],
     }).apply(compiler);
@@ -77,8 +78,97 @@ describe('"minify" option', () => {
       minify: [
         HtmlMinimizerPlugin.htmlMinifierTerser,
         async (data, minimizerOptions) => {
-          const [input] = Object.values(data);
-          return `${input}<div>Second function: ${minimizerOptions.test}</div>`;
+          const [[name, input]] = Object.entries(data);
+          return `${name} - ${input}:<div>Second function: ${minimizerOptions.test}</div>`;
+        },
+      ],
+    }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+  });
+
+  it("should work if minify function return object", async () => {
+    const testHtmlId = "./simple.html";
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin({
+      minimizerOptions: [
+        {
+          collapseWhitespace: true,
+        },
+        {
+          test: "text from option",
+        },
+      ],
+      minify: [
+        HtmlMinimizerPlugin.htmlMinifierTerser,
+        async (data, minimizerOptions) => {
+          const [[name, input]] = Object.entries(data);
+          return {
+            code: `${name} - ${input}:<div>Second function: ${minimizerOptions.test}</div>`,
+          };
+        },
+      ],
+    }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+  });
+
+  it("should minimize code and emit warning", async () => {
+    const testHtmlId = "./simple.html";
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin({
+      minimizerOptions: [
+        {
+          collapseWhitespace: true,
+        },
+      ],
+      minify: [
+        HtmlMinimizerPlugin.htmlMinifierTerser,
+        async (data) => {
+          const [[, input]] = Object.entries(data);
+          return {
+            code: input,
+            warnings: [new Error("test warning")],
+          };
+        },
+      ],
+    }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+  });
+
+  it("should emit error", async () => {
+    const testHtmlId = "./simple.html";
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin({
+      minimizerOptions: [
+        {
+          collapseWhitespace: true,
+        },
+      ],
+      minify: [
+        HtmlMinimizerPlugin.htmlMinifierTerser,
+        async (data) => {
+          const [[, input]] = Object.entries(data);
+          return {
+            code: input,
+            errors: [new Error("test error")],
+          };
         },
       ],
     }).apply(compiler);
