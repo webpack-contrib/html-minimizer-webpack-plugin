@@ -109,7 +109,7 @@ exports[`validation 8`] = `
    -> Use multi-process parallel running to improve the build speed.
    Details:
     * options.parallel should be a boolean.
-    * options.parallel should be a integer."
+    * options.parallel should be an integer."
 `;
 
 exports[`validation 9`] = `
@@ -119,7 +119,7 @@ exports[`validation 9`] = `
    -> Use multi-process parallel running to improve the build speed.
    Details:
     * options.parallel should be a boolean.
-    * options.parallel should be a integer."
+    * options.parallel should be an integer."
 `;
 
 exports[`validation 10`] = `
