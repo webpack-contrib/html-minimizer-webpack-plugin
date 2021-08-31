@@ -23,13 +23,12 @@ async function htmlMinifierTerser(data, minimizerOptions) {
   };
 
   const [[, input]] = Object.entries(data);
+  const result = await htmlMinifier.minify(input, {
+    ...defaultMinimizerOptions,
+    ...minimizerOptions,
+  });
 
-  return {
-    code: htmlMinifier.minify(input, {
-      ...defaultMinimizerOptions,
-      ...minimizerOptions,
-    }),
-  };
+  return { code: result };
 }
 
 // eslint-disable-next-line import/prefer-default-export
