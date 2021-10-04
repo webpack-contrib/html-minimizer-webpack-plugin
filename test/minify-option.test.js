@@ -138,7 +138,13 @@ describe('"minify" option', () => {
           const [[, input]] = Object.entries(data);
           return {
             code: input,
-            warnings: [new Error("test warning")],
+            warnings: [
+              "string warning",
+              new Error("test warning"),
+              {
+                message: "object warning",
+              },
+            ],
           };
         },
       ],
@@ -167,7 +173,13 @@ describe('"minify" option', () => {
           const [[, input]] = Object.entries(data);
           return {
             code: input,
-            errors: [new Error("test error")],
+            errors: [
+              "string error",
+              new Error("test error"),
+              {
+                message: "object error",
+              },
+            ],
           };
         },
       ],

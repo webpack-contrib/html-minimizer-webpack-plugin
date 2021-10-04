@@ -2,7 +2,12 @@
 
 exports[`"minify" option should emit error: errors 1`] = `
 Array [
-  "Error: test error",
+  "Error: simple.html from Html Minimizer plugin
+object error",
+  "Error: simple.html from Html Minimizer plugin
+string error",
+  "Error: simple.html from Html Minimizer plugin
+test error",
 ]
 `;
 
@@ -18,7 +23,9 @@ exports[`"minify" option should minimize code and emit warning: errors 1`] = `Ar
 
 exports[`"minify" option should minimize code and emit warning: warnings 1`] = `
 Array [
-  "Error: test warning",
+  "Warning: object warning",
+  "Warning: string warning",
+  "Warning: test warning",
 ]
 `;
 
