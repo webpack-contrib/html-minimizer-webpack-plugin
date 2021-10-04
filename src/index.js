@@ -36,10 +36,47 @@ class HtmlMinimizerPlugin {
     };
   }
 
-  static buildError(error, file, context) {
-    return new Error(
-      `${file} in "${context}" from Html Minimizer\n${error.stack}`
+  static buildWarning(warning, file) {
+    const builtWarning = new Error(
+      warning.message ? warning.message : warning.toString()
     );
+
+    builtWarning.name = "Warning";
+    builtWarning.hideStack = true;
+    builtWarning.file = file;
+
+    return builtWarning;
+  }
+
+  static buildError(error, file) {
+    let builtError;
+
+    if (typeof error === "string") {
+      // @ts-ignore
+      builtError = new Error(`${file} from Html Minimizer plugin\n${error}`);
+      builtError.file = file;
+
+      return builtError;
+    }
+
+    if (error.stack) {
+      // @ts-ignore
+      builtError = new Error(
+        `${file} from Html Minimizer plugin\n${
+          typeof error.message !== "undefined" ? error.message : ""
+        }\n${error.stack}`
+      );
+      builtError.file = file;
+
+      return builtError;
+    }
+
+    builtError = new Error(
+      `${file} from Html Minimizer plugin\n${error.message}`
+    );
+    builtError.file = file;
+
+    return builtError;
   }
 
   static getAvailableNumberOfCores(parallel) {
@@ -167,16 +204,8 @@ class HtmlMinimizerPlugin {
                 : minifyFn(options));
             } catch (error) {
               compilation.errors.push(
-                HtmlMinimizerPlugin.buildError(error, name, compiler.context)
+                HtmlMinimizerPlugin.buildError(error, name)
               );
-
-              return;
-            }
-
-            if (output.errors.length > 0) {
-              output.errors.forEach((error) => {
-                compilation.errors.push(error);
-              });
 
               return;
             }
@@ -185,20 +214,30 @@ class HtmlMinimizerPlugin {
 
             await cacheItem.storePromise({
               source: output.source,
+              errors: output.errors,
               warnings: output.warnings,
             });
           }
 
           const newInfo = { minimized: true };
-          const { source, warnings } = output;
 
-          if (warnings && warnings.length > 0) {
-            warnings.forEach((warning) => {
-              compilation.warnings.push(warning);
-            });
+          if (output.warnings && output.warnings.length > 0) {
+            for (const warning of output.warnings) {
+              compilation.warnings.push(
+                HtmlMinimizerPlugin.buildWarning(warning, name)
+              );
+            }
           }
 
-          compilation.updateAsset(name, source, newInfo);
+          if (output.errors && output.errors.length > 0) {
+            for (const error of output.errors) {
+              compilation.errors.push(
+                HtmlMinimizerPlugin.buildError(error, name)
+              );
+            }
+          }
+
+          compilation.updateAsset(name, output.source, newInfo);
         })
       );
     }

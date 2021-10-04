@@ -2,8 +2,8 @@
 
 exports[`HtmlMinimizerPlugin should emit error when broken html syntax: errors 1`] = `
 Array [
-  "Error: broken-html-syntax.html in \\"/test/fixtures\\" from Html Minimizer
-Error: Parse Error: < img src=\\"image.png\\" >",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Parse Error: < img src=\\"image.png\\" >",
 ]
 `;
 
@@ -11,8 +11,8 @@ exports[`HtmlMinimizerPlugin should emit error when broken html syntax: warnings
 
 exports[`HtmlMinimizerPlugin should emit error: errors 1`] = `
 Array [
-  "Error: simple.html in \\"/test/fixtures\\" from Html Minimizer
-TypeError: Cannot read property 'replace' of null",
+  "Error: simple.html from Html Minimizer plugin
+Error message",
 ]
 `;
 
