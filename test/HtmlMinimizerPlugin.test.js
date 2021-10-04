@@ -131,10 +131,7 @@ describe("HtmlMinimizerPlugin", () => {
 
     new HtmlMinimizerPlugin({
       minify: () => {
-        // eslint-disable-next-line global-require
-        const htmlMinifier = require("html-minifier-terser");
-
-        return htmlMinifier.minify(null);
+        throw new Error("Error message");
       },
     }).apply(compiler);
 

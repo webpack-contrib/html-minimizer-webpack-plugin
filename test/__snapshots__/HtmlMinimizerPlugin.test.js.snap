@@ -12,7 +12,7 @@ exports[`HtmlMinimizerPlugin should emit error when broken html syntax: warnings
 exports[`HtmlMinimizerPlugin should emit error: errors 1`] = `
 Array [
   "Error: simple.html from Html Minimizer plugin
-Cannot read property 'replace' of null",
+Error message",
 ]
 `;
 
