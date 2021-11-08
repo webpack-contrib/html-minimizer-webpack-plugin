@@ -2,12 +2,11 @@ import os from "os";
 
 import { validate } from "schema-utils";
 import serialize from "serialize-javascript";
-import pLimit from "p-limit";
 import { Worker } from "jest-worker";
 
 import schema from "./options.json";
 
-import { htmlMinifierTerser } from "./utils";
+import { htmlMinifierTerser, throttleAll } from "./utils";
 import { minify as minifyFn } from "./minify";
 
 class HtmlMinimizerPlugin {
@@ -91,7 +90,7 @@ class HtmlMinimizerPlugin {
 
   async optimize(compiler, compilation, assets, optimizeOptions) {
     const cache = compilation.getCache("HtmlMinimizerWebpackPlugin");
-    let numberOfAssetsForMinify = 0;
+    let numberOfAssets = 0;
     const assetsForMinify = await Promise.all(
       Object.keys(assets)
         .filter((name) => {
@@ -122,12 +121,16 @@ class HtmlMinimizerPlugin {
           const output = await cacheItem.getPromise();
 
           if (!output) {
-            numberOfAssetsForMinify += 1;
+            numberOfAssets += 1;
           }
 
           return { name, info, inputSource: source, output, cacheItem };
         })
     );
+
+    if (assetsForMinify.length === 0) {
+      return;
+    }
 
     let getWorker;
     let initializedWorker;
@@ -136,7 +139,7 @@ class HtmlMinimizerPlugin {
     if (optimizeOptions.availableNumberOfCores > 0) {
       // Do not create unnecessary workers when the number of files is less than the available cores, it saves memory
       numberOfWorkers = Math.min(
-        numberOfAssetsForMinify,
+        numberOfAssets,
         optimizeOptions.availableNumberOfCores
       );
       // eslint-disable-next-line consistent-return
@@ -167,82 +170,80 @@ class HtmlMinimizerPlugin {
       };
     }
 
-    const limit = pLimit(
-      getWorker && numberOfAssetsForMinify > 0 ? numberOfWorkers : Infinity
-    );
-
     const { RawSource } = compiler.webpack.sources;
-
     const scheduledTasks = [];
 
     for (const asset of assetsForMinify) {
-      scheduledTasks.push(
-        limit(async () => {
-          const { name, inputSource, cacheItem } = asset;
-          let { output } = asset;
-          let input;
+      scheduledTasks.push(async () => {
+        const { name, inputSource, cacheItem } = asset;
+        let { output } = asset;
+        let input;
 
-          const sourceFromInputSource = inputSource.source();
+        const sourceFromInputSource = inputSource.source();
 
-          if (!output) {
-            input = sourceFromInputSource;
+        if (!output) {
+          input = sourceFromInputSource;
 
-            if (Buffer.isBuffer(input)) {
-              input = input.toString();
-            }
-
-            const options = {
-              name,
-              input,
-              minimizerOptions: this.options.minimizerOptions,
-              minify: this.options.minify,
-            };
-
-            try {
-              output = await (getWorker
-                ? getWorker().transform(serialize(options))
-                : minifyFn(options));
-            } catch (error) {
-              compilation.errors.push(
-                HtmlMinimizerPlugin.buildError(error, name)
-              );
-
-              return;
-            }
-
-            output.source = new RawSource(output.code);
-
-            await cacheItem.storePromise({
-              source: output.source,
-              errors: output.errors,
-              warnings: output.warnings,
-            });
+          if (Buffer.isBuffer(input)) {
+            input = input.toString();
           }
 
-          const newInfo = { minimized: true };
+          const options = {
+            name,
+            input,
+            minimizerOptions: this.options.minimizerOptions,
+            minify: this.options.minify,
+          };
 
-          if (output.warnings && output.warnings.length > 0) {
-            for (const warning of output.warnings) {
-              compilation.warnings.push(
-                HtmlMinimizerPlugin.buildWarning(warning, name)
-              );
-            }
+          try {
+            output = await (getWorker
+              ? getWorker().transform(serialize(options))
+              : minifyFn(options));
+          } catch (error) {
+            compilation.errors.push(
+              HtmlMinimizerPlugin.buildError(error, name)
+            );
+
+            return;
           }
 
-          if (output.errors && output.errors.length > 0) {
-            for (const error of output.errors) {
-              compilation.errors.push(
-                HtmlMinimizerPlugin.buildError(error, name)
-              );
-            }
-          }
+          output.source = new RawSource(output.code);
 
-          compilation.updateAsset(name, output.source, newInfo);
-        })
-      );
+          await cacheItem.storePromise({
+            source: output.source,
+            errors: output.errors,
+            warnings: output.warnings,
+          });
+        }
+
+        const newInfo = { minimized: true };
+
+        if (output.warnings && output.warnings.length > 0) {
+          for (const warning of output.warnings) {
+            compilation.warnings.push(
+              HtmlMinimizerPlugin.buildWarning(warning, name)
+            );
+          }
+        }
+
+        if (output.errors && output.errors.length > 0) {
+          for (const error of output.errors) {
+            compilation.errors.push(
+              HtmlMinimizerPlugin.buildError(error, name)
+            );
+          }
+        }
+
+        compilation.updateAsset(name, output.source, newInfo);
+      });
     }
 
-    await Promise.all(scheduledTasks);
+    const limit =
+      getWorker && numberOfAssets > 0
+        ? /** @type {number} */ (numberOfWorkers)
+        : scheduledTasks.length;
+
+    await throttleAll(limit, scheduledTasks);
 
     if (initializedWorker) {
       await initializedWorker.end();
