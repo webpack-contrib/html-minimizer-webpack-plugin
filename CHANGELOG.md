@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Chore
 
-* avoid usage `schema-utils` package
+* update `schema-utils` package to `4.0.0` version
 
 ### [3.3.1](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/compare/v3.3.0...v3.3.1) (2021-11-08)
 
