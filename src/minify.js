@@ -1,23 +1,29 @@
-const minify = async (options) => {
-  const minifyFns =
-    typeof options.minify === "function" ? [options.minify] : options.minify;
+/** @typedef {import("./index.js").MinimizedResult} MinimizedResult */
+/** @typedef {import("./index.js").InternalResult} InternalResult */
 
+/**
+ * @template T
+ * @param {import("./index.js").InternalOptions<T>} options
+ * @returns {Promise<InternalResult>}
+ */
+const minify = async (options) => {
+  /** @type {InternalResult} */
   const result = {
     code: options.input,
     warnings: [],
     errors: [],
   };
 
-  for (let i = 0; i <= minifyFns.length - 1; i++) {
-    const minifyFn = minifyFns[i];
+  const transformers = Array.isArray(options.minimizer)
+    ? options.minimizer
+    : [options.minimizer];
 
-    const minifyOptions = Array.isArray(options.minimizerOptions)
-      ? options.minimizerOptions[i]
-      : options.minimizerOptions;
+  for (let i = 0; i <= transformers.length - 1; i++) {
+    const { implementation } = transformers[i];
     // eslint-disable-next-line no-await-in-loop
-    const minifyResult = await minifyFn(
+    const minifyResult = await implementation(
       { [options.name]: result.code },
-      minifyOptions
+      transformers[i].options
     );
 
     if (
@@ -29,6 +35,7 @@ const minify = async (options) => {
       result.warnings = result.warnings.concat(minifyResult.warnings || []);
       result.errors = result.errors.concat(minifyResult.errors || []);
     } else {
+      // @ts-ignore
       result.code = minifyResult;
     }
   }
@@ -36,11 +43,15 @@ const minify = async (options) => {
   return result;
 };
 
+/**
+ * @param {string} options
+ * @returns {Promise<InternalResult>}
+ */
 async function transform(options) {
   // 'use strict' => this === undefined (Clean Scope)
   // Safer for possible security issues, albeit not critical at all here
   // eslint-disable-next-line no-new-func, no-param-reassign
-  options = new Function(
+  const evaluatedOptions = new Function(
     "exports",
     "require",
     "module",
@@ -49,7 +60,7 @@ async function transform(options) {
     `'use strict'\nreturn ${options}`
   )(exports, require, module, __filename, __dirname);
 
-  return minify(options);
+  return minify(evaluatedOptions);
 }
 
 module.exports.minify = minify;
