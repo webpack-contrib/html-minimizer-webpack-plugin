@@ -9,9 +9,113 @@ import schema from "./options.json";
 import { htmlMinifierTerser, throttleAll } from "./utils";
 import { minify as minifyFn } from "./minify";
 
+/** @typedef {import("schema-utils/declarations/validate").Schema} Schema */
+/** @typedef {import("webpack").Compiler} Compiler */
+/** @typedef {import("webpack").Compilation} Compilation */
+/** @typedef {import("webpack").WebpackError} WebpackError */
+/** @typedef {import("webpack").Asset} Asset */
+/** @typedef {import("jest-worker").Worker} JestWorker */
+/** @typedef {import("./utils.js").HtmlMinifierTerserOptions} HtmlMinifierTerserOptions */
+
+/** @typedef {RegExp | string} Rule */
+
+/** @typedef {Rule[] | Rule} Rules */
+
+/**
+ * @typedef {Object} MinimizedResult
+ * @property {string} code
+ * @property {Array<unknown>} [errors]
+ * @property {Array<unknown>} [warnings]
+ */
+
+/**
+ * @typedef {{ [file: string]: string }} Input
+ */
+
+/**
+ * @typedef {{ [key: string]: any }} CustomOptions
+ */
+
+/**
+ * @template T
+ * @typedef {T extends infer U ? U : CustomOptions} InferDefaultType
+ */
+
+/**
+ * @template T
+ * @typedef {InferDefaultType<T> | undefined} MinimizerOptions
+ */
+
+/**
+ * @template T
+ * @callback MinimizerImplementation
+ * @param {Input} input
+ * @param {MinimizerOptions<T>} [minimizerOptions]
+ * @returns {Promise<MinimizedResult>}
+ */
+
+/**
+ * @template T
+ * @typedef {Object} Minimizer
+ * @property {MinimizerImplementation<T>} implementation
+ * @property {MinimizerOptions<T> | undefined} [options]
+ */
+
+/**
+ * @template T
+ * @typedef {Object} InternalOptions
+ * @property {string} name
+ * @property {string} input
+ * @property {T extends any[] ? { [P in keyof T]: Minimizer<T[P]>; } : Minimizer<T>} minimizer
+ */
+
+/**
+ * @typedef InternalResult
+ * @property {string} code
+ * @property {Array<any>} warnings
+ * @property {Array<any>} errors
+ */
+
+/**
+ * @template T
+ * @typedef {JestWorker & { transform: (options: string) => InternalResult, minify: (options: InternalOptions<T>) => InternalResult }} MinimizerWorker
+ */
+
+/**
+ * @typedef {undefined | boolean | number} Parallel
+ */
+
+/**
+ * @typedef {Object} BasePluginOptions
+ * @property {Rules} [test]
+ * @property {Rules} [include]
+ * @property {Rules} [exclude]
+ * @property {Parallel} [parallel]
+ */
+
+/**
+ * @template T
+ * @typedef {BasePluginOptions & { minimizer: T extends any[] ? { [P in keyof T]: Minimizer<T[P]> } : Minimizer<T> }} InternalPluginOptions
+ */
+
+/**
+ * @template T
+ * @typedef {T extends HtmlMinifierTerserOptions
+ *  ? { minify?: MinimizerImplementation<T> | undefined, minimizerOptions?: MinimizerOptions<T> | undefined }
+ *  : T extends any[]
+ *    ? { minify: { [P in keyof T]: MinimizerImplementation<T[P]>; }, minimizerOptions?: { [P in keyof T]?: MinimizerOptions<T[P]> | undefined; } | undefined }
+ *    : { minify: MinimizerImplementation<T>, minimizerOptions?: MinimizerOptions<T> | undefined }} DefinedDefaultMinimizerAndOptions
+ */
+
+/**
+ * @template [T=HtmlMinifierTerserOptions]
+ */
 class HtmlMinimizerPlugin {
-  constructor(options = {}) {
-    validate(schema, options, {
+  /**
+   * @param {BasePluginOptions & DefinedDefaultMinimizerAndOptions<T>} [options]
+   */
+  constructor(options) {
+    validate(/** @type {Schema} */ (schema), options || {}, {
       name: "Html Minimizer Plugin",
       baseDataPath: "options",
     });
@@ -19,25 +123,69 @@ class HtmlMinimizerPlugin {
     const {
       minify = htmlMinifierTerser,
       minimizerOptions,
-      test = /\.html(\?.*)?$/i,
       parallel = true,
+      test = /\.html(\?.*)?$/i,
       include,
       exclude,
-    } = options;
+    } = options || {};
 
+    /** @type {T extends any[] ? { [P in keyof T]: Minimizer<T[P]>; } : Minimizer<T>} */
+    let minimizer;
+
+    if (Array.isArray(minify)) {
+      // @ts-ignore
+      minimizer =
+        /** @type {MinimizerImplementation<T>[]} */
+        (minify).map(
+          /**
+           * @param {MinimizerImplementation<T>} item
+           * @param {number} i
+           * @returns {Minimizer<T>}
+           */
+          (item, i) => {
+            return {
+              implementation: item,
+              options: Array.isArray(minimizerOptions)
+                ? minimizerOptions[i]
+                : minimizerOptions,
+            };
+          }
+        );
+    } else {
+      minimizer =
+        /** @type {T extends any[] ? { [P in keyof T]: Minimizer<T[P]>; } : Minimizer<T>} */
+        ({ implementation: minify, options: minimizerOptions });
+    }
+
+    /**
+     * @private
+     * @type {InternalPluginOptions<T>}
+     */
     this.options = {
       test,
       parallel,
       include,
       exclude,
-      minify,
-      minimizerOptions,
+      minimizer,
     };
   }
 
+  /**
+   * @private
+   * @param {any} warning
+   * @param {string} file
+   * @returns {Error}
+   */
   static buildWarning(warning, file) {
+    /**
+     * @type {Error & { hideStack?: true, file?: string }}
+     */
     const builtWarning = new Error(
-      warning.message ? warning.message : warning.toString()
+      warning instanceof Error
+        ? warning.message
+        : typeof warning.message !== "undefined"
+        ? warning.message
+        : warning.toString()
     );
 
     builtWarning.name = "Warning";
@@ -47,11 +195,19 @@ class HtmlMinimizerPlugin {
     return builtWarning;
   }
 
+  /**
+   * @private
+   * @param {any} error
+   * @param {string} file
+   * @returns {Error}
+   */
   static buildError(error, file) {
+    /**
+     * @type {Error & { file?: string }}
+     */
     let builtError;
 
     if (typeof error === "string") {
-      // @ts-ignore
       builtError = new Error(`${file} from Html Minimizer plugin\n${error}`);
       builtError.file = file;
 
@@ -78,6 +234,11 @@ class HtmlMinimizerPlugin {
     return builtError;
   }
 
+  /**
+   * @private
+   * @param {Parallel} parallel
+   * @returns {number}
+   */
   static getAvailableNumberOfCores(parallel) {
     // In some cases cpus() returns undefined
     // https://github.com/nodejs/node/issues/19022
@@ -88,13 +249,21 @@ class HtmlMinimizerPlugin {
       : Math.min(Number(parallel) || 0, cpus.length - 1);
   }
 
+  /**
+   * @private
+   * @param {Compiler} compiler
+   * @param {Compilation} compilation
+   * @param {Record<string, import("webpack").sources.Source>} assets
+   * @param {{availableNumberOfCores: number}} optimizeOptions
+   * @returns {Promise<void>}
+   */
   async optimize(compiler, compilation, assets, optimizeOptions) {
     const cache = compilation.getCache("HtmlMinimizerWebpackPlugin");
     let numberOfAssets = 0;
     const assetsForMinify = await Promise.all(
       Object.keys(assets)
         .filter((name) => {
-          const { info } = compilation.getAsset(name);
+          const { info } = /** @type {Asset} */ (compilation.getAsset(name));
 
           // Skip double minimize assets from child compilation
           if (info.minimized) {
@@ -114,7 +283,9 @@ class HtmlMinimizerPlugin {
           return true;
         })
         .map(async (name) => {
-          const { info, source } = compilation.getAsset(name);
+          const { info, source } = /** @type {Asset} */ (
+            compilation.getAsset(name)
+          );
 
           const eTag = cache.getLazyHashedEtag(source);
           const cacheItem = cache.getItemCache(name, eTag);
@@ -132,8 +303,11 @@ class HtmlMinimizerPlugin {
       return;
     }
 
+    /** @type {undefined | (() => MinimizerWorker<T>)} */
     let getWorker;
+    /** @type {undefined | MinimizerWorker<T>} */
     let initializedWorker;
+    /** @type {undefined | number} */
     let numberOfWorkers;
 
     if (optimizeOptions.availableNumberOfCores > 0) {
@@ -148,10 +322,14 @@ class HtmlMinimizerPlugin {
           return initializedWorker;
         }
 
-        initializedWorker = new Worker(require.resolve("./minify"), {
-          numWorkers: numberOfWorkers,
-          enableWorkerThreads: true,
-        });
+        initializedWorker =
+          /** @type {MinimizerWorker<T>} */
+          (
+            new Worker(require.resolve("./minify"), {
+              numWorkers: numberOfWorkers,
+              enableWorkerThreads: true,
+            })
+          );
 
         // https://github.com/facebook/jest/issues/8872#issuecomment-524822081
         const workerStdout = initializedWorker.getStdout();
@@ -188,11 +366,13 @@ class HtmlMinimizerPlugin {
             input = input.toString();
           }
 
+          /**
+           * @type {InternalOptions<T>}
+           */
           const options = {
             name,
             input,
-            minimizerOptions: this.options.minimizerOptions,
-            minify: this.options.minify,
+            minimizer: this.options.minimizer,
           };
 
           try {
@@ -201,7 +381,8 @@ class HtmlMinimizerPlugin {
               : minifyFn(options));
           } catch (error) {
             compilation.errors.push(
-              HtmlMinimizerPlugin.buildError(error, name)
+              /** @type {WebpackError} */
+              (HtmlMinimizerPlugin.buildError(error, name))
             );
 
             return;
@@ -221,7 +402,8 @@ class HtmlMinimizerPlugin {
         if (output.warnings && output.warnings.length > 0) {
           for (const warning of output.warnings) {
             compilation.warnings.push(
-              HtmlMinimizerPlugin.buildWarning(warning, name)
+              /** @type {WebpackError} */
+              (HtmlMinimizerPlugin.buildWarning(warning, name))
             );
           }
         }
@@ -229,7 +411,8 @@ class HtmlMinimizerPlugin {
         if (output.errors && output.errors.length > 0) {
           for (const error of output.errors) {
             compilation.errors.push(
-              HtmlMinimizerPlugin.buildError(error, name)
+              /** @type {WebpackError} */
+              (HtmlMinimizerPlugin.buildError(error, name))
             );
           }
         }
@@ -250,6 +433,10 @@ class HtmlMinimizerPlugin {
     }
   }
 
+  /**
+   * @param {Compiler} compiler
+   * @returns {void}
+   */
   apply(compiler) {
     const pluginName = this.constructor.name;
     const availableNumberOfCores =
@@ -275,8 +462,11 @@ class HtmlMinimizerPlugin {
           .tap(
             "html-minimizer-webpack-plugin",
             (minimized, { green, formatFlag }) =>
-              // eslint-disable-next-line no-undefined
-              minimized ? green(formatFlag("minimized")) : undefined
+              minimized
+                ? /** @type {Function} */ (green)(
+                    /** @type {Function} */ (formatFlag)("minimized")
+                  )
+                : ""
           );
       });
     });

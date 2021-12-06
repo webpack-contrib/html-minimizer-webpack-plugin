@@ -6,10 +6,12 @@ Array [
 ]
 `;
 
-exports[`worker should minify html: html 1`] = `"<!-- Comment --><p title=\\"blah\\" id=\\"moo\\"> foo </p>"`;
+exports[`worker should minify html #2: html 1`] = `"<!-- Comment --><p title=\\"blah\\" id=\\"moo\\"> foo </p>"`;
 
-exports[`worker should minify html: html 2`] = `
+exports[`worker should minify html #3: html 1`] = `
 Object {
   "html": "<!-- From minify function --><p class=\\"atata\\">from-minify-function</p>",
 }
 `;
+
+exports[`worker should minify html: html 1`] = `"<!-- Comment --><p title=\\"blah\\" id=\\"moo\\"> foo </p>"`;

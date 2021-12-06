@@ -1,3 +1,7 @@
+/** @typedef {import("./index.js").MinimizedResult} MinimizedResult */
+/** @typedef {import("./index.js").Input} Input */
+/** @typedef {import("html-minifier-terser").Options} HtmlMinifierTerserOptions */
+
 const notSettled = Symbol(`not-settled`);
 
 /**
@@ -61,11 +65,17 @@ function throttleAll(limit, tasks) {
   });
 }
 
+/**
+ * @param {Input} input
+ * @param {HtmlMinifierTerserOptions | undefined} [minimizerOptions]
+ * @returns {Promise<MinimizedResult>}
+ */
 /* istanbul ignore next */
-async function htmlMinifierTerser(data, minimizerOptions) {
-  // eslint-disable-next-line global-require,import/no-extraneous-dependencies
+async function htmlMinifierTerser(input, minimizerOptions = {}) {
+  // eslint-disable-next-line global-require, import/no-extraneous-dependencies
   const htmlMinifier = require("html-minifier-terser");
-
+  const [[, code]] = Object.entries(input);
+  /** @type {HtmlMinifierTerserOptions} */
   const defaultMinimizerOptions = {
     caseSensitive: true,
     // `collapseBooleanAttributes` is not always safe, since this can break CSS attribute selectors and not safe for XHTML
@@ -84,9 +94,7 @@ async function htmlMinifierTerser(data, minimizerOptions) {
     removeStyleLinkTypeAttributes: true,
     // `useShortDoctype` is not safe for XHTML
   };
-
-  const [[, input]] = Object.entries(data);
-  const result = await htmlMinifier.minify(input, {
+  const result = await htmlMinifier.minify(code, {
     ...defaultMinimizerOptions,
     ...minimizerOptions,
   });

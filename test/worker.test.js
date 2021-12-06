@@ -10,25 +10,47 @@ describe("worker", () => {
     const options = {
       name: "entry.html",
       input: '<!-- Comment --><p title="blah" id="moo">     foo     </p>',
-      minimizerOptions: {
-        removeComments: false,
+      minimizer: {
+        implementation: HtmlMinimizerPlugin.htmlMinifierTerser,
+        options: {
+          removeComments: false,
+        },
       },
-      minify: HtmlMinimizerPlugin.htmlMinifierTerser,
     };
     const { code } = await transform(serialize(options));
 
     expect(code).toMatchSnapshot("html");
   });
 
-  it("should minify html", async () => {
+  it("should minify html #2", async () => {
     const options = {
       name: "entry.html",
       input: '<!-- Comment --><p title="blah" id="moo">     foo     </p>',
-      minimizerOptions: { removeComments: false },
-      minify: () => {
-        return {
-          html: '<!-- From minify function --><p class="atata">from-minify-function</p>',
-        };
+      minimizer: [
+        {
+          implementation: HtmlMinimizerPlugin.htmlMinifierTerser,
+          options: {
+            removeComments: false,
+          },
+        },
+      ],
+    };
+    const { code } = await transform(serialize(options));
+
+    expect(code).toMatchSnapshot("html");
+  });
+
+  it("should minify html #3", async () => {
+    const options = {
+      name: "entry.html",
+      input: '<!-- Comment --><p title="blah" id="moo">     foo     </p>',
+      minimizer: {
+        implementation: () => {
+          return {
+            html: '<!-- From minify function --><p class="atata">from-minify-function</p>',
+          };
+        },
+        options: { removeComments: false },
       },
     };
     const { code } = await transform(serialize(options));
@@ -40,7 +62,9 @@ describe("worker", () => {
     const options = {
       name: "entry.html",
       input: false,
-      minify: HtmlMinimizerPlugin.htmlMinifierTerser,
+      minimizer: {
+        implementation: HtmlMinimizerPlugin.htmlMinifierTerser,
+      },
     };
 
     try {
