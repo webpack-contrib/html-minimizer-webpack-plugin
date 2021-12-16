@@ -1,13 +1,13 @@
-import os from "os";
+const os = require("os");
 
-import { validate } from "schema-utils";
-import serialize from "serialize-javascript";
-import { Worker } from "jest-worker";
+const { validate } = require("schema-utils");
+const serialize = require("serialize-javascript");
+const { Worker } = require("jest-worker");
 
-import schema from "./options.json";
+const schema = require("./options.json");
 
-import { htmlMinifierTerser, throttleAll } from "./utils";
-import { minify as minifyFn } from "./minify";
+const { htmlMinifierTerser, throttleAll } = require("./utils");
+const { minify } = require("./minify");
 
 /** @typedef {import("schema-utils/declarations/validate").Schema} Schema */
 /** @typedef {import("webpack").Compiler} Compiler */
@@ -378,7 +378,7 @@ class HtmlMinimizerPlugin {
           try {
             output = await (getWorker
               ? getWorker().transform(serialize(options))
-              : minifyFn(options));
+              : minify(options));
           } catch (error) {
             compilation.errors.push(
               /** @type {WebpackError} */
@@ -475,4 +475,4 @@ class HtmlMinimizerPlugin {
 
 HtmlMinimizerPlugin.htmlMinifierTerser = htmlMinifierTerser;
 
-export default HtmlMinimizerPlugin;
+module.exports = HtmlMinimizerPlugin;

@@ -1,80 +1,4 @@
-export default HtmlMinimizerPlugin;
-export type Schema = import("schema-utils/declarations/validate").Schema;
-export type Compiler = import("webpack").Compiler;
-export type Compilation = import("webpack").Compilation;
-export type WebpackError = import("webpack").WebpackError;
-export type Asset = import("webpack").Asset;
-export type JestWorker = import("jest-worker").Worker;
-export type HtmlMinifierTerserOptions =
-  import("./utils.js").HtmlMinifierTerserOptions;
-export type Rule = RegExp | string;
-export type Rules = Rule[] | Rule;
-export type MinimizedResult = {
-  code: string;
-  errors?: unknown[] | undefined;
-  warnings?: unknown[] | undefined;
-};
-export type Input = {
-  [file: string]: string;
-};
-export type CustomOptions = {
-  [key: string]: any;
-};
-export type InferDefaultType<T> = T extends infer U ? U : CustomOptions;
-export type MinimizerOptions<T> = InferDefaultType<T> | undefined;
-export type MinimizerImplementation<T> = (
-  input: Input,
-  minimizerOptions?: MinimizerOptions<T>
-) => Promise<MinimizedResult>;
-export type Minimizer<T> = {
-  implementation: MinimizerImplementation<T>;
-  options?: MinimizerOptions<T> | undefined;
-};
-export type InternalOptions<T> = {
-  name: string;
-  input: string;
-  minimizer: T extends any[]
-    ? { [P in keyof T]: Minimizer<T[P]> }
-    : Minimizer<T>;
-};
-export type InternalResult = {
-  code: string;
-  warnings: Array<any>;
-  errors: Array<any>;
-};
-export type MinimizerWorker<T> = Worker & {
-  transform: (options: string) => InternalResult;
-  minify: (options: InternalOptions<T>) => InternalResult;
-};
-export type Parallel = undefined | boolean | number;
-export type BasePluginOptions = {
-  test?: Rules | undefined;
-  include?: Rules | undefined;
-  exclude?: Rules | undefined;
-  parallel?: Parallel;
-};
-export type InternalPluginOptions<T> = BasePluginOptions & {
-  minimizer: T extends any[]
-    ? { [P in keyof T]: Minimizer<T[P]> }
-    : Minimizer<T>;
-};
-export type DefinedDefaultMinimizerAndOptions<T> =
-  T extends import("html-minifier-terser").Options
-    ? {
-        minify?: MinimizerImplementation<T> | undefined;
-        minimizerOptions?: MinimizerOptions<T> | undefined;
-      }
-    : T extends any[]
-    ? {
-        minify: { [P in keyof T]: MinimizerImplementation<T[P]> };
-        minimizerOptions?:
-          | { [P_1 in keyof T]?: MinimizerOptions<T[P_1]> }
-          | undefined;
-      }
-    : {
-        minify: MinimizerImplementation<T>;
-        minimizerOptions?: MinimizerOptions<T> | undefined;
-      };
+export = HtmlMinimizerPlugin;
 /** @typedef {import("schema-utils/declarations/validate").Schema} Schema */
 /** @typedef {import("webpack").Compiler} Compiler */
 /** @typedef {import("webpack").Compilation} Compilation */
@@ -209,7 +133,108 @@ declare class HtmlMinimizerPlugin<T = import("html-minifier-terser").Options> {
   apply(compiler: Compiler): void;
 }
 declare namespace HtmlMinimizerPlugin {
-  export { htmlMinifierTerser };
+  export {
+    htmlMinifierTerser,
+    Schema,
+    Compiler,
+    Compilation,
+    WebpackError,
+    Asset,
+    JestWorker,
+    HtmlMinifierTerserOptions,
+    Rule,
+    Rules,
+    MinimizedResult,
+    Input,
+    CustomOptions,
+    InferDefaultType,
+    MinimizerOptions,
+    MinimizerImplementation,
+    Minimizer,
+    InternalOptions,
+    InternalResult,
+    MinimizerWorker,
+    Parallel,
+    BasePluginOptions,
+    InternalPluginOptions,
+    DefinedDefaultMinimizerAndOptions,
+  };
 }
-import { Worker } from "jest-worker";
+type Compiler = import("webpack").Compiler;
+type BasePluginOptions = {
+  test?: Rules | undefined;
+  include?: Rules | undefined;
+  exclude?: Rules | undefined;
+  parallel?: Parallel;
+};
+type DefinedDefaultMinimizerAndOptions<T> =
+  T extends import("html-minifier-terser").Options
+    ? {
+        minify?: MinimizerImplementation<T> | undefined;
+        minimizerOptions?: MinimizerOptions<T> | undefined;
+      }
+    : T extends any[]
+    ? {
+        minify: { [P in keyof T]: MinimizerImplementation<T[P]> };
+        minimizerOptions?:
+          | { [P_1 in keyof T]?: MinimizerOptions<T[P_1]> }
+          | undefined;
+      }
+    : {
+        minify: MinimizerImplementation<T>;
+        minimizerOptions?: MinimizerOptions<T> | undefined;
+      };
 import { htmlMinifierTerser } from "./utils";
+type Schema = import("schema-utils/declarations/validate").Schema;
+type Compilation = import("webpack").Compilation;
+type WebpackError = import("webpack").WebpackError;
+type Asset = import("webpack").Asset;
+type JestWorker = import("jest-worker").Worker;
+type HtmlMinifierTerserOptions = import("./utils.js").HtmlMinifierTerserOptions;
+type Rule = RegExp | string;
+type Rules = Rule[] | Rule;
+type MinimizedResult = {
+  code: string;
+  errors?: unknown[] | undefined;
+  warnings?: unknown[] | undefined;
+};
+type Input = {
+  [file: string]: string;
+};
+type CustomOptions = {
+  [key: string]: any;
+};
+type InferDefaultType<T> = T extends infer U ? U : CustomOptions;
+type MinimizerOptions<T> = InferDefaultType<T> | undefined;
+type MinimizerImplementation<T> = (
+  input: Input,
+  minimizerOptions?: MinimizerOptions<T>
+) => Promise<MinimizedResult>;
+type Minimizer<T> = {
+  implementation: MinimizerImplementation<T>;
+  options?: MinimizerOptions<T> | undefined;
+};
+type InternalOptions<T> = {
+  name: string;
+  input: string;
+  minimizer: T extends any[]
+    ? { [P in keyof T]: Minimizer<T[P]> }
+    : Minimizer<T>;
+};
+type InternalResult = {
+  code: string;
+  warnings: Array<any>;
+  errors: Array<any>;
+};
+type MinimizerWorker<T> = Worker & {
+  transform: (options: string) => InternalResult;
+  minify: (options: InternalOptions<T>) => InternalResult;
+};
+type Parallel = undefined | boolean | number;
+type InternalPluginOptions<T> = BasePluginOptions & {
+  minimizer: T extends any[]
+    ? { [P in keyof T]: Minimizer<T[P]> }
+    : Minimizer<T>;
+};
+import { minify } from "./minify";
+import { Worker } from "jest-worker";
