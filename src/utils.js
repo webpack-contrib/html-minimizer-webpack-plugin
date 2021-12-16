@@ -102,4 +102,4 @@ async function htmlMinifierTerser(input, minimizerOptions = {}) {
   return { code: result };
 }
 
-export { throttleAll, htmlMinifierTerser };
+module.exports = { throttleAll, htmlMinifierTerser };
