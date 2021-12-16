@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.0](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/compare/v3.4.0...v3.5.0) (2021-12-16)
+
+
+### Features
+
+* removed cjs wrapper and generated types in commonjs format (`export =` and `namespaces` used in types), now you can directly use exported types ([e4c64c8](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/commit/e4c64c8c9d0cee2f6545893252738626d51503f1))
+
 ## [3.4.0](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/compare/v3.3.2...v3.4.0) (2021-12-06)
 
 
