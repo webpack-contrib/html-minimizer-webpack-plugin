@@ -34,7 +34,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.html$/i,
         type: "asset/resource",
