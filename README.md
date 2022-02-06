@@ -24,6 +24,18 @@ To begin, you'll need to install `html-minimizer-webpack-plugin`:
 $ npm install html-minimizer-webpack-plugin --save-dev
 ```
 
+or
+
+```console
+yarn add -D html-minimizer-webpack-plugin
+```
+
+or
+
+```console
+pnpm add -D html-minimizer-webpack-plugin
+```
+
 Then add the plugin to your `webpack` configuration. For example:
 
 **webpack.config.js**
