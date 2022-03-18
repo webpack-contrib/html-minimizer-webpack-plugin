@@ -21,7 +21,7 @@ This plugin uses [html-minifier-terser](https://github.com/terser/html-minifier-
 To begin, you'll need to install `html-minimizer-webpack-plugin`:
 
 ```console
-npm install html-minimizer-webpack-plugin --save-dev
+$ npm install html-minimizer-webpack-plugin --save-dev
 ```
 
 or
