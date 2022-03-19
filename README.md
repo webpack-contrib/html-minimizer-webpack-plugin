@@ -81,18 +81,22 @@ And run `webpack` via your preferred method.
 
 ## Options
 
-|                    Name                     |                  Type                   |                                                                                                                Default                                                                                                                 | Description                                                                                                             |
-| :-----------------------------------------: | :-------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------- |
-|             **[`test`](#test)**             | `String\|RegExp\|Array<String\|RegExp>` |                                                                                                          `/\.html(\?.*)?$/i`                                                                                                           | Test to match files against.                                                                                            |
-|          **[`include`](#include)**          | `String\|RegExp\|Array<String\|RegExp>` |                                                                                                              `undefined`                                                                                                               | Files to include.                                                                                                       |
-|          **[`exclude`](#exclude)**          | `String\|RegExp\|Array<String\|RegExp>` |                                                                                                              `undefined`                                                                                                               | Files to exclude.                                                                                                       |
-|         **[`parallel`](#parallel)**         |            `Boolean\|Number`            |                                                                                                                 `true`                                                                                                                 | Use multi-process parallel running to improve the build speed.                                                          |
-|           **[`minify`](#minify)**           |       `Function\|Array<Function>`       |                                                                                                `HtmlMinimizerPlugin.htmlMinifierTerser`                                                                                                | Allows you to override default minify function.                                                                         |
-| **[`minimizerOptions`](#minimizerOptions)** |         `Object\|Array<Object>`         | `{ caseSensitive: true, collapseWhitespace: true, conservativeCollapse: true, keepClosingSlash: true, minifyCSS: true, minifyJS: true, removeComments: true, removeScriptTypeAttributes: true, removeStyleLinkTypeAttributes: true, }` | `Html-minifier-terser` optimisations [options](https://github.com/terser/html-minifier-terser#options-quick-reference). |
+- **[`test`](#test)**
+- **[`include`](#include)**
+- **[`exclude`](#exclude)**
+- **[`parallel`](#parallel)**
+- **[`minify`](#minify)**
+- **[`minimizerOptions`](#minimizerOptions)**
 
 ### `test`
 
-Type: `String|RegExp|Array<String|RegExp>` - default: `/\.html(\?.*)?$/i`
+Type:
+
+```ts
+type test = string | RegExp | Array<string | RegExp>;
+```
+
+Default: `/\.html(\?.*)?$/i`
 
 Test to match files against.
 
@@ -111,7 +115,12 @@ module.exports = {
 
 ### `include`
 
-Type: `String|RegExp|Array<String|RegExp>`
+Type:
+
+```ts
+type include = string | RegExp | Array<string | RegExp>;
+```
+
 Default: `undefined`
 
 Files to include.
@@ -133,7 +142,12 @@ module.exports = {
 
 ### `exclude`
 
-Type: `String|RegExp|Array<String|RegExp>`
+Type:
+
+```ts
+type exclude = string | RegExp | Array<string | RegExp>;
+```
+
 Default: `undefined`
 
 Files to exclude.
@@ -155,7 +169,12 @@ module.exports = {
 
 ### `parallel`
 
-Type: `Boolean|Number`
+Type:
+
+```ts
+type parallel = undefined | boolean | number;
+```
+
 Default: `true`
 
 Use multi-process parallel running to improve the build speed.
@@ -163,7 +182,7 @@ Default number of concurrent runs: `os.cpus().length - 1`.
 
 > ℹ️ Parallelization can speed up your build significantly and is therefore **highly recommended**.
 
-#### `Boolean`
+#### `boolean`
 
 Enable/disable multi-process parallel running.
 
@@ -182,7 +201,7 @@ module.exports = {
 };
 ```
 
-#### `Number`
+#### `number`
 
 Enable multi-process parallel running and set number of concurrent runs.
 
@@ -203,7 +222,32 @@ module.exports = {
 
 ### `minify`
 
-Type: `Function|Array<Function>`
+Type:
+
+```ts
+type minify =
+  | ((
+      data: { [file: string]: string },
+      minimizerOptions: {
+        [key: string]: any;
+      }
+    ) => {
+      code: string;
+      errors?: unknown[] | undefined;
+      warnings?: unknown[] | undefined;
+    })
+  | ((
+      data: { [file: string]: string },
+      minimizerOptions: {
+        [key: string]: any;
+      }
+    ) => {
+      code: string;
+      errors?: unknown[] | undefined;
+      warnings?: unknown[] | undefined;
+    })[];
+```
+
 Default: `HtmlMinimizerPlugin.htmlMinifierTerser`
 
 Allows you to override default minify function.
@@ -212,7 +256,7 @@ Useful for using and testing unpublished versions or forks.
 
 > ⚠️ **Always use `require` inside `minify` function when `parallel` option enabled**.
 
-#### `Function`
+#### `function`
 
 **webpack.config.js**
 
@@ -241,7 +285,7 @@ module.exports = {
 };
 ```
 
-#### `Array`
+#### `array`
 
 If an array of functions is passed to the `minify` option, the `minimizerOptions` can be an array or an object.
 If `minimizerOptions` is array, the function index in the `minify` array corresponds to the options object with the same index in the `minimizerOptions` array.
@@ -283,12 +327,23 @@ module.exports = {
 
 ### `minimizerOptions`
 
-Type: `Object|Array<Object>`
+Type:
+
+```ts
+type minimizerOptions =
+  | {
+      [key: string]: any;
+    }
+  | Array<{
+      [key: string]: any;
+    }>;
+```
+
 Default: `{ caseSensitive: true, collapseWhitespace: true, conservativeCollapse: true, keepClosingSlash: true, minifyCSS: true, minifyJS: true, removeComments: true, removeScriptTypeAttributes: true, removeStyleLinkTypeAttributes: true, }`
 
-`Html-minifier-terser` optimisations [options](https://github.com/terser/html-minifier-terser#options-quick-reference).
+`Html-minifier-terser` optimizations [options](https://github.com/terser/html-minifier-terser#options-quick-reference).
 
-#### `Object`
+#### `object`
 
 ```js
 module.exports = {
@@ -305,7 +360,7 @@ module.exports = {
 };
 ```
 
-#### `Array`
+#### `array`
 
 The function index in the `minify` array corresponds to the options object with the same index in the `minimizerOptions` array.
 If you use `minimizerOptions` like object, all `minify` function accept it.
