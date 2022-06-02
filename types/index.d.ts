@@ -175,9 +175,13 @@ type DefinedDefaultMinimizerAndOptions<T> =
       }
     : T extends any[]
     ? {
-        minify: { [P in keyof T]: MinimizerImplementation<T[P]> };
+        minify: T extends infer T_1
+          ? { [P in keyof T_1]: MinimizerImplementation<T[P]> }
+          : never;
         minimizerOptions?:
-          | { [P_1 in keyof T]?: MinimizerOptions<T[P_1]> }
+          | (T extends infer T_2
+              ? { [P_1 in keyof T_2]?: MinimizerOptions<T[P_1]> }
+              : never)
           | undefined;
       }
     : {
@@ -218,7 +222,9 @@ type InternalOptions<T> = {
   name: string;
   input: string;
   minimizer: T extends any[]
-    ? { [P in keyof T]: Minimizer<T[P]> }
+    ? T extends infer T_1
+      ? { [P in keyof T_1]: Minimizer<T[P]> }
+      : never
     : Minimizer<T>;
 };
 type InternalResult = {
@@ -233,7 +239,9 @@ type MinimizerWorker<T> = Worker & {
 type Parallel = undefined | boolean | number;
 type InternalPluginOptions<T> = BasePluginOptions & {
   minimizer: T extends any[]
-    ? { [P in keyof T]: Minimizer<T[P]> }
+    ? T extends infer T_1
+      ? { [P in keyof T_1]: Minimizer<T[P]> }
+      : never
     : Minimizer<T>;
 };
 import { minify } from "./minify";
