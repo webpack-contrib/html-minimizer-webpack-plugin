@@ -179,7 +179,9 @@ Default: `true`
 Use multi-process parallel running to improve the build speed.
 Default number of concurrent runs: `os.cpus().length - 1`.
 
-> ℹ️ Parallelization can speed up your build significantly and is therefore **highly recommended**.
+> **Note**
+>
+> Parallelization can speed up your build significantly and is therefore **highly recommended**.
 
 #### `boolean`
 
@@ -253,7 +255,9 @@ Allows you to override default minify function.
 By default, plugin uses [html-minifier-terser](https://github.com/terser/html-minifier-terser) package.
 Useful for using and testing unpublished versions or forks.
 
-> ⚠️ **Always use `require` inside `minify` function when `parallel` option enabled**.
+> **Warning**
+>
+> **Always use `require` inside `minify` function when `parallel` option enabled**.
 
 #### `function`
 
