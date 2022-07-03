@@ -21,7 +21,7 @@ class PreCopyPlugin {
   }
 }
 
-export default function loader() {
+module.exports = function loader() {
   const callback = this.async();
 
   const childCompiler = this._compilation.createChildCompiler(
@@ -38,4 +38,4 @@ export default function loader() {
 
     return callback(null, "export default 1");
   });
-}
+};

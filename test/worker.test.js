@@ -1,9 +1,9 @@
-import serialize from "serialize-javascript";
+const serialize = require("serialize-javascript");
 
-import { transform } from "../src/minify";
-import HtmlMinimizerPlugin from "../src";
+const { transform } = require("../src/minify");
+const HtmlMinimizerPlugin = require("../src");
 
-import { normalizeErrors } from "./helpers";
+const { normalizeErrors } = require("./helpers");
 
 describe("worker", () => {
   it("should minify html", async () => {

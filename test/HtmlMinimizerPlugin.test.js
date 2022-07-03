@@ -1,8 +1,8 @@
-import path from "path";
+const path = require("path");
 
-import HtmlMinimizerPlugin from "../src/index";
+const HtmlMinimizerPlugin = require("../src/index");
 
-import {
+const {
   compile,
   getCompiler,
   getErrors,
@@ -10,7 +10,7 @@ import {
   readAssets,
   ModifyExistingAsset,
   EmitNewAsset,
-} from "./helpers";
+} = require("./helpers");
 
 describe("HtmlMinimizerPlugin", () => {
   it("should work (without options)", async () => {

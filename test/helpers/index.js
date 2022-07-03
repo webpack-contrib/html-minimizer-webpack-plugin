@@ -1,15 +1,15 @@
-import compile from "./compile";
-import getCompiler from "./getCompiler";
-import readAsset from "./readAsset";
-import readAssets from "./readAssets";
-import normalizedSourceMap from "./normalizedSourceMap";
-import getErrors from "./getErrors";
-import getWarnings from "./getWarnings";
-import normalizeErrors from "./normalizeErrors";
-import ModifyExistingAsset from "./ModifyExistingAsset";
-import EmitNewAsset from "./EmitNewAsset";
+const compile = require("./compile");
+const getCompiler = require("./getCompiler");
+const readAsset = require("./readAsset");
+const readAssets = require("./readAssets");
+const normalizedSourceMap = require("./normalizedSourceMap");
+const getErrors = require("./getErrors");
+const getWarnings = require("./getWarnings");
+const normalizeErrors = require("./normalizeErrors");
+const ModifyExistingAsset = require("./ModifyExistingAsset");
+const EmitNewAsset = require("./EmitNewAsset");
 
-export {
+module.exports = {
   compile,
   getCompiler,
   readAsset,

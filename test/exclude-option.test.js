@@ -1,12 +1,12 @@
-import HtmlMinimizerPlugin from "../src/index";
+const HtmlMinimizerPlugin = require("../src/index");
 
-import {
+const {
   compile,
   getCompiler,
   getErrors,
   getWarnings,
   readAssets,
-} from "./helpers";
+} = require("./helpers");
 
 describe("exclude option", () => {
   let compiler;

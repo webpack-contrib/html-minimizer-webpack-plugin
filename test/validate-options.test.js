@@ -1,4 +1,4 @@
-import HtmlMinimizerPlugin from "../src";
+const HtmlMinimizerPlugin = require("../src");
 
 it("validation", () => {
   /* eslint-disable no-new */

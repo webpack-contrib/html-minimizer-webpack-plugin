@@ -1,16 +1,16 @@
-import os from "os";
+const os = require("os");
 
-import { Worker } from "jest-worker";
+const { Worker } = require("jest-worker");
 
-import HtmlMinimizerPlugin from "../src/index";
+const HtmlMinimizerPlugin = require("../src/index");
 
-import {
+const {
   compile,
   getCompiler,
   getErrors,
   getWarnings,
   readAssets,
-} from "./helpers";
+} = require("./helpers");
 
 const ENABLE_WORKER_THREADS =
   typeof process.env.ENABLE_WORKER_THREADS !== "undefined"

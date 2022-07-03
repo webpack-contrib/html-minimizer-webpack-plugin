@@ -1,10 +1,10 @@
-import path from "path";
+const path = require("path");
 
-import webpack from "webpack";
-import { createFsFromVolume, Volume } from "memfs";
-import CopyPlugin from "copy-webpack-plugin";
+const webpack = require("webpack");
+const { createFsFromVolume, Volume } = require("memfs");
+const CopyPlugin = require("copy-webpack-plugin");
 
-export default function getCompiler(htmlFixture, config = {}) {
+module.exports = function getCompiler(htmlFixture, config = {}) {
   const compiler = webpack(
     Array.isArray(config)
       ? config
@@ -59,4 +59,4 @@ export default function getCompiler(htmlFixture, config = {}) {
   }
 
   return compiler;
-}
+};

@@ -1,4 +1,4 @@
-export default class EmitNewAsset {
+module.exports = class EmitNewAsset {
   constructor(options = {}) {
     this.options = options;
   }
@@ -38,4 +38,4 @@ export default class EmitNewAsset {
       );
     });
   }
-}
+};
