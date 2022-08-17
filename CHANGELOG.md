@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/compare/v4.0.0...v4.1.0) (2022-08-17)
+
+
+### Features
+
+* update `html-minifier-terser` to v7 ([#78](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/issues/78)) ([4d9c5bf](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/commit/4d9c5bff31ce73fd08f6981700c61ac7b1fbbfc0))
+
 ## [4.0.0](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/compare/v3.5.0...v4.0.0) (2022-05-17)
 
 
