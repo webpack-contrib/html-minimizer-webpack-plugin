@@ -6,7 +6,7 @@ const { Worker } = require("jest-worker");
 
 const schema = require("./options.json");
 
-const { htmlMinifierTerser, throttleAll } = require("./utils");
+const { throttleAll, htmlMinifierTerser, swcMinify } = require("./utils");
 const { minify } = require("./minify");
 
 /** @typedef {import("schema-utils/declarations/validate").Schema} Schema */
@@ -474,5 +474,6 @@ class HtmlMinimizerPlugin {
 }
 
 HtmlMinimizerPlugin.htmlMinifierTerser = htmlMinifierTerser;
+HtmlMinimizerPlugin.swcMinify = swcMinify;
 
 module.exports = HtmlMinimizerPlugin;

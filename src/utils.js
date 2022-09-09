@@ -102,4 +102,22 @@ async function htmlMinifierTerser(input, minimizerOptions = {}) {
   return { code: result };
 }
 
-module.exports = { throttleAll, htmlMinifierTerser };
+/**
+ * @param {Input} input
+ * @param {* | undefined} [minimizerOptions]
+ * @returns {Promise<MinimizedResult>}
+ */
+/* istanbul ignore next */
+async function swcMinify(input, minimizerOptions = {}) {
+  // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
+  const swcMinifier = require("@swc/html");
+
+  const [[, code]] = Object.entries(input);
+  const result = await swcMinifier.minify(code, {
+    ...minimizerOptions,
+  });
+
+  return { code: result };
+}
+
+module.exports = { throttleAll, htmlMinifierTerser, swcMinify };

@@ -23,3 +23,12 @@ export function htmlMinifierTerser(
   input: Input,
   minimizerOptions?: HtmlMinifierTerserOptions | undefined
 ): Promise<MinimizedResult>;
+/**
+ * @param {Input} input
+ * @param {* | undefined} [minimizerOptions]
+ * @returns {Promise<MinimizedResult>}
+ */
+export function swcMinify(
+  input: Input,
+  minimizerOptions?: any | undefined
+): Promise<MinimizedResult>;

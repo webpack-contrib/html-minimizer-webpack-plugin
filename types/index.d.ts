@@ -135,6 +135,7 @@ declare class HtmlMinimizerPlugin<T = import("html-minifier-terser").Options> {
 declare namespace HtmlMinimizerPlugin {
   export {
     htmlMinifierTerser,
+    swcMinify,
     Schema,
     Compiler,
     Compilation,
@@ -189,6 +190,7 @@ type DefinedDefaultMinimizerAndOptions<T> =
         minimizerOptions?: MinimizerOptions<T> | undefined;
       };
 import { htmlMinifierTerser } from "./utils";
+import { swcMinify } from "./utils";
 type Schema = import("schema-utils/declarations/validate").Schema;
 type Compilation = import("webpack").Compilation;
 type WebpackError = import("webpack").WebpackError;

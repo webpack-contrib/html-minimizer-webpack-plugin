@@ -13,7 +13,10 @@
 
 # html-minimizer-webpack-plugin
 
-This plugin uses [html-minifier-terser](https://github.com/terser/html-minifier-terser) to optimize and minify your HTML.
+This plugin can use 2 tools to optimize and minify your HTML:
+
+- [`html-minifier-terser`](https://github.com/imagemin/imagemin) (by default) - JavaScript-based HTML minifier.
+- [`swc`](https://github.com/swc-project/swc) - very fast Rust-based platform for the Web.
 
 ## Getting Started
 
@@ -33,6 +36,24 @@ or
 
 ```console
 pnpm add -D html-minimizer-webpack-plugin
+```
+
+**Additional step**: If you want to use `@swc/html` you need to install it:
+
+```console
+npm install @swc/html --save-dev
+```
+
+or
+
+```console
+yarn add -D @swc/html
+```
+
+or
+
+```console
+pnpm add -D @swc/html
 ```
 
 Then add the plugin to your `webpack` configuration. For example:
@@ -67,7 +88,17 @@ module.exports = {
     minimizer: [
       // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
       // `...`
+
+      // For `html-minifier-terser`:
+      //
       new HtmlMinimizerPlugin(),
+
+      // For `@swc/html`:
+      //
+      // new HtmlMinimizerPlugin({
+      //   minify: HtmlMinimizerPlugin.swcMinify,
+      //   minimizerOptions: {}
+      // })
     ],
   },
 };
@@ -253,6 +284,12 @@ Default: `HtmlMinimizerPlugin.htmlMinifierTerser`
 
 Allows you to override default minify function.
 By default, plugin uses [html-minifier-terser](https://github.com/terser/html-minifier-terser) package.
+
+We currently support:
+
+- `HtmlMinimizerPlugin.htmlMinifierTerser`
+- `HtmlMinimizerPlugin.swcMinify`
+
 Useful for using and testing unpublished versions or forks.
 
 > **Warning**
