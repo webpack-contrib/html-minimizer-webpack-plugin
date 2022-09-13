@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`include option should match snapshot for a single RegExp value include: assets 1`] = `
-Object {
+{
   "include-exclude/exclude-1.html": "<!doctype html>
-<html lang=\\"en\\">
+<html lang="en">
 <head>
-  <meta charset=\\"UTF-8\\">
+  <meta charset="UTF-8">
   <title>Document</title>
 </head>
 <body>
@@ -18,9 +18,9 @@ Object {
 </html>
 ",
   "include-exclude/exclude-2.html": "<!doctype html>
-<html lang=\\"en\\">
+<html lang="en">
 <head>
-  <meta charset=\\"UTF-8\\">
+  <meta charset="UTF-8">
   <title>Document</title>
 </head>
 <body>
@@ -32,23 +32,23 @@ Object {
 </body>
 </html>
 ",
-  "include-exclude/include-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
-  "include-exclude/include-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
-  "include-exclude/include-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
-  "include-exclude/include-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-1.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-2.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-3.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-4.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
 }
 `;
 
-exports[`include option should match snapshot for a single RegExp value include: errors 1`] = `Array []`;
+exports[`include option should match snapshot for a single RegExp value include: errors 1`] = `[]`;
 
-exports[`include option should match snapshot for a single RegExp value include: warnings 1`] = `Array []`;
+exports[`include option should match snapshot for a single RegExp value include: warnings 1`] = `[]`;
 
 exports[`include option should match snapshot for multiple RegExp values include: assets 1`] = `
-Object {
+{
   "include-exclude/exclude-1.html": "<!doctype html>
-<html lang=\\"en\\">
+<html lang="en">
 <head>
-  <meta charset=\\"UTF-8\\">
+  <meta charset="UTF-8">
   <title>Document</title>
 </head>
 <body>
@@ -61,9 +61,9 @@ Object {
 </html>
 ",
   "include-exclude/exclude-2.html": "<!doctype html>
-<html lang=\\"en\\">
+<html lang="en">
 <head>
-  <meta charset=\\"UTF-8\\">
+  <meta charset="UTF-8">
   <title>Document</title>
 </head>
 <body>
@@ -75,25 +75,25 @@ Object {
 </body>
 </html>
 ",
-  "include-exclude/include-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
-  "include-exclude/include-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
-  "include-exclude/include-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
-  "include-exclude/include-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-1.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-2.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-3.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/include-4.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
 }
 `;
 
-exports[`include option should match snapshot for multiple RegExp values include: errors 1`] = `Array []`;
+exports[`include option should match snapshot for multiple RegExp values include: errors 1`] = `[]`;
 
-exports[`include option should match snapshot for multiple RegExp values include: warnings 1`] = `Array []`;
+exports[`include option should match snapshot for multiple RegExp values include: warnings 1`] = `[]`;
 
 exports[`include option should match snapshot for multiple String values include: assets 1`] = `
-Object {
-  "include-exclude/exclude-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
-  "include-exclude/exclude-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+{
+  "include-exclude/exclude-1.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
+  "include-exclude/exclude-2.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> </body> </html> ",
   "include-exclude/include-1.html": "<!doctype html>
-<html lang=\\"en\\">
+<html lang="en">
 <head>
-  <meta charset=\\"UTF-8\\">
+  <meta charset="UTF-8">
   <title>Document</title>
 </head>
 <body>
@@ -106,9 +106,9 @@ Object {
 </html>
 ",
   "include-exclude/include-2.html": "<!doctype html>
-<html lang=\\"en\\">
+<html lang="en">
 <head>
-  <meta charset=\\"UTF-8\\">
+  <meta charset="UTF-8">
   <title>Document</title>
 </head>
 <body>
@@ -121,9 +121,9 @@ Object {
 </html>
 ",
   "include-exclude/include-3.html": "<!doctype html>
-<html lang=\\"en\\">
+<html lang="en">
 <head>
-  <meta charset=\\"UTF-8\\">
+  <meta charset="UTF-8">
   <title>Document</title>
 </head>
 <body>
@@ -136,9 +136,9 @@ Object {
 </html>
 ",
   "include-exclude/include-4.html": "<!doctype html>
-<html lang=\\"en\\">
+<html lang="en">
 <head>
-  <meta charset=\\"UTF-8\\">
+  <meta charset="UTF-8">
   <title>Document</title>
 </head>
 <body>
@@ -153,6 +153,6 @@ Object {
 }
 `;
 
-exports[`include option should match snapshot for multiple String values include: errors 1`] = `Array []`;
+exports[`include option should match snapshot for multiple String values include: errors 1`] = `[]`;
 
-exports[`include option should match snapshot for multiple String values include: warnings 1`] = `Array []`;
+exports[`include option should match snapshot for multiple String values include: warnings 1`] = `[]`;

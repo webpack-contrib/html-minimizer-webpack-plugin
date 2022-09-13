@@ -1,213 +1,214 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HtmlMinimizerPlugin should emit error when broken html syntax: errors 1`] = `
-Array [
+[
   "Error: broken-html-syntax.html from Html Minimizer plugin
-Parse Error: < img src=\\"image.png\\" >",
+Parse Error: < img src="image.png" >
+",
 ]
 `;
 
-exports[`HtmlMinimizerPlugin should emit error when broken html syntax: warnings 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should emit error when broken html syntax: warnings 1`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should emit error: errors 1`] = `
-Array [
+[
   "Error: simple.html from Html Minimizer plugin
 Error message",
 ]
 `;
 
-exports[`HtmlMinimizerPlugin should emit error: warnings 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should emit error: warnings 1`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should run plugin against assets added later by plugins: assets 1`] = `
-Object {
-  "newFile.html": " <!DOCTYPE html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,initial-scale=1\\"> <title>Document</title> </head> <body> </body> </html> ",
-  "simple.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+{
+  "newFile.html": " <!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,initial-scale=1"> <title>Document</title> </head> <body> </body> </html> ",
+  "simple.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should run plugin against assets added later by plugins: errors 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should run plugin against assets added later by plugins: errors 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should run plugin against assets added later by plugins: warnings 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should run plugin against assets added later by plugins: warnings 1`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should work (without options): assets 1`] = `
-Object {
-  "simple.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+{
+  "simple.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Document</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should work (without options): errors 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work (without options): errors 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should work (without options): warnings 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work (without options): warnings 1`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should work and do not use memory cache when the "cache" option is "false": assets 1`] = `
-Object {
-  "cache-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+{
+  "cache-1.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-2.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-3.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-4.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should work and do not use memory cache when the "cache" option is "false": errors 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and do not use memory cache when the "cache" option is "false": errors 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should work and do not use memory cache when the "cache" option is "false": errors 2`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and do not use memory cache when the "cache" option is "false": errors 2`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should work and do not use memory cache when the "cache" option is "false": result 1`] = `
-Object {
-  "cache-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+{
+  "cache-1.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-2.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-3.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-4.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should work and do not use memory cache when the "cache" option is "false": warnings 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and do not use memory cache when the "cache" option is "false": warnings 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should work and do not use memory cache when the "cache" option is "false": warnings 2`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and do not use memory cache when the "cache" option is "false": warnings 2`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should work and use cache by default in "development" mode: assets 1`] = `
-Object {
-  "cache-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+{
+  "cache-1.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-2.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-3.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-4.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should work and use cache by default in "development" mode: errors 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use cache by default in "development" mode: errors 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should work and use cache by default in "development" mode: errors 2`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use cache by default in "development" mode: errors 2`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should work and use cache by default in "development" mode: result 1`] = `
-Object {
-  "cache-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+{
+  "cache-1.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-2.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-3.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-4.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should work and use cache by default in "development" mode: warnings 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use cache by default in "development" mode: warnings 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should work and use cache by default in "development" mode: warnings 2`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use cache by default in "development" mode: warnings 2`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true" and the asset has been changed: assets 1`] = `
-Object {
-  "cache-1.html": "<p> Modified!!! </p><!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache.html": "<p> Modified!!! </p><!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+{
+  "cache-1.html": "<p> Modified!!! </p><!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-2.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-3.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-4.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache.html": "<p> Modified!!! </p><!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true" and the asset has been changed: errors 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true" and the asset has been changed: errors 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true" and the asset has been changed: errors 2`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true" and the asset has been changed: errors 2`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true" and the asset has been changed: result 1`] = `
-Object {
-  "cache-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+{
+  "cache-1.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-2.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-3.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-4.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true" and the asset has been changed: warnings 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true" and the asset has been changed: warnings 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true" and the asset has been changed: warnings 2`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true" and the asset has been changed: warnings 2`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true": assets 1`] = `
-Object {
-  "cache-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+{
+  "cache-1.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-2.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-3.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-4.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true": errors 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true": errors 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true": errors 2`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true": errors 2`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true": result 1`] = `
-Object {
-  "cache-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+{
+  "cache-1.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-2.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-3.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-4.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true": warnings 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true": warnings 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true": warnings 2`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use memory cache when the "cache" option is "true": warnings 2`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should work and use memory cache: assets 1`] = `
-Object {
-  "cache-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+{
+  "cache-1.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-2.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-3.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-4.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should work and use memory cache: errors 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use memory cache: errors 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should work and use memory cache: errors 2`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use memory cache: errors 2`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should work and use memory cache: result 1`] = `
-Object {
-  "cache-1.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-2.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-3.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache-4.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
-  "cache.html": "<!doctype html> <html lang=\\"en\\"> <head> <meta charset=\\"UTF-8\\"> <meta name=\\"viewport\\" content=\\"width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1\\"> <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+{
+  "cache-1.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-2.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-2</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-3.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-3</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache-4.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-4</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
+  "cache.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should work and use memory cache: warnings 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use memory cache: warnings 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should work and use memory cache: warnings 2`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work and use memory cache: warnings 2`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should work with an empty file: assets 1`] = `
-Object {
+{
   "empty.html": "",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should work with an empty file: errors 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work with an empty file: errors 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should work with an empty file: warnings 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work with an empty file: warnings 1`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should work with child compilation: assets 1`] = `
-Object {
-  "simple.html": "<p title=\\"blah\\" id=\\"moo\\"> foo </p>",
+{
+  "simple.html": "<p title="blah" id="moo"> foo </p>",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should work with child compilation: errors 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work with child compilation: errors 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should work with child compilation: warnings 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work with child compilation: warnings 1`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should work without files: assets 1`] = `
-Object {
+{
   "simple.html": "<!doctype html>
-<html lang=\\"en\\">
+<html lang="en">
 <head>
-  <meta charset=\\"UTF-8\\">
-  <meta name=\\"viewport\\"
-        content=\\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\\">
-  <meta http-equiv=\\"X-UA-Compatible\\" content=\\"ie=edge\\">
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
 </head>
 <body>
@@ -236,19 +237,19 @@ Object {
 }
 `;
 
-exports[`HtmlMinimizerPlugin should work without files: errors 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work without files: errors 1`] = `[]`;
 
-exports[`HtmlMinimizerPlugin should work without files: warnings 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should work without files: warnings 1`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should write stdout and stderr of workers to stdout and stderr of main process in parallel mode: assets 1`] = `
-Object {
-  "parallel/foo-1.html": "<!-- Comment --><p title=\\"blah\\" id=\\"moo\\">  foo  </p>",
-  "parallel/foo-2.html": "<!-- Comment --><p title=\\"blah\\" id=\\"moo\\">  foo  </p>",
-  "parallel/foo-3.html": "<!-- Comment --><p title=\\"blah\\" id=\\"moo\\">  foo  </p>",
+{
+  "parallel/foo-1.html": "<!-- Comment --><p title="blah" id="moo">  foo  </p>",
+  "parallel/foo-2.html": "<!-- Comment --><p title="blah" id="moo">  foo  </p>",
+  "parallel/foo-3.html": "<!-- Comment --><p title="blah" id="moo">  foo  </p>",
 }
 `;
 
-exports[`HtmlMinimizerPlugin should write stdout and stderr of workers to stdout and stderr of main process in parallel mode: errors 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should write stdout and stderr of workers to stdout and stderr of main process in parallel mode: errors 1`] = `[]`;
 
 exports[`HtmlMinimizerPlugin should write stdout and stderr of workers to stdout and stderr of main process in parallel mode: process stderr output 1`] = `
 "stderr
@@ -264,4 +265,4 @@ stdout
 "
 `;
 
-exports[`HtmlMinimizerPlugin should write stdout and stderr of workers to stdout and stderr of main process in parallel mode: warnings 1`] = `Array []`;
+exports[`HtmlMinimizerPlugin should write stdout and stderr of workers to stdout and stderr of main process in parallel mode: warnings 1`] = `[]`;
