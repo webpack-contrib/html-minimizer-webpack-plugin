@@ -3,8 +3,7 @@
 exports[`HtmlMinimizerPlugin should emit error when broken html syntax: errors 1`] = `
 [
   "Error: broken-html-syntax.html from Html Minimizer plugin
-Parse Error: < img src="image.png" >
-",
+Parse Error: < img src="image.png" >",
 ]
 `;
 
