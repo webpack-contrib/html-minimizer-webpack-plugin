@@ -113,7 +113,7 @@ async function swcMinify(input, minimizerOptions = {}) {
   const swcMinifier = require("@swc/html");
 
   const [[, code]] = Object.entries(input);
-  const result = await swcMinifier.minify(code, {
+  const result = await swcMinifier.minify(Buffer.from(code), {
     ...minimizerOptions,
   });
 

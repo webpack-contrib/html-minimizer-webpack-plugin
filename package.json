@@ -65,7 +65,7 @@
     "@types/serialize-javascript": "^5.0.2",
     "@webpack-contrib/eslint-config-webpack": "^3.0.0",
     "babel-jest": "^29.0.3",
-    "@swc/html": "^0.0.5",
+    "@swc/html": "^0.0.15",
     "copy-webpack-plugin": "^9.0.1",
     "cross-env": "^7.0.3",
     "del": "^6.1.1",

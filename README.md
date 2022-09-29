@@ -109,6 +109,13 @@ If you want to run it also in development set the `optimization.minimize` option
 
 And run `webpack` via your preferred method.
 
+> **Note**
+>
+> Removing and collapsing spaces in the tools differ (by default).
+>
+> - `html-minifier-terser` - always collapse multiple whitespaces to 1 space (never remove it entirely), but you can change it using [`options`](https://github.com/terser/html-minifier-terser#options-quick-reference)
+> - `@swc/html` - remove and collapse whitespaces only in safe places (for example - around `html` and `body` elements, inside the `head` element and between metadata elements - `<meta>`/`script`/`link`/etc.)
+
 ## Options
 
 - **[`test`](#test)**
@@ -433,6 +440,47 @@ module.exports = {
             };
           },
         ],
+      }),
+    ],
+  },
+};
+```
+
+## Examples
+
+### `swc/html`
+
+```js
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.html$/i,
+        type: "asset/resource",
+      },
+    ],
+  },
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          context: path.resolve(__dirname, "dist"),
+          from: "./src/*.html",
+        },
+      ],
+    }),
+  ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new HtmlMinimizerPlugin({
+        minify: HtmlMinimizerPlugin.swcMinify,
+        minimizerOptions: {
+          // Options
+        },
       }),
     ],
   },
