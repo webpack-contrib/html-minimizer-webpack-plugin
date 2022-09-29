@@ -1,4 +1,5 @@
 /** @typedef {import("./index.js").MinimizedResult} MinimizedResult */
+/** @typedef {import("./index.js").CustomOptions} CustomOptions */
 /** @typedef {import("./index.js").Input} Input */
 /** @typedef {import("html-minifier-terser").Options} HtmlMinifierTerserOptions */
 
@@ -67,7 +68,7 @@ function throttleAll(limit, tasks) {
 
 /**
  * @param {Input} input
- * @param {HtmlMinifierTerserOptions | undefined} [minimizerOptions]
+ * @param {CustomOptions | undefined} [minimizerOptions]
  * @returns {Promise<MinimizedResult>}
  */
 /* istanbul ignore next */
@@ -104,7 +105,7 @@ async function htmlMinifierTerser(input, minimizerOptions = {}) {
 
 /**
  * @param {Input} input
- * @param {* | undefined} [minimizerOptions]
+ * @param {CustomOptions | undefined} [minimizerOptions]
  * @returns {Promise<MinimizedResult>}
  */
 /* istanbul ignore next */
