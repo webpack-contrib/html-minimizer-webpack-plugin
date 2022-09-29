@@ -1,5 +1,6 @@
 export type Task<T> = () => Promise<T>;
 export type MinimizedResult = import("./index.js").MinimizedResult;
+export type CustomOptions = import("./index.js").CustomOptions;
 export type Input = import("./index.js").Input;
 export type HtmlMinifierTerserOptions = import("html-minifier-terser").Options;
 /**
@@ -16,10 +17,19 @@ export type HtmlMinifierTerserOptions = import("html-minifier-terser").Options;
 export function throttleAll<T>(limit: number, tasks: Task<T>[]): Promise<T[]>;
 /**
  * @param {Input} input
- * @param {HtmlMinifierTerserOptions | undefined} [minimizerOptions]
+ * @param {CustomOptions | undefined} [minimizerOptions]
  * @returns {Promise<MinimizedResult>}
  */
 export function htmlMinifierTerser(
   input: Input,
-  minimizerOptions?: HtmlMinifierTerserOptions | undefined
+  minimizerOptions?: CustomOptions | undefined
+): Promise<MinimizedResult>;
+/**
+ * @param {Input} input
+ * @param {CustomOptions | undefined} [minimizerOptions]
+ * @returns {Promise<MinimizedResult>}
+ */
+export function swcMinify(
+  input: Input,
+  minimizerOptions?: CustomOptions | undefined
 ): Promise<MinimizedResult>;

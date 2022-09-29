@@ -1,4 +1,5 @@
 /** @typedef {import("./index.js").MinimizedResult} MinimizedResult */
+/** @typedef {import("./index.js").CustomOptions} CustomOptions */
 /** @typedef {import("./index.js").Input} Input */
 /** @typedef {import("html-minifier-terser").Options} HtmlMinifierTerserOptions */
 
@@ -67,7 +68,7 @@ function throttleAll(limit, tasks) {
 
 /**
  * @param {Input} input
- * @param {HtmlMinifierTerserOptions | undefined} [minimizerOptions]
+ * @param {CustomOptions | undefined} [minimizerOptions]
  * @returns {Promise<MinimizedResult>}
  */
 /* istanbul ignore next */
@@ -102,4 +103,22 @@ async function htmlMinifierTerser(input, minimizerOptions = {}) {
   return { code: result };
 }
 
-module.exports = { throttleAll, htmlMinifierTerser };
+/**
+ * @param {Input} input
+ * @param {CustomOptions | undefined} [minimizerOptions]
+ * @returns {Promise<MinimizedResult>}
+ */
+/* istanbul ignore next */
+async function swcMinify(input, minimizerOptions = {}) {
+  // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
+  const swcMinifier = require("@swc/html");
+
+  const [[, code]] = Object.entries(input);
+  const result = await swcMinifier.minify(Buffer.from(code), {
+    ...minimizerOptions,
+  });
+
+  return { code: result };
+}
+
+module.exports = { throttleAll, htmlMinifierTerser, swcMinify };
