@@ -69,7 +69,7 @@
     "copy-webpack-plugin": "^9.0.1",
     "cross-env": "^7.0.3",
     "del": "^6.1.1",
-    "del-cli": "^4.0.1",
+    "del-cli": "^5.0.0",
     "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
