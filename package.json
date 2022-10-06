@@ -52,7 +52,7 @@
   "dependencies": {
     "@types/html-minifier-terser": "^7.0.0",
     "html-minifier-terser": "^7.0.0",
-    "jest-worker": "^29.0.3",
+    "jest-worker": "^29.1.2",
     "schema-utils": "^4.0.0",
     "serialize-javascript": "^6.0.0"
   },
@@ -65,11 +65,11 @@
     "@types/serialize-javascript": "^5.0.2",
     "@webpack-contrib/eslint-config-webpack": "^3.0.0",
     "babel-jest": "^29.0.3",
-    "@swc/html": "^0.0.15",
+    "@swc/html": "^0.0.16",
     "copy-webpack-plugin": "^9.0.1",
     "cross-env": "^7.0.3",
     "del": "^6.1.1",
-    "del-cli": "^4.0.1",
+    "del-cli": "^5.0.0",
     "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
