@@ -112,13 +112,11 @@ async function htmlMinifierTerser(input, minimizerOptions = {}) {
 async function swcMinify(input, minimizerOptions = {}) {
   // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
   const swcMinifier = require("@swc/html");
-
+  const [[, code]] = Object.entries(input);
   // TODO `import("@swc/html").Options`
   const options = /** @type {*} */ ({
     ...minimizerOptions,
   });
-
-  const [[, code]] = Object.entries(input);
   const result = await swcMinifier.minify(Buffer.from(code), options);
 
   let errors;
@@ -139,4 +137,43 @@ async function swcMinify(input, minimizerOptions = {}) {
   return { code: result.code, errors };
 }
 
-module.exports = { throttleAll, htmlMinifierTerser, swcMinify };
+/**
+ * @param {Input} input
+ * @param {CustomOptions | undefined} [minimizerOptions]
+ * @returns {Promise<MinimizedResult>}
+ */
+/* istanbul ignore next */
+async function swcMinifyFragment(input, minimizerOptions = {}) {
+  // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
+  const swcMinifier = require("@swc/html");
+  const [[, code]] = Object.entries(input);
+  // TODO `import("@swc/html").Options`
+  const options = /** @type {*} */ ({
+    ...minimizerOptions,
+  });
+  const result = await swcMinifier.minifyFragment(Buffer.from(code), options);
+
+  let errors;
+
+  if (typeof result.errors !== "undefined") {
+    errors = result.errors.map((diagnostic) => {
+      const error = new Error(diagnostic.message);
+
+      // @ts-ignore
+      error.span = diagnostic.span;
+      // @ts-ignore
+      error.level = diagnostic.level;
+
+      return error;
+    });
+  }
+
+  return { code: result.code, errors };
+}
+
+module.exports = {
+  throttleAll,
+  htmlMinifierTerser,
+  swcMinify,
+  swcMinifyFragment,
+};

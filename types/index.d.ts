@@ -136,6 +136,7 @@ declare namespace HtmlMinimizerPlugin {
   export {
     htmlMinifierTerser,
     swcMinify,
+    swcMinifyFragment,
     Schema,
     Compiler,
     Compilation,
@@ -191,6 +192,7 @@ type DefinedDefaultMinimizerAndOptions<T> =
       };
 import { htmlMinifierTerser } from "./utils";
 import { swcMinify } from "./utils";
+import { swcMinifyFragment } from "./utils";
 type Schema = import("schema-utils/declarations/validate").Schema;
 type Compilation = import("webpack").Compilation;
 type WebpackError = import("webpack").WebpackError;
@@ -246,5 +248,4 @@ type InternalPluginOptions<T> = BasePluginOptions & {
       : never
     : Minimizer<T>;
 };
-import { minify } from "./minify";
 import { Worker } from "jest-worker";

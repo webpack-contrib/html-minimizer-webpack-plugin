@@ -33,3 +33,12 @@ export function swcMinify(
   input: Input,
   minimizerOptions?: CustomOptions | undefined
 ): Promise<MinimizedResult>;
+/**
+ * @param {Input} input
+ * @param {CustomOptions | undefined} [minimizerOptions]
+ * @returns {Promise<MinimizedResult>}
+ */
+export function swcMinifyFragment(
+  input: Input,
+  minimizerOptions?: CustomOptions | undefined
+): Promise<MinimizedResult>;
