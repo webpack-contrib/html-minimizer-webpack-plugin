@@ -312,6 +312,11 @@ We currently support:
 - `HtmlMinimizerPlugin.swcMinify` (used to compress HTML documents, i.e. with HTML doctype and `<html>`/`<body>`/`<head>` tags)
 - `HtmlMinimizerPlugin.swcMinifyFragment` (used to compress HTML fragments, i.e. when you have part of HTML which will be inserted into another HTML parts)
 
+> **Note**
+>
+> The difference between `swcMinify` and `swcMinifyFragment` is the error reporting.
+> You will get errors (invalid or broken syntax) if you have them in your HTML document or fragment. Which allows you to see all the errors and problems at the build stage.
+
 Useful for using and testing unpublished versions or forks.
 
 > **Warning**
