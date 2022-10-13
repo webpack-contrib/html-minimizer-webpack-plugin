@@ -95,6 +95,8 @@ module.exports = {
 
       // For `@swc/html`:
       //
+      // Options - https://github.com/swc-project/bindings/blob/main/packages/html/index.ts#L5
+      //
       // new HtmlMinimizerPlugin({
       //   minify: HtmlMinimizerPlugin.swcMinify,
       //   minimizerOptions: {}
@@ -450,6 +452,8 @@ module.exports = {
 
 ### `swc/html`
 
+Available [`options`](https://github.com/swc-project/bindings/blob/main/packages/html/index.ts#L5).
+
 ```js
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
@@ -479,7 +483,7 @@ module.exports = {
       new HtmlMinimizerPlugin({
         minify: HtmlMinimizerPlugin.swcMinify,
         minimizerOptions: {
-          // Options
+          // Options - https://github.com/swc-project/bindings/blob/main/packages/html/index.ts#L5
         },
       }),
     ],

@@ -113,12 +113,29 @@ async function swcMinify(input, minimizerOptions = {}) {
   // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
   const swcMinifier = require("@swc/html");
 
-  const [[, code]] = Object.entries(input);
-  const result = await swcMinifier.minify(Buffer.from(code), {
+  const options = /** @type {import("@swc/html").Options} */ ({
     ...minimizerOptions,
   });
 
-  return { code: result };
+  const [[, code]] = Object.entries(input);
+  const result = await swcMinifier.minify(Buffer.from(code), options);
+
+  let errors;
+
+  if (typeof result.errors !== "undefined") {
+    errors = result.errors.map((diagnostic) => {
+      const error = new Error(diagnostic.message);
+
+      // @ts-ignore
+      error.span = diagnostic.span;
+      // @ts-ignore
+      error.level = diagnostic.level;
+
+      return error;
+    });
+  }
+
+  return { code: result.code, errors };
 }
 
 module.exports = { throttleAll, htmlMinifierTerser, swcMinify };

@@ -206,13 +206,28 @@ describe('"minify" option', () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
+  it("should work with 'swcMinify' and throw errors", async () => {
+    const testHtmlId = "./broken-html-syntax.html";
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin({
+      minify: HtmlMinimizerPlugin.swcMinify,
+    }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+  });
+
   it("should work with 'swcMinify' and options", async () => {
     const testHtmlId = "./simple.html";
     const compiler = getCompiler(testHtmlId);
 
     new HtmlMinimizerPlugin({
       minimizerOptions: {
-        collapseBooleanAttributes: false,
+        collapseWhitespaces: "advanced-conservative",
       },
       minify: HtmlMinimizerPlugin.swcMinify,
     }).apply(compiler);
