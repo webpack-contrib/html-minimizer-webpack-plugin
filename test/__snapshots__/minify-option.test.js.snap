@@ -71,29 +71,64 @@ exports[`"minify" option should work minify function: warnings 1`] = `[]`;
 
 exports[`"minify" option should work with 'swcMinify' and options: assets 1`] = `
 {
-  "simple.html": "<!doctype html><html lang=en><meta charset=UTF-8><meta name=viewport content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0"><meta http-equiv=X-UA-Compatible content="ie=edge"><title>Document</title><h1>My First Heading</h1>
-<p>My first paragraph.</p>
-<h2>An Unordered HTML List</h2>
-
-<ul>
-  <li>Coffee</li>
-  <li>Tea</li>
-  <li>Milk</li>
-</ul>
-
-<h2>An Ordered HTML List</h2>
-
-<ol>
-  <li>Coffee</li>
-  <li>Tea</li>
-  <li>Milk</li>
-</ol>",
+  "simple.html": "<!doctype html><html lang=en><meta charset=UTF-8><meta name=viewport content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0"><meta http-equiv=X-UA-Compatible content="ie=edge"><title>Document</title><h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol>",
 }
 `;
 
 exports[`"minify" option should work with 'swcMinify' and options: errors 1`] = `[]`;
 
 exports[`"minify" option should work with 'swcMinify' and options: warnings 1`] = `[]`;
+
+exports[`"minify" option should work with 'swcMinify' and throw errors: assets 1`] = `
+{
+  "broken-html-syntax.html": "Text &lt; img src="image.png" >
+Text &lt;<img src=image.png>
+Text ><img src=image.png>
+
+<a foo><bar></bar></a><boo>boohay
+&lt;&lt;&lt;&lt;>foo
+>>&lt;</boo>",
+}
+`;
+
+exports[`"minify" option should work with 'swcMinify' and throw errors: errors 1`] = `
+[
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Abrupt closing of empty comment",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Cdata in html content",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+End of file seen and there were open elements",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+End tag "a" violates nesting rules",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Eof in tag",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Incorrectly opened comment",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Invalid first character of tag name",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Invalid first character of tag name",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Invalid first character of tag name",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Invalid first character of tag name",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Invalid first character of tag name",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Invalid first character of tag name",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Invalid first character of tag name",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Non void html element start tag with trailing solidus",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Non-space characters found without seeing a doctype first, expected "<!DOCTYPE html>"",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Unexpected question mark instead of tag name",
+]
+`;
+
+exports[`"minify" option should work with 'swcMinify' and throw errors: warnings 1`] = `[]`;
 
 exports[`"minify" option should work with 'swcMinify': assets 1`] = `
 {
