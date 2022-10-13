@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.0](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/compare/v4.2.1...v4.3.0) (2022-10-13)
+
+
+### Features
+
+* added `swcMinifyFragment` to minify HTML fragments ([021c752](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/commit/021c7524072328f9442604907656ad63227ef980))
+
+
+### Bug Fixes
+
+* compatibility with swc ([#87](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/issues/87)) ([afaf453](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/commit/afaf45329e4d50f015baf27a2cc9409efce3a946))
+
 ### [4.2.1](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/compare/v4.2.0...v4.2.1) (2022-10-06)
 
 
