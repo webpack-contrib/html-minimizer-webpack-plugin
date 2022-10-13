@@ -248,5 +248,4 @@ type InternalPluginOptions<T> = BasePluginOptions & {
       : never
     : Minimizer<T>;
 };
-import { minify } from "./minify";
 import { Worker } from "jest-worker";
