@@ -6,8 +6,13 @@ const { Worker } = require("jest-worker");
 
 const schema = require("./options.json");
 
-const { throttleAll, htmlMinifierTerser, swcMinify } = require("./utils");
-const { minify } = require("./minify");
+const {
+  throttleAll,
+  htmlMinifierTerser,
+  swcMinify,
+  swcMinifyFragment,
+} = require("./utils");
+const { minify: minifyInternal } = require("./minify");
 
 /** @typedef {import("schema-utils/declarations/validate").Schema} Schema */
 /** @typedef {import("webpack").Compiler} Compiler */
@@ -378,7 +383,7 @@ class HtmlMinimizerPlugin {
           try {
             output = await (getWorker
               ? getWorker().transform(serialize(options))
-              : minify(options));
+              : minifyInternal(options));
           } catch (error) {
             compilation.errors.push(
               /** @type {WebpackError} */
@@ -475,5 +480,6 @@ class HtmlMinimizerPlugin {
 
 HtmlMinimizerPlugin.htmlMinifierTerser = htmlMinifierTerser;
 HtmlMinimizerPlugin.swcMinify = swcMinify;
+HtmlMinimizerPlugin.swcMinifyFragment = swcMinifyFragment;
 
 module.exports = HtmlMinimizerPlugin;

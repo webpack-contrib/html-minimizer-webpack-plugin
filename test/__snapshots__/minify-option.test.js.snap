@@ -155,3 +155,78 @@ exports[`"minify" option should work with 'swcMinify': assets 1`] = `
 exports[`"minify" option should work with 'swcMinify': errors 1`] = `[]`;
 
 exports[`"minify" option should work with 'swcMinify': warnings 1`] = `[]`;
+
+exports[`"minify" option should work with 'swcMinifyFragment' and options: assets 1`] = `
+{
+  "template.html": "<div> <ul class="bar baz foo"> <li>test</li> <li>test</li> <li>test</li> </ul> </div> <span>test</span> ",
+}
+`;
+
+exports[`"minify" option should work with 'swcMinifyFragment' and options: errors 1`] = `[]`;
+
+exports[`"minify" option should work with 'swcMinifyFragment' and options: warnings 1`] = `[]`;
+
+exports[`"minify" option should work with 'swcMinifyFragment' and throw errors: assets 1`] = `
+{
+  "broken-html-syntax.html": "Text &lt; img src="image.png" >
+Text &lt;<img src=image.png>
+Text ><img src=image.png>
+
+<a foo><bar></bar></a><boo>boohay
+&lt;&lt;&lt;&lt;>foo
+>>&lt;</boo>",
+}
+`;
+
+exports[`"minify" option should work with 'swcMinifyFragment' and throw errors: errors 1`] = `
+[
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Abrupt closing of empty comment",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Cdata in html content",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+End tag "a" violates nesting rules",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Eof in tag",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Incorrectly opened comment",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Invalid first character of tag name",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Invalid first character of tag name",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Invalid first character of tag name",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Invalid first character of tag name",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Invalid first character of tag name",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Invalid first character of tag name",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Invalid first character of tag name",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Non void html element start tag with trailing solidus",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+Unexpected question mark instead of tag name",
+]
+`;
+
+exports[`"minify" option should work with 'swcMinifyFragment' and throw errors: warnings 1`] = `[]`;
+
+exports[`"minify" option should work with 'swcMinifyFragment': assets 1`] = `
+{
+  "template.html": "<div>
+  <ul class="bar baz foo">
+    <li>test</li>
+    <li>test</li>
+    <li>test</li>
+  </ul>
+</div>
+<span>test</span>
+",
+}
+`;
+
+exports[`"minify" option should work with 'swcMinifyFragment': errors 1`] = `[]`;
+
+exports[`"minify" option should work with 'swcMinifyFragment': warnings 1`] = `[]`;

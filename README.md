@@ -95,10 +95,22 @@ module.exports = {
 
       // For `@swc/html`:
       //
+      // HTML documents - HTML documents with `Doctype` and `<html>/`<head>`/`<body>` tags
+      //
       // Options - https://github.com/swc-project/bindings/blob/main/packages/html/index.ts#L5
       //
       // new HtmlMinimizerPlugin({
       //   minify: HtmlMinimizerPlugin.swcMinify,
+      //   minimizerOptions: {}
+      // })
+      //
+      //
+      // HTML fragments - HTML fragments, i.e. HTML files without doctype or used in `<template>` tags or HTML parts which injects into another HTML parts
+      //
+      // Options - https://github.com/swc-project/bindings/blob/main/packages/html/index.ts#L38
+      //
+      // new HtmlMinimizerPlugin({
+      //   minify: HtmlMinimizerPlugin.swcMinifyFragment,
       //   minimizerOptions: {}
       // })
     ],
@@ -297,7 +309,8 @@ By default, plugin uses [html-minifier-terser](https://github.com/terser/html-mi
 We currently support:
 
 - `HtmlMinimizerPlugin.htmlMinifierTerser`
-- `HtmlMinimizerPlugin.swcMinify`
+- `HtmlMinimizerPlugin.swcMinify` (used to compress HTML documents, i.e. with HTML doctype and `<html>`/`<body>`/`<head>` tags)
+- `HtmlMinimizerPlugin.swcMinifyFragment` (used to compress HTML fragments, i.e. when you have part of HTML which will be inserted into another HTML parts)
 
 Useful for using and testing unpublished versions or forks.
 
@@ -454,6 +467,8 @@ module.exports = {
 
 Available [`options`](https://github.com/swc-project/bindings/blob/main/packages/html/index.ts#L5).
 
+HTML Documents:
+
 ```js
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
@@ -490,6 +505,48 @@ module.exports = {
   },
 };
 ```
+
+HTML Framgents:
+
+```js
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.html$/i,
+        type: "asset/resource",
+      },
+    ],
+  },
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          context: path.resolve(__dirname, "dist"),
+          from: "./src/*.html",
+        },
+      ],
+    }),
+  ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new HtmlMinimizerPlugin({
+        test: /\.template\.html$/i,
+        minify: HtmlMinimizerPlugin.swcMinifyFragment,
+        minimizerOptions: {
+          // Options - https://github.com/swc-project/bindings/blob/main/packages/html/index.ts#L38
+        },
+      }),
+    ],
+  },
+};
+```
+
+You can use multiple `HtmlMinimizerPlugin` plugins to compress different files with the different `minify` function.
 
 ## Contributing
 

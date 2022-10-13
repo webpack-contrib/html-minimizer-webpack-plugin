@@ -238,4 +238,52 @@ describe('"minify" option', () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
+
+  it("should work with 'swcMinifyFragment'", async () => {
+    const testHtmlId = "./template.html";
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin({
+      minify: HtmlMinimizerPlugin.swcMinifyFragment,
+    }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+  });
+
+  it("should work with 'swcMinifyFragment' and throw errors", async () => {
+    const testHtmlId = "./broken-html-syntax.html";
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin({
+      minify: HtmlMinimizerPlugin.swcMinifyFragment,
+    }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+  });
+
+  it("should work with 'swcMinifyFragment' and options", async () => {
+    const testHtmlId = "./template.html";
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin({
+      minimizerOptions: {
+        collapseWhitespaces: "advanced-conservative",
+      },
+      minify: HtmlMinimizerPlugin.swcMinifyFragment,
+    }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+  });
 });
