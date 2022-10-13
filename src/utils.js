@@ -113,7 +113,8 @@ async function swcMinify(input, minimizerOptions = {}) {
   // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
   const swcMinifier = require("@swc/html");
 
-  const options = /** @type {import("@swc/html").Options} */ ({
+  // TODO `import("@swc/html").Options`
+  const options = /** @type {*} */ ({
     ...minimizerOptions,
   });
 
