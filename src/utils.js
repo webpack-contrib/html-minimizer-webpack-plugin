@@ -113,28 +113,27 @@ async function swcMinify(input, minimizerOptions = {}) {
   // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
   const swcMinifier = require("@swc/html");
   const [[, code]] = Object.entries(input);
-  // TODO `import("@swc/html").Options`
-  const options = /** @type {*} */ ({
+  const options = /** @type {import("@swc/html").Options} */ ({
     ...minimizerOptions,
   });
   const result = await swcMinifier.minify(Buffer.from(code), options);
 
-  let errors;
+  return {
+    code: result.code,
+    errors: result.errors
+      ? result.errors.map((diagnostic) => {
+          const error = new Error(diagnostic.message);
 
-  if (typeof result.errors !== "undefined") {
-    errors = result.errors.map((diagnostic) => {
-      const error = new Error(diagnostic.message);
+          // @ts-ignore
+          error.span = diagnostic.span;
+          // @ts-ignore
+          error.level = diagnostic.level;
 
-      // @ts-ignore
-      error.span = diagnostic.span;
-      // @ts-ignore
-      error.level = diagnostic.level;
-
-      return error;
-    });
-  }
-
-  return { code: result.code, errors };
+          return error;
+        })
+      : // eslint-disable-next-line no-undefined
+        undefined,
+  };
 }
 
 /**
@@ -147,28 +146,27 @@ async function swcMinifyFragment(input, minimizerOptions = {}) {
   // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
   const swcMinifier = require("@swc/html");
   const [[, code]] = Object.entries(input);
-  // TODO `import("@swc/html").Options`
-  const options = /** @type {*} */ ({
+  const options = /** @type {import("@swc/html").FragmentOptions} */ ({
     ...minimizerOptions,
   });
   const result = await swcMinifier.minifyFragment(Buffer.from(code), options);
 
-  let errors;
+  return {
+    code: result.code,
+    errors: result.errors
+      ? result.errors.map((diagnostic) => {
+          const error = new Error(diagnostic.message);
 
-  if (typeof result.errors !== "undefined") {
-    errors = result.errors.map((diagnostic) => {
-      const error = new Error(diagnostic.message);
+          // @ts-ignore
+          error.span = diagnostic.span;
+          // @ts-ignore
+          error.level = diagnostic.level;
 
-      // @ts-ignore
-      error.span = diagnostic.span;
-      // @ts-ignore
-      error.level = diagnostic.level;
-
-      return error;
-    });
-  }
-
-  return { code: result.code, errors };
+          return error;
+        })
+      : // eslint-disable-next-line no-undefined
+        undefined,
+  };
 }
 
 module.exports = {

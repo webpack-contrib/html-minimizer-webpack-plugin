@@ -62,7 +62,7 @@
     "@babel/preset-env": "^7.18.9",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
-    "@swc/html": "^0.0.17",
+    "@swc/html": "^0.0.18",
     "@types/serialize-javascript": "^5.0.2",
     "@webpack-contrib/eslint-config-webpack": "^3.0.0",
     "babel-jest": "^29.1.2",
