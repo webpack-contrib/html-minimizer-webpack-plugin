@@ -13,7 +13,8 @@
     "minifier",
     "commitlint",
     "pathinfo",
-    "memfs"
+    "memfs",
+    "nodenext"
   ],
 
   "ignorePaths": [
