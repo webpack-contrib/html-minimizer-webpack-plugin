@@ -177,11 +177,11 @@ type DefinedDefaultMinimizerAndOptions<T> =
       }
     : T extends any[]
     ? {
-        minify: T extends infer T_1
+        minify: T extends infer T_1 extends any[]
           ? { [P in keyof T_1]: MinimizerImplementation<T[P]> }
           : never;
         minimizerOptions?:
-          | (T extends infer T_2
+          | (T extends infer T_2 extends any[]
               ? { [P_1 in keyof T_2]?: MinimizerOptions<T[P_1]> }
               : never)
           | undefined;
@@ -226,7 +226,7 @@ type InternalOptions<T> = {
   name: string;
   input: string;
   minimizer: T extends any[]
-    ? T extends infer T_1
+    ? T extends infer T_1 extends any[]
       ? { [P in keyof T_1]: Minimizer<T[P]> }
       : never
     : Minimizer<T>;
@@ -243,7 +243,7 @@ type MinimizerWorker<T> = Worker & {
 type Parallel = undefined | boolean | number;
 type InternalPluginOptions<T> = BasePluginOptions & {
   minimizer: T extends any[]
-    ? T extends infer T_1
+    ? T extends infer T_1 extends any[]
       ? { [P in keyof T_1]: Minimizer<T[P]> }
       : never
     : Minimizer<T>;
