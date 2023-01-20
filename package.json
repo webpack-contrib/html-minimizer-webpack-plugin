@@ -64,6 +64,7 @@
     "@commitlint/cli": "^17.4.0",
     "@commitlint/config-conventional": "^17.4.0",
     "@swc/html": "^0.0.18",
+    "@types/node": "^18.11.18",
     "@types/serialize-javascript": "^5.0.2",
     "@webpack-contrib/eslint-config-webpack": "^3.0.0",
     "babel-jest": "^29.3.1",
@@ -82,7 +83,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.2",
     "standard-version": "^9.3.1",
-    "typescript": "^4.7.4",
+    "typescript": "^4.9.4",
     "webpack": "^5.75.0"
   },
   "keywords": [
