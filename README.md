@@ -15,7 +15,7 @@
 
 This plugin can use 2 tools to optimize and minify your HTML:
 
-- [`html-minifier-terser`](https://github.com/imagemin/imagemin) (by default) - JavaScript-based HTML minifier.
+- [`html-minifier-terser`](https://github.com/terser/html-minifier-terser) (by default) - JavaScript-based HTML minifier.
 - [`swc`](https://github.com/swc-project/swc) - very fast Rust-based platform for the Web.
 
 ## Getting Started
