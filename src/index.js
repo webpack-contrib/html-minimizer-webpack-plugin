@@ -22,9 +22,7 @@ const { minify: minifyInternal } = require("./minify");
 /** @typedef {import("jest-worker").Worker} JestWorker */
 /** @typedef {import("./utils.js").HtmlMinifierTerserOptions} HtmlMinifierTerserOptions */
 
-/** @typedef {RegExp | string} Rule */
-
-/** @typedef {Rule[] | Rule} Rules */
+/** @typedef {string | RegExp | string[] | RegExp[]} Rule */
 
 /**
  * @typedef {Object} MinimizedResult
@@ -92,9 +90,9 @@ const { minify: minifyInternal } = require("./minify");
 
 /**
  * @typedef {Object} BasePluginOptions
- * @property {Rules} [test]
- * @property {Rules} [include]
- * @property {Rules} [exclude]
+ * @property {Rule} [test]
+ * @property {Rule} [include]
+ * @property {Rule} [exclude]
  * @property {Parallel} [parallel]
  */
 

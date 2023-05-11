@@ -6,8 +6,7 @@ export = HtmlMinimizerPlugin;
 /** @typedef {import("webpack").Asset} Asset */
 /** @typedef {import("jest-worker").Worker} JestWorker */
 /** @typedef {import("./utils.js").HtmlMinifierTerserOptions} HtmlMinifierTerserOptions */
-/** @typedef {RegExp | string} Rule */
-/** @typedef {Rule[] | Rule} Rules */
+/** @typedef {string | RegExp | string[] | RegExp[]} Rule */
 /**
  * @typedef {Object} MinimizedResult
  * @property {string} code
@@ -63,9 +62,9 @@ export = HtmlMinimizerPlugin;
  */
 /**
  * @typedef {Object} BasePluginOptions
- * @property {Rules} [test]
- * @property {Rules} [include]
- * @property {Rules} [exclude]
+ * @property {Rule} [test]
+ * @property {Rule} [include]
+ * @property {Rule} [exclude]
  * @property {Parallel} [parallel]
  */
 /**
@@ -145,7 +144,6 @@ declare namespace HtmlMinimizerPlugin {
     JestWorker,
     HtmlMinifierTerserOptions,
     Rule,
-    Rules,
     MinimizedResult,
     Input,
     CustomOptions,
@@ -164,9 +162,9 @@ declare namespace HtmlMinimizerPlugin {
 }
 type Compiler = import("webpack").Compiler;
 type BasePluginOptions = {
-  test?: Rules | undefined;
-  include?: Rules | undefined;
-  exclude?: Rules | undefined;
+  test?: Rule | undefined;
+  include?: Rule | undefined;
+  exclude?: Rule | undefined;
   parallel?: Parallel;
 };
 type DefinedDefaultMinimizerAndOptions<T> =
@@ -199,8 +197,7 @@ type WebpackError = import("webpack").WebpackError;
 type Asset = import("webpack").Asset;
 type JestWorker = import("jest-worker").Worker;
 type HtmlMinifierTerserOptions = import("./utils.js").HtmlMinifierTerserOptions;
-type Rule = RegExp | string;
-type Rules = Rule[] | Rule;
+type Rule = string | RegExp | string[] | RegExp[];
 type MinimizedResult = {
   code: string;
   errors?: unknown[] | undefined;
