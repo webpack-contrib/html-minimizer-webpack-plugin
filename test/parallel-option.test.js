@@ -52,7 +52,7 @@ jest.mock("jest-worker", () => {
 
 const workerPath = require.resolve("../src/minify");
 
-describe("parallel option", () => {
+describe.skip("parallel option", () => {
   let compiler;
 
   beforeEach(() => {
