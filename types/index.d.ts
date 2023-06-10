@@ -178,13 +178,9 @@ type DefinedDefaultMinimizerAndOptions<T> =
       }
     : T extends any[]
     ? {
-        minify: T extends infer T_1 extends any[]
-          ? { [P in keyof T_1]: MinimizerImplementation<T[P]> }
-          : never;
+        minify: { [P in keyof T]: MinimizerImplementation<T[P]> };
         minimizerOptions?:
-          | (T extends infer T_2 extends any[]
-              ? { [P_1 in keyof T_2]?: MinimizerOptions<T[P_1]> }
-              : never)
+          | { [P_1 in keyof T]?: MinimizerOptions<T[P_1]> }
           | undefined;
       }
     : {
@@ -228,9 +224,7 @@ type InternalOptions<T> = {
   name: string;
   input: string;
   minimizer: T extends any[]
-    ? T extends infer T_1 extends any[]
-      ? { [P in keyof T_1]: Minimizer<T[P]> }
-      : never
+    ? { [P in keyof T]: Minimizer<T[P]> }
     : Minimizer<T>;
 };
 type InternalResult = {
@@ -245,9 +239,7 @@ type MinimizerWorker<T> = Worker & {
 type Parallel = undefined | boolean | number;
 type InternalPluginOptions<T> = BasePluginOptions & {
   minimizer: T extends any[]
-    ? T extends infer T_1 extends any[]
-      ? { [P in keyof T_1]: Minimizer<T[P]> }
-      : never
+    ? { [P in keyof T]: Minimizer<T[P]> }
     : Minimizer<T>;
 };
 import { Worker } from "jest-worker";
