@@ -1,9 +1,6 @@
 const os = require("os");
 
 const { validate } = require("schema-utils");
-const serialize = require("serialize-javascript");
-
-const schema = require("./options.json");
 
 const {
   throttleAll,
@@ -12,6 +9,7 @@ const {
   swcMinifyFragment,
   minifyHtmlNode,
 } = require("./utils");
+const schema = require("./options.json");
 const { minify: minifyInternal } = require("./minify");
 
 /** @typedef {import("schema-utils/declarations/validate").Schema} Schema */
@@ -110,6 +108,36 @@ const { minify: minifyInternal } = require("./minify");
  *    ? { minify: { [P in keyof T]: MinimizerImplementation<T[P]>; }, minimizerOptions?: { [P in keyof T]?: MinimizerOptions<T[P]> | undefined; } | undefined }
  *    : { minify: MinimizerImplementation<T>, minimizerOptions?: MinimizerOptions<T> | undefined }} DefinedDefaultMinimizerAndOptions
  */
+
+/**
+ * @template T
+ * @param fn {(function(): any) | undefined}
+ * @returns {function(): T}
+ */
+const memoize = (fn) => {
+  let cache = false;
+  /** @type {T} */
+  let result;
+
+  return () => {
+    if (cache) {
+      return result;
+    }
+    result = /** @type {function(): any} */ (fn)();
+    cache = true;
+    // Allow to clean up memory for fn
+    // and all dependent resources
+    // eslint-disable-next-line no-undefined, no-param-reassign
+    fn = undefined;
+
+    return result;
+  };
+};
+
+const getSerializeJavascript = memoize(() =>
+  // eslint-disable-next-line global-require
+  require("serialize-javascript")
+);
 
 /**
  * @template [T=HtmlMinifierTerserOptions]
@@ -384,7 +412,7 @@ class HtmlMinimizerPlugin {
 
           try {
             output = await (getWorker
-              ? getWorker().transform(serialize(options))
+              ? getWorker().transform(getSerializeJavascript()(options))
               : minifyInternal(options));
           } catch (error) {
             compilation.errors.push(
