@@ -232,7 +232,7 @@ type InternalResult = {
   warnings: Array<any>;
   errors: Array<any>;
 };
-type MinimizerWorker<T> = Worker & {
+type MinimizerWorker<T> = import("jest-worker").Worker & {
   transform: (options: string) => InternalResult;
   minify: (options: InternalOptions<T>) => InternalResult;
 };
@@ -242,4 +242,3 @@ type InternalPluginOptions<T> = BasePluginOptions & {
     ? { [P in keyof T]: Minimizer<T[P]> }
     : Minimizer<T>;
 };
-import { Worker } from "jest-worker";
