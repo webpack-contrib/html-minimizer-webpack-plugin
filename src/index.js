@@ -2,7 +2,6 @@ const os = require("os");
 
 const { validate } = require("schema-utils");
 const serialize = require("serialize-javascript");
-const { Worker } = require("jest-worker");
 
 const schema = require("./options.json");
 
@@ -326,6 +325,9 @@ class HtmlMinimizerPlugin {
         if (initializedWorker) {
           return initializedWorker;
         }
+
+        // eslint-disable-next-line global-require
+        const { Worker } = require("jest-worker");
 
         initializedWorker =
           /** @type {MinimizerWorker<T>} */
