@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.4.0](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/compare/v4.3.0...v4.4.0) (2023-06-10)
+
+
+### Features
+
+* added `@minify-html/node` support ([#117](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/issues/117)) ([966de45](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/commit/966de45db5de81fcb31da34efbe2946c5cb791b5))
+
 ## [4.3.0](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/compare/v4.2.1...v4.3.0) (2022-10-13)
 
 
