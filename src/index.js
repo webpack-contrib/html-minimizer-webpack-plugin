@@ -11,6 +11,7 @@ const {
   htmlMinifierTerser,
   swcMinify,
   swcMinifyFragment,
+  minifyHtmlNode,
 } = require("./utils");
 const { minify: minifyInternal } = require("./minify");
 
@@ -480,5 +481,6 @@ class HtmlMinimizerPlugin {
 HtmlMinimizerPlugin.htmlMinifierTerser = htmlMinifierTerser;
 HtmlMinimizerPlugin.swcMinify = swcMinify;
 HtmlMinimizerPlugin.swcMinifyFragment = swcMinifyFragment;
+HtmlMinimizerPlugin.minifyHtmlNode = minifyHtmlNode;
 
 module.exports = HtmlMinimizerPlugin;

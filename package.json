@@ -66,6 +66,7 @@
     "@babel/preset-env": "^7.22.4",
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
+    "@minify-html/node": "^0.11.1",
     "@swc/html": "^0.0.18",
     "@types/node": "^18.16.3",
     "@types/serialize-javascript": "^5.0.2",

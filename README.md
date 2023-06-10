@@ -13,10 +13,11 @@
 
 # html-minimizer-webpack-plugin
 
-This plugin can use 2 tools to optimize and minify your HTML:
+This plugin can use 3 tools to optimize and minify your HTML:
 
-- [`html-minifier-terser`](https://github.com/terser/html-minifier-terser) (by default) - JavaScript-based HTML minifier.
 - [`swc`](https://github.com/swc-project/swc) - very fast Rust-based platform for the Web.
+- [`html-minifier-terser`](https://github.com/terser/html-minifier-terser) (by default) - JavaScript-based HTML minifier.
+- [`@minify-html/node`](https://github.com/wilsonzlin/minify-html) - A Rust HTML minifier meticulously optimised for speed and effectiveness, with bindings for other languages.
 
 ## Getting Started
 
@@ -54,6 +55,24 @@ or
 
 ```console
 pnpm add -D @swc/html
+```
+
+**Additional step**: If you want to use `@minify-html/node` you need to install it:
+
+```console
+npm install @minify-html/node --save-dev
+```
+
+or
+
+```console
+yarn add -D @minify-html/node
+```
+
+or
+
+```console
+pnpm add -D @minify-html/node
 ```
 
 Then add the plugin to your `webpack` configuration. For example:
@@ -127,8 +146,9 @@ And run `webpack` via your preferred method.
 >
 > Removing and collapsing spaces in the tools differ (by default).
 >
-> - `html-minifier-terser` - always collapse multiple whitespaces to 1 space (never remove it entirely), but you can change it using [`options`](https://github.com/terser/html-minifier-terser#options-quick-reference)
 > - `@swc/html` - remove and collapse whitespaces only in safe places (for example - around `html` and `body` elements, inside the `head` element and between metadata elements - `<meta>`/`script`/`link`/etc.)
+> - `html-minifier-terser` - always collapse multiple whitespaces to 1 space (never remove it entirely), but you can change it using [`options`](https://github.com/terser/html-minifier-terser#options-quick-reference)
+> - `@minify-html/node` - please read documentation https://github.com/wilsonzlin/minify-html#whitespace
 
 ## Options
 
@@ -308,9 +328,10 @@ By default, plugin uses [html-minifier-terser](https://github.com/terser/html-mi
 
 We currently support:
 
-- `HtmlMinimizerPlugin.htmlMinifierTerser`
 - `HtmlMinimizerPlugin.swcMinify` (used to compress HTML documents, i.e. with HTML doctype and `<html>`/`<body>`/`<head>` tags)
 - `HtmlMinimizerPlugin.swcMinifyFragment` (used to compress HTML fragments, i.e. when you have part of HTML which will be inserted into another HTML parts)
+- `HtmlMinimizerPlugin.htmlMinifierTerser`
+- `HtmlMinimizerPlugin.minifyHtmlNode`
 
 > **Note**
 >
@@ -511,7 +532,7 @@ module.exports = {
 };
 ```
 
-HTML Framgents:
+HTML Fragments:
 
 ```js
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
@@ -544,6 +565,49 @@ module.exports = {
         minify: HtmlMinimizerPlugin.swcMinifyFragment,
         minimizerOptions: {
           // Options - https://github.com/swc-project/bindings/blob/main/packages/html/index.ts#L38
+        },
+      }),
+    ],
+  },
+};
+```
+
+### `@minify-html/node`
+
+Available [`options`](https://github.com/wilsonzlin/minify-html#minification).
+
+HTML Documents:
+
+```js
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.html$/i,
+        type: "asset/resource",
+      },
+    ],
+  },
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          context: path.resolve(__dirname, "dist"),
+          from: "./src/*.html",
+        },
+      ],
+    }),
+  ],
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new HtmlMinimizerPlugin({
+        minify: HtmlMinimizerPlugin.minifyHtmlNode,
+        minimizerOptions: {
+          // Options - https://github.com/wilsonzlin/minify-html#minification
         },
       }),
     ],
