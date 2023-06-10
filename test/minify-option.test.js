@@ -286,4 +286,53 @@ describe('"minify" option', () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
+
+  // Problem with binding and jest, we can't test it :(
+  it.skip("should work with '@minify-html/node'", async () => {
+    const testHtmlId = "./simple.html";
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin({
+      minify: HtmlMinimizerPlugin.minifyHtmlNode,
+    }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+  });
+
+  it.skip("should work with '@minify-html/node' and broken syntax", async () => {
+    const testHtmlId = "./broken-html-syntax.html";
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin({
+      minify: HtmlMinimizerPlugin.minifyHtmlNode,
+    }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+  });
+
+  it.skip("should work with '@minify-html/node' and options", async () => {
+    const testHtmlId = "./simple.html";
+    const compiler = getCompiler(testHtmlId);
+
+    new HtmlMinimizerPlugin({
+      minimizerOptions: {
+        do_not_minify_doctype: true,
+      },
+      minify: HtmlMinimizerPlugin.minifyHtmlNode,
+    }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+  });
 });

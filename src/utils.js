@@ -109,6 +109,25 @@ async function htmlMinifierTerser(input, minimizerOptions = {}) {
  * @returns {Promise<MinimizedResult>}
  */
 /* istanbul ignore next */
+async function minifyHtmlNode(input, minimizerOptions = {}) {
+  // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
+  const minifyHtmlPkg = require("@minify-html/node");
+  const [[, code]] = Object.entries(input);
+  const options =
+    /** @type {Parameters<import("@minify-html/node").minify>[1]} */ ({
+      ...minimizerOptions,
+    });
+  const result = await minifyHtmlPkg.minify(Buffer.from(code), options);
+
+  return { code: result.toString() };
+}
+
+/**
+ * @param {Input} input
+ * @param {CustomOptions | undefined} [minimizerOptions]
+ * @returns {Promise<MinimizedResult>}
+ */
+/* istanbul ignore next */
 async function swcMinify(input, minimizerOptions = {}) {
   // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
   const swcMinifier = require("@swc/html");
@@ -174,4 +193,5 @@ module.exports = {
   htmlMinifierTerser,
   swcMinify,
   swcMinifyFragment,
+  minifyHtmlNode,
 };
