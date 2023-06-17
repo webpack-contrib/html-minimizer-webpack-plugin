@@ -16,6 +16,12 @@ export type HtmlMinifierTerserOptions = import("html-minifier-terser").Options;
  */
 export function throttleAll<T>(limit: number, tasks: Task<T>[]): Promise<T[]>;
 /**
+ * @template T
+ * @param fn {(function(): any) | undefined}
+ * @returns {function(): T}
+ */
+export function memoize<T>(fn: (() => any) | undefined): () => T;
+/**
  * @param {Input} input
  * @param {CustomOptions | undefined} [minimizerOptions]
  * @returns {Promise<MinimizedResult>}
