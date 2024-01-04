@@ -82,35 +82,12 @@ declare namespace HtmlMinimizerPlugin {
     DefinedDefaultMinimizerAndOptions,
   };
 }
-type Compiler = import("webpack").Compiler;
-type BasePluginOptions = {
-  test?: Rule | undefined;
-  include?: Rule | undefined;
-  exclude?: Rule | undefined;
-  parallel?: Parallel;
-};
-type DefinedDefaultMinimizerAndOptions<T> =
-  T extends import("html-minifier-terser").Options
-    ? {
-        minify?: MinimizerImplementation<T> | undefined;
-        minimizerOptions?: MinimizerOptions<T> | undefined;
-      }
-    : T extends any[]
-    ? {
-        minify: { [P in keyof T]: MinimizerImplementation<T[P]> };
-        minimizerOptions?:
-          | { [P_1 in keyof T]?: MinimizerOptions<T[P_1]> }
-          | undefined;
-      }
-    : {
-        minify: MinimizerImplementation<T>;
-        minimizerOptions?: MinimizerOptions<T> | undefined;
-      };
 import { htmlMinifierTerser } from "./utils";
 import { swcMinify } from "./utils";
 import { swcMinifyFragment } from "./utils";
 import { minifyHtmlNode } from "./utils";
 type Schema = import("schema-utils/declarations/validate").Schema;
+type Compiler = import("webpack").Compiler;
 type Compilation = import("webpack").Compilation;
 type WebpackError = import("webpack").WebpackError;
 type Asset = import("webpack").Asset;
@@ -156,8 +133,31 @@ type MinimizerWorker<T> = import("jest-worker").Worker & {
   minify: (options: InternalOptions<T>) => InternalResult;
 };
 type Parallel = undefined | boolean | number;
+type BasePluginOptions = {
+  test?: Rule | undefined;
+  include?: Rule | undefined;
+  exclude?: Rule | undefined;
+  parallel?: Parallel;
+};
 type InternalPluginOptions<T> = BasePluginOptions & {
   minimizer: T extends any[]
     ? { [P in keyof T]: Minimizer<T[P]> }
     : Minimizer<T>;
 };
+type DefinedDefaultMinimizerAndOptions<T> =
+  T extends import("html-minifier-terser").Options
+    ? {
+        minify?: MinimizerImplementation<T> | undefined;
+        minimizerOptions?: MinimizerOptions<T> | undefined;
+      }
+    : T extends any[]
+    ? {
+        minify: { [P in keyof T]: MinimizerImplementation<T[P]> };
+        minimizerOptions?:
+          | { [P_1 in keyof T]?: MinimizerOptions<T[P_1]> }
+          | undefined;
+      }
+    : {
+        minify: MinimizerImplementation<T>;
+        minimizerOptions?: MinimizerOptions<T> | undefined;
+      };
