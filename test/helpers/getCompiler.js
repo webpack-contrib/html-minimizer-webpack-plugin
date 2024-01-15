@@ -37,7 +37,7 @@ export default function getCompiler(htmlFixture, config = {}) {
                     ],
                   }),
                 ]
-              : []
+              : [],
           ),
           module: {
             rules: [].concat(
@@ -48,11 +48,11 @@ export default function getCompiler(htmlFixture, config = {}) {
                       type: "asset/resource",
                     },
                   ]
-                : []
+                : [],
             ),
           },
           ...config,
-        }
+        },
   );
 
   if (!config.outputFileSystem) {

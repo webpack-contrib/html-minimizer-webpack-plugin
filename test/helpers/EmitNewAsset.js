@@ -31,10 +31,10 @@ export default class EmitNewAsset {
                 
               </body>
               </html>
-              `
-            )
+              `,
+            ),
           );
-        }
+        },
       );
     });
   }

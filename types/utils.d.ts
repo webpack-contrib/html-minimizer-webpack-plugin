@@ -28,7 +28,7 @@ export function memoize<T>(fn: (() => any) | undefined): () => T;
  */
 export function htmlMinifierTerser(
   input: Input,
-  minimizerOptions?: CustomOptions | undefined
+  minimizerOptions?: CustomOptions | undefined,
 ): Promise<MinimizedResult>;
 /**
  * @param {Input} input
@@ -37,7 +37,7 @@ export function htmlMinifierTerser(
  */
 export function swcMinify(
   input: Input,
-  minimizerOptions?: CustomOptions | undefined
+  minimizerOptions?: CustomOptions | undefined,
 ): Promise<MinimizedResult>;
 /**
  * @param {Input} input
@@ -46,7 +46,7 @@ export function swcMinify(
  */
 export function swcMinifyFragment(
   input: Input,
-  minimizerOptions?: CustomOptions | undefined
+  minimizerOptions?: CustomOptions | undefined,
 ): Promise<MinimizedResult>;
 /**
  * @param {Input} input
@@ -55,5 +55,5 @@ export function swcMinifyFragment(
  */
 export function minifyHtmlNode(
   input: Input,
-  minimizerOptions?: CustomOptions | undefined
+  minimizerOptions?: CustomOptions | undefined,
 ): Promise<MinimizedResult>;

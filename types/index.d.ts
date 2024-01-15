@@ -29,7 +29,7 @@ declare class HtmlMinimizerPlugin<T = import("html-minifier-terser").Options> {
   constructor(
     options?:
       | (BasePluginOptions & DefinedDefaultMinimizerAndOptions<T>)
-      | undefined
+      | undefined,
   );
   /**
    * @private
@@ -110,7 +110,7 @@ type InferDefaultType<T> = T extends infer U ? U : CustomOptions;
 type MinimizerOptions<T> = InferDefaultType<T> | undefined;
 type MinimizerImplementation<T> = (
   input: Input,
-  minimizerOptions?: MinimizerOptions<T>
+  minimizerOptions?: MinimizerOptions<T>,
 ) => Promise<MinimizedResult>;
 type Minimizer<T> = {
   implementation: MinimizerImplementation<T>;
@@ -151,13 +151,13 @@ type DefinedDefaultMinimizerAndOptions<T> =
         minimizerOptions?: MinimizerOptions<T> | undefined;
       }
     : T extends any[]
-    ? {
-        minify: { [P in keyof T]: MinimizerImplementation<T[P]> };
-        minimizerOptions?:
-          | { [P_1 in keyof T]?: MinimizerOptions<T[P_1]> }
-          | undefined;
-      }
-    : {
-        minify: MinimizerImplementation<T>;
-        minimizerOptions?: MinimizerOptions<T> | undefined;
-      };
+      ? {
+          minify: { [P in keyof T]: MinimizerImplementation<T[P]> };
+          minimizerOptions?:
+            | { [P_1 in keyof T]?: MinimizerOptions<T[P_1]> }
+            | undefined;
+        }
+      : {
+          minify: MinimizerImplementation<T>;
+          minimizerOptions?: MinimizerOptions<T> | undefined;
+        };
