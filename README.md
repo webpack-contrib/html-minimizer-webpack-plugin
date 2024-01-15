@@ -303,7 +303,7 @@ type minify =
       data: { [file: string]: string },
       minimizerOptions: {
         [key: string]: any;
-      }
+      },
     ) => {
       code: string;
       errors?: unknown[] | undefined;
@@ -313,7 +313,7 @@ type minify =
       data: { [file: string]: string },
       minimizerOptions: {
         [key: string]: any;
-      }
+      },
     ) => {
       code: string;
       errors?: unknown[] | undefined;
