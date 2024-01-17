@@ -288,7 +288,7 @@ describe('"minify" option', () => {
   });
 
   // TODO broken on macos
-  it.skip("should work with '@minify-html/node'", async () => {
+  it("should work with '@minify-html/node'", async () => {
     const testHtmlId = "./simple.html";
     const compiler = getCompiler(testHtmlId);
 
