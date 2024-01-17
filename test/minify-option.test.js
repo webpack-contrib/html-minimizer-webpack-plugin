@@ -287,8 +287,7 @@ describe('"minify" option', () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
-  // Problem with binding and jest, we can't test it :(
-  it.skip("should work with '@minify-html/node'", async () => {
+  it("should work with '@minify-html/node'", async () => {
     const testHtmlId = "./simple.html";
     const compiler = getCompiler(testHtmlId);
 
@@ -303,7 +302,7 @@ describe('"minify" option', () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
-  it.skip("should work with '@minify-html/node' and broken syntax", async () => {
+  it("should work with '@minify-html/node' and broken syntax", async () => {
     const testHtmlId = "./broken-html-syntax.html";
     const compiler = getCompiler(testHtmlId);
 
@@ -318,7 +317,7 @@ describe('"minify" option', () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
-  it.skip("should work with '@minify-html/node' and options", async () => {
+  it("should work with '@minify-html/node' and options", async () => {
     const testHtmlId = "./simple.html";
     const compiler = getCompiler(testHtmlId);
 

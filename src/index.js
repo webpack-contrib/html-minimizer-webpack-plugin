@@ -112,7 +112,7 @@ const { minify: minifyInternal } = require("./minify");
 
 const getSerializeJavascript = memoize(() =>
   // eslint-disable-next-line global-require
-  require("serialize-javascript")
+  require("serialize-javascript"),
 );
 
 /**
@@ -157,7 +157,7 @@ class HtmlMinimizerPlugin {
                 ? minimizerOptions[i]
                 : minimizerOptions,
             };
-          }
+          },
         );
     } else {
       minimizer =
@@ -192,8 +192,8 @@ class HtmlMinimizerPlugin {
       warning instanceof Error
         ? warning.message
         : typeof warning.message !== "undefined"
-        ? warning.message
-        : warning.toString()
+          ? warning.message
+          : warning.toString(),
     );
 
     builtWarning.name = "Warning";
@@ -227,7 +227,7 @@ class HtmlMinimizerPlugin {
       builtError = new Error(
         `${file} from Html Minimizer plugin\n${
           typeof error.message !== "undefined" ? error.message : ""
-        }\n${error.stack}`
+        }\n${error.stack}`,
       );
       builtError.file = file;
 
@@ -235,7 +235,7 @@ class HtmlMinimizerPlugin {
     }
 
     builtError = new Error(
-      `${file} from Html Minimizer plugin\n${error.message}`
+      `${file} from Html Minimizer plugin\n${error.message}`,
     );
     builtError.file = file;
 
@@ -282,7 +282,7 @@ class HtmlMinimizerPlugin {
             !compiler.webpack.ModuleFilenameHelpers.matchObject.bind(
               // eslint-disable-next-line no-undefined
               undefined,
-              this.options
+              this.options,
             )(name)
           ) {
             return false;
@@ -304,7 +304,7 @@ class HtmlMinimizerPlugin {
           }
 
           return { name, info, inputSource: source, output, cacheItem };
-        })
+        }),
     );
 
     if (assetsForMinify.length === 0) {
@@ -322,7 +322,7 @@ class HtmlMinimizerPlugin {
       // Do not create unnecessary workers when the number of files is less than the available cores, it saves memory
       numberOfWorkers = Math.min(
         numberOfAssets,
-        optimizeOptions.availableNumberOfCores
+        optimizeOptions.availableNumberOfCores,
       );
       // eslint-disable-next-line consistent-return
       getWorker = () => {
@@ -393,7 +393,7 @@ class HtmlMinimizerPlugin {
           } catch (error) {
             compilation.errors.push(
               /** @type {WebpackError} */
-              (HtmlMinimizerPlugin.buildError(error, name))
+              (HtmlMinimizerPlugin.buildError(error, name)),
             );
 
             return;
@@ -414,7 +414,7 @@ class HtmlMinimizerPlugin {
           for (const warning of output.warnings) {
             compilation.warnings.push(
               /** @type {WebpackError} */
-              (HtmlMinimizerPlugin.buildWarning(warning, name))
+              (HtmlMinimizerPlugin.buildWarning(warning, name)),
             );
           }
         }
@@ -423,7 +423,7 @@ class HtmlMinimizerPlugin {
           for (const error of output.errors) {
             compilation.errors.push(
               /** @type {WebpackError} */
-              (HtmlMinimizerPlugin.buildError(error, name))
+              (HtmlMinimizerPlugin.buildError(error, name)),
             );
           }
         }
@@ -464,7 +464,7 @@ class HtmlMinimizerPlugin {
         (assets) =>
           this.optimize(compiler, compilation, assets, {
             availableNumberOfCores,
-          })
+          }),
       );
 
       compilation.hooks.statsPrinter.tap(pluginName, (stats) => {
@@ -475,9 +475,9 @@ class HtmlMinimizerPlugin {
             (minimized, { green, formatFlag }) =>
               minimized
                 ? /** @type {Function} */ (green)(
-                    /** @type {Function} */ (formatFlag)("minimized")
+                    /** @type {Function} */ (formatFlag)("minimized"),
                   )
-                : ""
+                : "",
           );
       });
     });

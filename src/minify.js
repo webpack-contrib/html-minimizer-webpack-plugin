@@ -23,7 +23,7 @@ const minify = async (options) => {
     // eslint-disable-next-line no-await-in-loop
     const minifyResult = await implementation(
       { [options.name]: result.code },
-      transformers[i].options
+      transformers[i].options,
     );
 
     if (
@@ -57,7 +57,7 @@ async function transform(options) {
     "module",
     "__filename",
     "__dirname",
-    `'use strict'\nreturn ${options}`
+    `'use strict'\nreturn ${options}`,
   )(exports, require, module, __filename, __dirname);
 
   return minify(evaluatedOptions);

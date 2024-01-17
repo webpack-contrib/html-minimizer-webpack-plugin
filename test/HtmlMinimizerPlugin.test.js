@@ -107,7 +107,7 @@ describe("HtmlMinimizerPlugin", () => {
               {
                 loader: path.resolve(
                   __dirname,
-                  "./helpers/emitAssetInChildCompilationLoader"
+                  "./helpers/emitAssetInChildCompilationLoader",
                 ),
               },
             ],
@@ -178,7 +178,7 @@ describe("HtmlMinimizerPlugin", () => {
       expect(newStats.compilation.emittedAssets.size).toBe(0);
 
       expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
-        "assets"
+        "assets",
       );
       expect(getWarnings(newStats)).toMatchSnapshot("errors");
       expect(getErrors(newStats)).toMatchSnapshot("warnings");
@@ -212,7 +212,7 @@ describe("HtmlMinimizerPlugin", () => {
       expect(newStats.compilation.emittedAssets.size).toBe(0);
 
       expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
-        "assets"
+        "assets",
       );
       expect(getWarnings(newStats)).toMatchSnapshot("errors");
       expect(getErrors(newStats)).toMatchSnapshot("warnings");
@@ -246,7 +246,7 @@ describe("HtmlMinimizerPlugin", () => {
       expect(newStats.compilation.emittedAssets.size).toBe(0);
 
       expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
-        "assets"
+        "assets",
       );
       expect(getWarnings(newStats)).toMatchSnapshot("errors");
       expect(getErrors(newStats)).toMatchSnapshot("warnings");
@@ -283,7 +283,7 @@ describe("HtmlMinimizerPlugin", () => {
       expect(newStats.compilation.emittedAssets.size).toBe(2);
 
       expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
-        "assets"
+        "assets",
       );
       expect(getWarnings(newStats)).toMatchSnapshot("errors");
       expect(getErrors(newStats)).toMatchSnapshot("warnings");
@@ -317,7 +317,7 @@ describe("HtmlMinimizerPlugin", () => {
       expect(newStats.compilation.emittedAssets.size).toBe(6);
 
       expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
-        "assets"
+        "assets",
       );
       expect(getWarnings(newStats)).toMatchSnapshot("errors");
       expect(getErrors(newStats)).toMatchSnapshot("warnings");

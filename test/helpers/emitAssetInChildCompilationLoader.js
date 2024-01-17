@@ -12,7 +12,7 @@ class PreCopyPlugin {
       compilation.hooks.additionalAssets.tapAsync(plugin, (callback) => {
         compilation.emitAsset(
           "simple.html",
-          new RawSource('<p title="blah" id="moo">  foo  </p>')
+          new RawSource('<p title="blah" id="moo">  foo  </p>'),
         );
 
         callback();
@@ -26,7 +26,7 @@ export default function loader() {
 
   const childCompiler = this._compilation.createChildCompiler(
     `preloader`,
-    this.options
+    this.options,
   );
 
   new PreCopyPlugin().apply(childCompiler);
