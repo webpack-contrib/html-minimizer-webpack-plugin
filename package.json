@@ -1,6 +1,6 @@
 {
   "name": "html-minimizer-webpack-plugin",
-  "version": "4.4.0",
+  "version": "5.0.0",
   "description": "html minimizer plugin for Webpack",
   "license": "MIT",
   "repository": "webpack-contrib/html-minimizer-webpack-plugin",
