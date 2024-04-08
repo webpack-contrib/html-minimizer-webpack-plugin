@@ -128,7 +128,7 @@ type InternalResult = {
   warnings: Array<any>;
   errors: Array<any>;
 };
-type MinimizerWorker<T> = import("jest-worker").Worker & {
+type MinimizerWorker<T> = JestWorker & {
   transform: (options: string) => InternalResult;
   minify: (options: InternalOptions<T>) => InternalResult;
 };
