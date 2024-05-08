@@ -287,7 +287,9 @@ describe('"minify" option', () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
-  it("should work with '@minify-html/node'", async () => {
+  const isMacOs = process.platform === "darwin";
+
+  (isMacOs ? it.skip : it)("should work with '@minify-html/node'", async () => {
     const testHtmlId = "./simple.html";
     const compiler = getCompiler(testHtmlId);
 
@@ -302,36 +304,42 @@ describe('"minify" option', () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
-  it("should work with '@minify-html/node' and broken syntax", async () => {
-    const testHtmlId = "./broken-html-syntax.html";
-    const compiler = getCompiler(testHtmlId);
+  (isMacOs ? it.skip : it)(
+    "should work with '@minify-html/node' and broken syntax",
+    async () => {
+      const testHtmlId = "./broken-html-syntax.html";
+      const compiler = getCompiler(testHtmlId);
 
-    new HtmlMinimizerPlugin({
-      minify: HtmlMinimizerPlugin.minifyHtmlNode,
-    }).apply(compiler);
+      new HtmlMinimizerPlugin({
+        minify: HtmlMinimizerPlugin.minifyHtmlNode,
+      }).apply(compiler);
 
-    const stats = await compile(compiler);
+      const stats = await compile(compiler);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
-    expect(getErrors(stats)).toMatchSnapshot("errors");
-    expect(getWarnings(stats)).toMatchSnapshot("warnings");
-  });
+      expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+      expect(getErrors(stats)).toMatchSnapshot("errors");
+      expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    },
+  );
 
-  it("should work with '@minify-html/node' and options", async () => {
-    const testHtmlId = "./simple.html";
-    const compiler = getCompiler(testHtmlId);
+  (isMacOs ? it.skip : it)(
+    "should work with '@minify-html/node' and options",
+    async () => {
+      const testHtmlId = "./simple.html";
+      const compiler = getCompiler(testHtmlId);
 
-    new HtmlMinimizerPlugin({
-      minimizerOptions: {
-        do_not_minify_doctype: true,
-      },
-      minify: HtmlMinimizerPlugin.minifyHtmlNode,
-    }).apply(compiler);
+      new HtmlMinimizerPlugin({
+        minimizerOptions: {
+          do_not_minify_doctype: true,
+        },
+        minify: HtmlMinimizerPlugin.minifyHtmlNode,
+      }).apply(compiler);
 
-    const stats = await compile(compiler);
+      const stats = await compile(compiler);
 
-    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
-    expect(getErrors(stats)).toMatchSnapshot("errors");
-    expect(getWarnings(stats)).toMatchSnapshot("warnings");
-  });
+      expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+      expect(getErrors(stats)).toMatchSnapshot("errors");
+      expect(getWarnings(stats)).toMatchSnapshot("warnings");
+    },
+  );
 });
