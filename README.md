@@ -142,7 +142,7 @@ If you want to run it also in development set the `optimization.minimize` option
 
 And run `webpack` via your preferred method.
 
-> **Note**
+> [!NOTE]
 >
 > Removing and collapsing spaces in the tools differ (by default).
 >
@@ -251,7 +251,7 @@ Default: `true`
 Use multi-process parallel running to improve the build speed.
 Default number of concurrent runs: `os.cpus().length - 1`.
 
-> **Note**
+> [!NOTE]
 >
 > Parallelization can speed up your build significantly and is therefore **highly recommended**.
 
@@ -333,14 +333,14 @@ We currently support:
 - `HtmlMinimizerPlugin.htmlMinifierTerser`
 - `HtmlMinimizerPlugin.minifyHtmlNode`
 
-> **Note**
+> [!NOTE]
 >
 > The difference between `swcMinify` and `swcMinifyFragment` is the error reporting.
 > You will get errors (invalid or broken syntax) if you have them in your HTML document or fragment. Which allows you to see all the errors and problems at the build stage.
 
 Useful for using and testing unpublished versions or forks.
 
-> **Warning**
+> [!WARNING]
 >
 > **Always use `require` inside `minify` function when `parallel` option enabled**.
 
