@@ -144,20 +144,19 @@ type InternalPluginOptions<T> = BasePluginOptions & {
     ? { [P in keyof T]: Minimizer<T[P]> }
     : Minimizer<T>;
 };
-type DefinedDefaultMinimizerAndOptions<T> =
-  T extends import("html-minifier-terser").Options
+type DefinedDefaultMinimizerAndOptions<T> = T extends HtmlMinifierTerserOptions
+  ? {
+      minify?: MinimizerImplementation<T> | undefined;
+      minimizerOptions?: MinimizerOptions<T> | undefined;
+    }
+  : T extends any[]
     ? {
-        minify?: MinimizerImplementation<T> | undefined;
-        minimizerOptions?: MinimizerOptions<T> | undefined;
+        minify: { [P in keyof T]: MinimizerImplementation<T[P]> };
+        minimizerOptions?:
+          | { [P in keyof T]?: MinimizerOptions<T[P]> | undefined }
+          | undefined;
       }
-    : T extends any[]
-      ? {
-          minify: { [P in keyof T]: MinimizerImplementation<T[P]> };
-          minimizerOptions?:
-            | { [P_1 in keyof T]?: MinimizerOptions<T[P_1]> }
-            | undefined;
-        }
-      : {
-          minify: MinimizerImplementation<T>;
-          minimizerOptions?: MinimizerOptions<T> | undefined;
-        };
+    : {
+        minify: MinimizerImplementation<T>;
+        minimizerOptions?: MinimizerOptions<T> | undefined;
+      };
