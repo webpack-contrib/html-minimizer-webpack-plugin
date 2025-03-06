@@ -17,27 +17,25 @@ describe("worker", () => {
         },
       },
     };
-    const { code } = await transform(serialize(options));
+    const result = await transform(serialize(options));
 
-    expect(code).toMatchSnapshot("html");
+    expect(result).toMatchSnapshot("html");
   });
 
   it("should minify html #2", async () => {
     const options = {
       name: "entry.html",
       input: '<!-- Comment --><p title="blah" id="moo">     foo     </p>',
-      minimizer: [
-        {
-          implementation: HtmlMinimizerPlugin.htmlMinifierTerser,
-          options: {
-            removeComments: false,
-          },
+      minimizer: {
+        implementation: HtmlMinimizerPlugin.htmlMinifierTerser,
+        options: {
+          removeComments: false,
         },
-      ],
+      },
     };
-    const { code } = await transform(serialize(options));
+    const result = await transform(serialize(options));
 
-    expect(code).toMatchSnapshot("html");
+    expect(result).toMatchSnapshot("html");
   });
 
   it("should minify html #3", async () => {
@@ -47,15 +45,65 @@ describe("worker", () => {
       minimizer: {
         implementation: () => {
           return {
-            html: '<!-- From minify function --><p class="atata">from-minify-function</p>',
+            code: '<!-- From minify function --><p class="atata">from-minify-function</p>',
           };
         },
         options: { removeComments: false },
       },
     };
-    const { code } = await transform(serialize(options));
+    const result = await transform(serialize(options));
 
-    expect(code).toMatchSnapshot("html");
+    expect(result).toMatchSnapshot("html");
+  });
+
+  it("should minify html #4", async () => {
+    const options = {
+      name: "entry.html",
+      input: '<!-- Comment --><p title="blah" id="moo">     foo     </p>',
+      minimizer: {
+        implementation: [
+          () => {
+            return {
+              code: '<!-- From minify function 1 --><p class="atata">from-minify-function</p>',
+            };
+          },
+          () => {
+            return {
+              code: '<!-- From minify function 2 --><p class="atata">from-minify-function</p>',
+            };
+          },
+        ],
+        options: { removeComments: false },
+      },
+    };
+    const result = await transform(serialize(options));
+
+    expect(result).toMatchSnapshot("html");
+  });
+
+  it("should minify html #5", async () => {
+    const options = {
+      name: "entry.html",
+      input: '<!-- Comment --><p title="blah" id="moo">     foo     </p>',
+      minimizer: {
+        implementation: [
+          () => {
+            return {
+              code: '<!-- From minify function 1 --><p class="atata">from-minify-function</p>',
+            };
+          },
+          (_code, opt) => {
+            return {
+              code: `<!-- From minify function with "{ removeComments: ${opt.removeComments} }" --><p class="atata">from-minify-function</p>`,
+            };
+          },
+        ],
+        options: [{ removeComments: false }, { removeComments: true }],
+      },
+    };
+    const result = await transform(serialize(options));
+
+    expect(result).toMatchSnapshot("html");
   });
 
   it("should emit error", async () => {

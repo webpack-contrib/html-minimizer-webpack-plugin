@@ -6,12 +6,62 @@ exports[`worker should emit error: error 1`] = `
 ]
 `;
 
-exports[`worker should minify html #2: html 1`] = `"<!-- Comment --><p title="blah" id="moo"> foo </p>"`;
-
-exports[`worker should minify html #3: html 1`] = `
+exports[`worker should minify html #2: html 1`] = `
 {
-  "html": "<!-- From minify function --><p class="atata">from-minify-function</p>",
+  "errors": [],
+  "outputs": [
+    {
+      "code": "<!-- Comment --><p title="blah" id="moo"> foo </p>",
+    },
+  ],
+  "warnings": [],
 }
 `;
 
-exports[`worker should minify html: html 1`] = `"<!-- Comment --><p title="blah" id="moo"> foo </p>"`;
+exports[`worker should minify html #3: html 1`] = `
+{
+  "errors": [],
+  "outputs": [
+    {
+      "code": "<!-- From minify function --><p class="atata">from-minify-function</p>",
+    },
+  ],
+  "warnings": [],
+}
+`;
+
+exports[`worker should minify html #4: html 1`] = `
+{
+  "errors": [],
+  "outputs": [
+    {
+      "code": "<!-- From minify function 2 --><p class="atata">from-minify-function</p>",
+    },
+  ],
+  "warnings": [],
+}
+`;
+
+exports[`worker should minify html #5: html 1`] = `
+{
+  "errors": [],
+  "outputs": [
+    {
+      "code": "<!-- From minify function with "{ removeComments: true }" --><p class="atata">from-minify-function</p>",
+    },
+  ],
+  "warnings": [],
+}
+`;
+
+exports[`worker should minify html: html 1`] = `
+{
+  "errors": [],
+  "outputs": [
+    {
+      "code": "<!-- Comment --><p title="blah" id="moo"> foo </p>",
+    },
+  ],
+  "warnings": [],
+}
+`;
