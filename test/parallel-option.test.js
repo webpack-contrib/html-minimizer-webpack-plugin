@@ -19,8 +19,11 @@ const ENABLE_WORKER_THREADS =
 
 jest.mock("os", () => {
   const actualOs = jest.requireActual("os");
+  const isAvailableParallelism =
+    typeof actualOs.availableParallelism !== "undefined";
 
   const mocked = {
+    availableParallelism: isAvailableParallelism ? jest.fn(() => 4) : undefined,
     cpus: jest.fn(() => {
       return { length: 4 };
     }),
@@ -52,6 +55,14 @@ jest.mock("jest-worker", () => {
 
 const workerPath = require.resolve("../src/minify");
 
+const getParallelism = () => {
+  if (typeof os.availableParallelism !== "undefined") {
+    return os.availableParallelism();
+  }
+
+  return os.cpus().length;
+};
+
 describe("parallel option", () => {
   let compiler;
 
@@ -71,7 +82,7 @@ describe("parallel option", () => {
     expect(Worker).toHaveBeenCalledTimes(1);
     expect(Worker).toHaveBeenLastCalledWith(workerPath, {
       enableWorkerThreads: ENABLE_WORKER_THREADS,
-      numWorkers: os.cpus().length - 1,
+      numWorkers: getParallelism() - 1,
     });
     expect(workerTransform).toHaveBeenCalledTimes(
       Object.keys(readAssets(compiler, stats, /\.html$/i)).length,
@@ -96,14 +107,34 @@ describe("parallel option", () => {
   });
 
   it('should match snapshot for the "true" value', async () => {
-    new HtmlMinimizerPlugin().apply(compiler);
+    new HtmlMinimizerPlugin({ parallel: true }).apply(compiler);
 
     const stats = await compile(compiler);
 
     expect(Worker).toHaveBeenCalledTimes(1);
     expect(Worker).toHaveBeenLastCalledWith(workerPath, {
       enableWorkerThreads: ENABLE_WORKER_THREADS,
-      numWorkers: os.cpus().length - 1,
+      numWorkers: getParallelism() - 1,
+    });
+    expect(workerTransform).toHaveBeenCalledTimes(
+      Object.keys(readAssets(compiler, stats, /\.html$/i)).length,
+    );
+    expect(workerEnd).toHaveBeenCalledTimes(1);
+
+    expect(readAssets(compiler, stats, /\.html$/i)).toMatchSnapshot("assets");
+    expect(getErrors(stats)).toMatchSnapshot("errors");
+    expect(getWarnings(stats)).toMatchSnapshot("warnings");
+  });
+
+  it('should match snapshot for the "true" value', async () => {
+    new HtmlMinimizerPlugin({ parallel: undefined }).apply(compiler);
+
+    const stats = await compile(compiler);
+
+    expect(Worker).toHaveBeenCalledTimes(1);
+    expect(Worker).toHaveBeenLastCalledWith(workerPath, {
+      enableWorkerThreads: ENABLE_WORKER_THREADS,
+      numWorkers: getParallelism() - 1,
     });
     expect(workerTransform).toHaveBeenCalledTimes(
       Object.keys(readAssets(compiler, stats, /\.html$/i)).length,
