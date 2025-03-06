@@ -11,7 +11,7 @@ const {
   minifyHtmlNode,
 } = require("./utils");
 const schema = require("./options.json");
-const { minify: minifyInternal } = require("./minify");
+const { minify } = require("./minify");
 
 /** @typedef {import("schema-utils/declarations/validate").Schema} Schema */
 /** @typedef {import("webpack").Compiler} Compiler */
@@ -106,7 +106,7 @@ const { minify: minifyInternal } = require("./minify");
 
 /**
  * @template T
- * @typedef {JestWorker & { transform: (options: string) => InternalResult, minify: (options: InternalOptions<T>) => InternalResult }} MinimizerWorker
+ * @typedef {JestWorker & { transform: (options: string) => Promise<InternalResult>, minify: (options: InternalOptions<T>) => Promise<InternalResult> }} MinimizerWorker
  */
 
 /**
@@ -415,7 +415,7 @@ class HtmlMinimizerPlugin {
           try {
             result = await (getWorker
               ? getWorker().transform(getSerializeJavascript()(options))
-              : minifyInternal(options));
+              : minify(options));
           } catch (error) {
             compilation.errors.push(
               /** @type {WebpackError} */
