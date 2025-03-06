@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.1](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/compare/v5.0.0...v5.0.1) (2025-03-06)
+
+
+### Bug Fixes
+
+* better support worker threads ([fa90ada](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/commit/fa90adaa4a83ab532690db0e739bc350cc6b2c5d))
+* use `os.availableParallelism()`` for parallelism when it is available ([b88e9f4](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/commit/b88e9f45a930aae9f468eb5587bd73f7f2196892))
+
 ## [5.0.0](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/compare/v4.4.0...v5.0.0) (2024-01-17)
 
 
