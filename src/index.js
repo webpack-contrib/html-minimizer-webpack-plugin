@@ -19,16 +19,38 @@ const { minify: minifyInternal } = require("./minify");
 /** @typedef {import("webpack").WebpackError} WebpackError */
 /** @typedef {import("webpack").Asset} Asset */
 /** @typedef {import("jest-worker").Worker} JestWorker */
-/** @typedef {import("./utils.js").HtmlMinifierTerserOptions} HtmlMinifierTerserOptions */
 
 /** @typedef {RegExp | string} Rule */
 /** @typedef {Rule[] | Rule} Rules */
 
+/** @typedef {Error & { plugin?: string, text?: string, source?: string } | string} Warning */
+
 /**
- * @typedef {Object} MinimizedResult
+ * @typedef {Object} WarningObject
+ * @property {string} message
+ * @property {string} [plugin]
+ * @property {string} [text]
+ * @property {number} [line]
+ * @property {number} [column]
+ */
+
+/**
+ * @typedef {Object} ErrorObject
+ * @property {string} message
+ * @property {number} [line]
+ * @property {number} [column]
+ * @property {string} [stack]
+ */
+
+/**
+ * @typedef {Object} MinimizedResultObj
  * @property {string} code
- * @property {Array<unknown>} [errors]
- * @property {Array<unknown>} [warnings]
+ * @property {Array<Error | ErrorObject| string>} [errors]
+ * @property {Array<Warning | WarningObject | string>} [warnings]
+ */
+
+/**
+ * @typedef {MinimizedResultObj | string} MinimizedResult
  */
 
 /**
@@ -46,22 +68,25 @@ const { minify: minifyInternal } = require("./minify");
 
 /**
  * @template T
- * @typedef {InferDefaultType<T> | undefined} MinimizerOptions
+ * @typedef {T extends any[] ? { [P in keyof T]?: InferDefaultType<T[P]> } : InferDefaultType<T>} MinimizerOptions
  */
 
 /**
  * @template T
- * @callback MinimizerImplementation
+ * @callback BasicMinimizerImplementation
  * @param {Input} input
- * @param {MinimizerOptions<T>} [minimizerOptions]
- * @returns {Promise<MinimizedResult>}
+ * @param {InferDefaultType<T>} minifyOptions
+ * @returns {Promise<MinimizedResult> | MinimizedResult}
+ */
+
+/**
+ * @typedef {object} MinimizeFunctionHelpers
+ * @property {() => boolean | undefined} [supportsWorkerThreads]
  */
 
 /**
  * @template T
- * @typedef {Object} Minimizer
- * @property {MinimizerImplementation<T>} implementation
- * @property {MinimizerOptions<T> | undefined} [options]
+ * @typedef {T extends any[] ? { [P in keyof T]: BasicMinimizerImplementation<T[P]> & MinimizeFunctionHelpers; } : BasicMinimizerImplementation<T> & MinimizeFunctionHelpers} MinimizerImplementation
  */
 
 /**
@@ -69,14 +94,14 @@ const { minify: minifyInternal } = require("./minify");
  * @typedef {Object} InternalOptions
  * @property {string} name
  * @property {string} input
- * @property {T extends any[] ? { [P in keyof T]: Minimizer<T[P]>; } : Minimizer<T>} minimizer
+ * @property {{ implementation: MinimizerImplementation<T>, options: MinimizerOptions<T> }} minimizer
  */
 
 /**
  * @typedef InternalResult
- * @property {string} code
- * @property {Array<any>} warnings
- * @property {Array<any>} errors
+ * @property {Array<{ code: string }>} outputs
+ * @property {Array<Warning | WarningObject | string>} warnings
+ * @property {Array<Error | ErrorObject | string>} errors
  */
 
 /**
@@ -98,16 +123,12 @@ const { minify: minifyInternal } = require("./minify");
 
 /**
  * @template T
- * @typedef {BasePluginOptions & { minimizer: T extends any[] ? { [P in keyof T]: Minimizer<T[P]> } : Minimizer<T> }} InternalPluginOptions
+ * @typedef {BasePluginOptions & { minimizer: { implementation: MinimizerImplementation<T>, options: MinimizerOptions<T> } }} InternalPluginOptions
  */
 
 /**
  * @template T
- * @typedef {T extends HtmlMinifierTerserOptions
- *  ? { minify?: MinimizerImplementation<T> | undefined, minimizerOptions?: MinimizerOptions<T> | undefined }
- *  : T extends any[]
- *    ? { minify: { [P in keyof T]: MinimizerImplementation<T[P]>; }, minimizerOptions?: { [P in keyof T]?: MinimizerOptions<T[P]> | undefined; } | undefined }
- *    : { minify: MinimizerImplementation<T>, minimizerOptions?: MinimizerOptions<T> | undefined }} DefinedDefaultMinimizerAndOptions
+ * @typedef {T extends import("html-minifier-terser").Options ? { minify?: MinimizerImplementation<T> | undefined, minimizerOptions?: MinimizerOptions<T> | undefined } : { minify: MinimizerImplementation<T>, minimizerOptions?: MinimizerOptions<T> | undefined }} DefinedDefaultMinimizerAndOptions
  */
 
 const getSerializeJavascript = memoize(() =>
@@ -116,7 +137,7 @@ const getSerializeJavascript = memoize(() =>
 );
 
 /**
- * @template [T=HtmlMinifierTerserOptions]
+ * @template [T=import("html-minifier-terser").Options]
  */
 class HtmlMinimizerPlugin {
   /**
@@ -129,41 +150,15 @@ class HtmlMinimizerPlugin {
     });
 
     const {
-      minify = htmlMinifierTerser,
-      minimizerOptions,
+      minify = /** @type {BasicMinimizerImplementation<T>} */ (
+        htmlMinifierTerser
+      ),
+      minimizerOptions = /** @type {MinimizerOptions<T>} */ ({}),
       parallel = true,
       test = /\.html(\?.*)?$/i,
       include,
       exclude,
     } = options || {};
-
-    /** @type {T extends any[] ? { [P in keyof T]: Minimizer<T[P]>; } : Minimizer<T>} */
-    let minimizer;
-
-    if (Array.isArray(minify)) {
-      // @ts-ignore
-      minimizer =
-        /** @type {MinimizerImplementation<T>[]} */
-        (minify).map(
-          /**
-           * @param {MinimizerImplementation<T>} item
-           * @param {number} i
-           * @returns {Minimizer<T>}
-           */
-          (item, i) => {
-            return {
-              implementation: item,
-              options: Array.isArray(minimizerOptions)
-                ? minimizerOptions[i]
-                : minimizerOptions,
-            };
-          },
-        );
-    } else {
-      minimizer =
-        /** @type {T extends any[] ? { [P in keyof T]: Minimizer<T[P]>; } : Minimizer<T>} */
-        ({ implementation: minify, options: minimizerOptions });
-    }
 
     /**
      * @private
@@ -174,7 +169,10 @@ class HtmlMinimizerPlugin {
       parallel,
       include,
       exclude,
-      minimizer,
+      minimizer: {
+        implementation: /** @type {MinimizerImplementation<T>} */ (minify),
+        options: /** @type {MinimizerOptions<T>} */ (minimizerOptions),
+      },
     };
   }
 
@@ -182,7 +180,7 @@ class HtmlMinimizerPlugin {
    * @private
    * @param {any} warning
    * @param {string} file
-   * @returns {Error}
+   * @returns {Error & { hideStack?: boolean, file?: string } | undefined}
    */
   static buildWarning(warning, file) {
     /**
@@ -258,6 +256,18 @@ class HtmlMinimizerPlugin {
     return parallel === true || typeof parallel === "undefined"
       ? cpus.length - 1
       : Math.min(parallel || 0, cpus.length - 1);
+  }
+
+  /**
+   * @private
+   * @template T
+   * @param {BasicMinimizerImplementation<T> & MinimizeFunctionHelpers} implementation
+   * @returns {boolean}
+   */
+  static isSupportsWorkerThreads(implementation) {
+    return typeof implementation.supportsWorkerThreads !== "undefined"
+      ? implementation.supportsWorkerThreads() !== false
+      : true;
   }
 
   /**
@@ -341,7 +351,15 @@ class HtmlMinimizerPlugin {
           (
             new Worker(require.resolve("./minify"), {
               numWorkers: numberOfWorkers,
-              enableWorkerThreads: true,
+              enableWorkerThreads: Array.isArray(
+                this.options.minimizer.implementation,
+              )
+                ? this.options.minimizer.implementation.every((item) =>
+                    HtmlMinimizerPlugin.isSupportsWorkerThreads(item),
+                  )
+                : HtmlMinimizerPlugin.isSupportsWorkerThreads(
+                    this.options.minimizer.implementation,
+                  ),
             })
           );
 
@@ -386,11 +404,16 @@ class HtmlMinimizerPlugin {
           const options = {
             name,
             input,
-            minimizer: this.options.minimizer,
+            minimizer: {
+              implementation: this.options.minimizer.implementation,
+              options: this.options.minimizer.options,
+            },
           };
 
+          let result;
+
           try {
-            output = await (getWorker
+            result = await (getWorker
               ? getWorker().transform(getSerializeJavascript()(options))
               : minifyInternal(options));
           } catch (error) {
@@ -402,7 +425,10 @@ class HtmlMinimizerPlugin {
             return;
           }
 
-          output.source = new RawSource(output.code);
+          output = { warnings: [], errors: [] };
+          output.source = new RawSource(
+            result.outputs[result.outputs.length - 1].code,
+          );
 
           await cacheItem.storePromise({
             source: output.source,

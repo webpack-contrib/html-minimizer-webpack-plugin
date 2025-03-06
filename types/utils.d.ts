@@ -2,7 +2,6 @@ export type Task<T> = () => Promise<T>;
 export type MinimizedResult = import("./index.js").MinimizedResult;
 export type CustomOptions = import("./index.js").CustomOptions;
 export type Input = import("./index.js").Input;
-export type HtmlMinifierTerserOptions = import("html-minifier-terser").Options;
 /**
  * @template T
  * @typedef {() => Promise<T>} Task
@@ -23,37 +22,49 @@ export function throttleAll<T>(limit: number, tasks: Task<T>[]): Promise<T[]>;
 export function memoize<T>(fn: (() => any) | undefined): () => T;
 /**
  * @param {Input} input
- * @param {CustomOptions | undefined} [minimizerOptions]
+ * @param {CustomOptions } [minimizerOptions]
  * @returns {Promise<MinimizedResult>}
  */
 export function htmlMinifierTerser(
   input: Input,
-  minimizerOptions?: CustomOptions | undefined,
+  minimizerOptions?: import("./index.js").CustomOptions | undefined,
 ): Promise<MinimizedResult>;
+export namespace htmlMinifierTerser {
+  function supportsWorkerThreads(): boolean;
+}
 /**
  * @param {Input} input
- * @param {CustomOptions | undefined} [minimizerOptions]
+ * @param {CustomOptions} [minimizerOptions]
  * @returns {Promise<MinimizedResult>}
  */
 export function swcMinify(
   input: Input,
-  minimizerOptions?: CustomOptions | undefined,
+  minimizerOptions?: import("./index.js").CustomOptions | undefined,
 ): Promise<MinimizedResult>;
+export namespace swcMinify {
+  function supportsWorkerThreads(): boolean;
+}
 /**
  * @param {Input} input
- * @param {CustomOptions | undefined} [minimizerOptions]
+ * @param {CustomOptions} [minimizerOptions]
  * @returns {Promise<MinimizedResult>}
  */
 export function swcMinifyFragment(
   input: Input,
-  minimizerOptions?: CustomOptions | undefined,
+  minimizerOptions?: import("./index.js").CustomOptions | undefined,
 ): Promise<MinimizedResult>;
+export namespace swcMinifyFragment {
+  function supportsWorkerThreads(): boolean;
+}
 /**
  * @param {Input} input
- * @param {CustomOptions | undefined} [minimizerOptions]
+ * @param {CustomOptions} [minimizerOptions]
  * @returns {Promise<MinimizedResult>}
  */
 export function minifyHtmlNode(
   input: Input,
-  minimizerOptions?: CustomOptions | undefined,
+  minimizerOptions?: import("./index.js").CustomOptions | undefined,
 ): Promise<MinimizedResult>;
+export namespace minifyHtmlNode {
+  function supportsWorkerThreads(): boolean;
+}

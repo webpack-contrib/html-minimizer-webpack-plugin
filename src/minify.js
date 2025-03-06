@@ -7,44 +7,62 @@
  * @returns {Promise<InternalResult>}
  */
 const minify = async (options) => {
+  const minifyFns = Array.isArray(options.minimizer.implementation)
+    ? options.minimizer.implementation
+    : [options.minimizer.implementation];
+
   /** @type {InternalResult} */
-  const result = {
-    code: options.input,
-    warnings: [],
-    errors: [],
-  };
+  const result = { outputs: [], warnings: [], errors: [] };
 
-  const transformers = Array.isArray(options.minimizer)
-    ? options.minimizer
-    : [options.minimizer];
-
-  for (let i = 0; i <= transformers.length - 1; i++) {
-    const { implementation } = transformers[i];
+  for (let i = 0; i <= minifyFns.length - 1; i++) {
+    const minifyFn = minifyFns[i];
+    const minifyOptions = Array.isArray(options.minimizer.options)
+      ? options.minimizer.options[i]
+      : options.minimizer.options;
+    const prevResult =
+      result.outputs.length > 0
+        ? result.outputs[result.outputs.length - 1]
+        : { code: options.input };
+    const { code } = prevResult;
+    /** @type {MinimizedResult} */
     // eslint-disable-next-line no-await-in-loop
-    const minifyResult = await implementation(
-      { [options.name]: result.code },
-      transformers[i].options,
+    const minifyResult = await minifyFn(
+      { [options.name]: code },
+      minifyOptions,
     );
 
     if (
-      Object.prototype.toString.call(minifyResult) === "[object Object]" &&
-      minifyResult !== null &&
-      "code" in minifyResult
+      typeof minifyResult !== "string" &&
+      typeof minifyResult.code !== "string"
     ) {
-      result.code = minifyResult.code;
-      result.warnings = result.warnings.concat(minifyResult.warnings || []);
-      result.errors = result.errors.concat(minifyResult.errors || []);
+      throw new Error(
+        "minimizer function doesn't return the 'code' property or result is not a string value",
+      );
+    }
+
+    if (typeof minifyResult === "string") {
+      result.outputs.push({ code: minifyResult });
     } else {
-      // @ts-ignore
-      result.code = minifyResult;
+      if (minifyResult.errors) {
+        result.errors = result.errors.concat(minifyResult.errors);
+      }
+
+      if (minifyResult.warnings) {
+        result.warnings = result.warnings.concat(minifyResult.warnings);
+      }
+
+      result.outputs.push({ code: minifyResult.code });
     }
   }
+
+  result.outputs = [result.outputs[result.outputs.length - 1]];
 
   return result;
 };
 
 /**
- * @param {string} options
+ * @template T
+ * @param {import("./index.js").InternalOptions<T>} options
  * @returns {Promise<InternalResult>}
  */
 async function transform(options) {
