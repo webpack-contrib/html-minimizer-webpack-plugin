@@ -249,7 +249,7 @@ type parallel = undefined | boolean | number;
 Default: `true`
 
 Use multi-process parallel running to improve the build speed.
-Default number of concurrent runs: `os.cpus().length - 1`.
+Default number of concurrent runs: `os.cpus().length - 1` or `os.availableParallelism() - 1` (if this function is supported).
 
 > [!NOTE]
 >
