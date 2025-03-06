@@ -11,7 +11,10 @@ export function minify<T>(
   options: import("./index.js").InternalOptions<T>,
 ): Promise<InternalResult>;
 /**
- * @param {string} options
+ * @template T
+ * @param {import("./index.js").InternalOptions<T>} options
  * @returns {Promise<InternalResult>}
  */
-export function transform(options: string): Promise<InternalResult>;
+export function transform<T>(
+  options: import("./index.js").InternalOptions<T>,
+): Promise<InternalResult>;

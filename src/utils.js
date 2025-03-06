@@ -1,7 +1,6 @@
 /** @typedef {import("./index.js").MinimizedResult} MinimizedResult */
 /** @typedef {import("./index.js").CustomOptions} CustomOptions */
 /** @typedef {import("./index.js").Input} Input */
-/** @typedef {import("html-minifier-terser").Options} HtmlMinifierTerserOptions */
 
 const notSettled = Symbol(`not-settled`);
 
@@ -68,7 +67,7 @@ function throttleAll(limit, tasks) {
 
 /**
  * @param {Input} input
- * @param {CustomOptions | undefined} [minimizerOptions]
+ * @param {CustomOptions } [minimizerOptions]
  * @returns {Promise<MinimizedResult>}
  */
 /* istanbul ignore next */
@@ -76,7 +75,7 @@ async function htmlMinifierTerser(input, minimizerOptions = {}) {
   // eslint-disable-next-line global-require, import/no-extraneous-dependencies
   const htmlMinifier = require("html-minifier-terser");
   const [[, code]] = Object.entries(input);
-  /** @type {HtmlMinifierTerserOptions} */
+  /** @type {import("html-minifier-terser").Options} */
   const defaultMinimizerOptions = {
     caseSensitive: true,
     // `collapseBooleanAttributes` is not always safe, since this can break CSS attribute selectors and not safe for XHTML
@@ -103,9 +102,11 @@ async function htmlMinifierTerser(input, minimizerOptions = {}) {
   return { code: result };
 }
 
+htmlMinifierTerser.supportsWorkerThreads = () => true;
+
 /**
  * @param {Input} input
- * @param {CustomOptions | undefined} [minimizerOptions]
+ * @param {CustomOptions} [minimizerOptions]
  * @returns {Promise<MinimizedResult>}
  */
 /* istanbul ignore next */
@@ -122,9 +123,11 @@ async function minifyHtmlNode(input, minimizerOptions = {}) {
   return { code: result.toString() };
 }
 
+minifyHtmlNode.supportsWorkerThreads = () => false;
+
 /**
  * @param {Input} input
- * @param {CustomOptions | undefined} [minimizerOptions]
+ * @param {CustomOptions} [minimizerOptions]
  * @returns {Promise<MinimizedResult>}
  */
 /* istanbul ignore next */
@@ -155,9 +158,11 @@ async function swcMinify(input, minimizerOptions = {}) {
   };
 }
 
+swcMinify.supportsWorkerThreads = () => false;
+
 /**
  * @param {Input} input
- * @param {CustomOptions | undefined} [minimizerOptions]
+ * @param {CustomOptions} [minimizerOptions]
  * @returns {Promise<MinimizedResult>}
  */
 /* istanbul ignore next */
@@ -187,6 +192,8 @@ async function swcMinifyFragment(input, minimizerOptions = {}) {
         undefined,
   };
 }
+
+swcMinifyFragment.supportsWorkerThreads = () => false;
 
 /**
  * @template T
