@@ -11,7 +11,7 @@ const {
   minifyHtmlNode,
 } = require("./utils");
 const schema = require("./options.json");
-const { minify } = require("./minify");
+const { minify: internalMinify } = require("./minify");
 
 /** @typedef {import("schema-utils/declarations/validate").Schema} Schema */
 /** @typedef {import("webpack").Compiler} Compiler */
@@ -138,10 +138,15 @@ const getSerializeJavascript = memoize(() =>
 
 /**
  * @template [T=import("html-minifier-terser").Options]
+ * @typedef {BasePluginOptions & DefinedDefaultMinimizerAndOptions<T>} PluginOptions
+ */
+
+/**
+ * @template {PluginOptions<CustomOptions>} [T=PluginOptions<import("html-minifier-terser").Options>]
  */
 class HtmlMinimizerPlugin {
   /**
-   * @param {BasePluginOptions & DefinedDefaultMinimizerAndOptions<T>} [options]
+   * @param {T} [options]
    */
   constructor(options) {
     validate(/** @type {Schema} */ (schema), options || {}, {
@@ -150,15 +155,13 @@ class HtmlMinimizerPlugin {
     });
 
     const {
-      minify = /** @type {BasicMinimizerImplementation<T>} */ (
-        htmlMinifierTerser
-      ),
-      minimizerOptions = /** @type {MinimizerOptions<T>} */ ({}),
+      minify = htmlMinifierTerser,
+      minimizerOptions = {},
       parallel = true,
       test = /\.html(\?.*)?$/i,
       include,
       exclude,
-    } = options || {};
+    } = /** @type {T} */ (options || {});
 
     /**
      * @private
@@ -415,7 +418,7 @@ class HtmlMinimizerPlugin {
           try {
             result = await (getWorker
               ? getWorker().transform(getSerializeJavascript()(options))
-              : minify(options));
+              : internalMinify(options));
           } catch (error) {
             compilation.errors.push(
               /** @type {WebpackError} */

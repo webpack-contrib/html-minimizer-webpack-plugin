@@ -27,7 +27,7 @@ export function memoize<T>(fn: (() => any) | undefined): () => T;
  */
 export function htmlMinifierTerser(
   input: Input,
-  minimizerOptions?: import("./index.js").CustomOptions | undefined,
+  minimizerOptions?: CustomOptions,
 ): Promise<MinimizedResult>;
 export namespace htmlMinifierTerser {
   function supportsWorkerThreads(): boolean;
@@ -39,7 +39,7 @@ export namespace htmlMinifierTerser {
  */
 export function swcMinify(
   input: Input,
-  minimizerOptions?: import("./index.js").CustomOptions | undefined,
+  minimizerOptions?: CustomOptions,
 ): Promise<MinimizedResult>;
 export namespace swcMinify {
   function supportsWorkerThreads(): boolean;
@@ -51,7 +51,7 @@ export namespace swcMinify {
  */
 export function swcMinifyFragment(
   input: Input,
-  minimizerOptions?: import("./index.js").CustomOptions | undefined,
+  minimizerOptions?: CustomOptions,
 ): Promise<MinimizedResult>;
 export namespace swcMinifyFragment {
   function supportsWorkerThreads(): boolean;
@@ -63,7 +63,7 @@ export namespace swcMinifyFragment {
  */
 export function minifyHtmlNode(
   input: Input,
-  minimizerOptions?: import("./index.js").CustomOptions | undefined,
+  minimizerOptions?: CustomOptions,
 ): Promise<MinimizedResult>;
 export namespace minifyHtmlNode {
   function supportsWorkerThreads(): boolean;

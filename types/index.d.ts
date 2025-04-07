@@ -1,8 +1,16 @@
 export = HtmlMinimizerPlugin;
 /**
  * @template [T=import("html-minifier-terser").Options]
+ * @typedef {BasePluginOptions & DefinedDefaultMinimizerAndOptions<T>} PluginOptions
  */
-declare class HtmlMinimizerPlugin<T = import("html-minifier-terser").Options> {
+/**
+ * @template {PluginOptions<CustomOptions>} [T=PluginOptions<import("html-minifier-terser").Options>]
+ */
+declare class HtmlMinimizerPlugin<
+  T extends PluginOptions<CustomOptions> = PluginOptions<
+    import("html-minifier-terser").Options
+  >,
+> {
   /**
    * @private
    * @param {any} warning
@@ -31,13 +39,9 @@ declare class HtmlMinimizerPlugin<T = import("html-minifier-terser").Options> {
    */
   private static isSupportsWorkerThreads;
   /**
-   * @param {BasePluginOptions & DefinedDefaultMinimizerAndOptions<T>} [options]
+   * @param {T} [options]
    */
-  constructor(
-    options?:
-      | (BasePluginOptions & DefinedDefaultMinimizerAndOptions<T>)
-      | undefined,
-  );
+  constructor(options?: T);
   /**
    * @private
    * @type {InternalPluginOptions<T>}
@@ -91,6 +95,7 @@ declare namespace HtmlMinimizerPlugin {
     BasePluginOptions,
     InternalPluginOptions,
     DefinedDefaultMinimizerAndOptions,
+    PluginOptions,
   };
 }
 import { htmlMinifierTerser } from "./utils";
@@ -196,3 +201,5 @@ type DefinedDefaultMinimizerAndOptions<T> =
         minify: MinimizerImplementation<T>;
         minimizerOptions?: MinimizerOptions<T> | undefined;
       };
+type PluginOptions<T = import("html-minifier-terser").Options> =
+  BasePluginOptions & DefinedDefaultMinimizerAndOptions<T>;
