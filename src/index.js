@@ -161,7 +161,7 @@ class HtmlMinimizerPlugin {
       test = /\.html(\?.*)?$/i,
       include,
       exclude,
-    } = /** @type {T} */ (options);
+    } = /** @type {T} */ (options || {});
 
     /**
      * @private
