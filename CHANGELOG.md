@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.2](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/compare/v5.0.1...v5.0.2) (2025-04-07)
+
+
+### Bug Fixes
+
+* types ([#149](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/issues/149)) ([4d71e4f](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/commit/4d71e4f303076264e418a494e7903daed28954c8))
+
 ### [5.0.1](https://github.com/webpack-contrib/html-minimizer-webpack-plugin/compare/v5.0.0...v5.0.1) (2025-03-06)
 
 
