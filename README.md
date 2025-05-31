@@ -383,7 +383,7 @@ module.exports = {
 
 #### `array`
 
-If an array of functions is passed to the `minify` option, the `minimizerOptions` can be aeither as:
+If an array of functions is passed to the `minify` option, the `minimizerOptions` can be either as:
 
 - An array; If `minimizerOptions` is array, the function index in the `minify` array corresponds to the options object with the same index in the `minimizerOptions` array.
 
