@@ -19,6 +19,8 @@ This plugin can use 3 tools to optimize and minify your HTML:
 - [`html-minifier-terser`](https://github.com/terser/html-minifier-terser) (by default) - JavaScript-based HTML minifier.
 - [`@minify-html/node`](https://github.com/wilsonzlin/minify-html) - A Rust HTML minifier meticulously optimised for speed and effectiveness, with bindings for other languages.
 
+This plugin integrates seamlessly into your Webpack build pipeline to reduce HTML size and improve loading performance.
+
 ## Getting Started
 
 To begin, you'll need to install `html-minimizer-webpack-plugin`:
@@ -137,18 +139,19 @@ module.exports = {
 };
 ```
 
-This will enable HTML optimization only in production mode.
-If you want to run it also in development set the `optimization.minimize` option to `true`.
+> [!NOTE]
+>
+> HTML will only be minimized in production mode by default. To enable minification in development, explicitly set `optimization.minimize: true`.
 
-And run `webpack` via your preferred method.
+Finally, run `webpack` using the method you normally use (e.g., via CLI or an npm script).
 
 > [!NOTE]
 >
 > Removing and collapsing spaces in the tools differ (by default).
 >
-> - `@swc/html` - remove and collapse whitespaces only in safe places (for example - around `html` and `body` elements, inside the `head` element and between metadata elements - `<meta>`/`script`/`link`/etc.)
-> - `html-minifier-terser` - always collapse multiple whitespaces to 1 space (never remove it entirely), but you can change it using [`options`](https://github.com/terser/html-minifier-terser#options-quick-reference)
-> - `@minify-html/node` - please read documentation https://github.com/wilsonzlin/minify-html#whitespace
+> - `@swc/html` - Remove and collapse whitespaces only in safe places (for example - around `html` and `body` elements, inside the `head` element and between metadata elements - `<meta>`/`script`/`link`/etc.)
+> - `html-minifier-terser` - Always collapse multiple whitespaces to 1 space (never remove it entirely), but you can change it using [`options`](https://github.com/terser/html-minifier-terser#options-quick-reference)
+> - `@minify-html/node` - Please read documentation https://github.com/wilsonzlin/minify-html#whitespace for detailed whitespace behavior.
 
 ## Options
 
@@ -194,7 +197,7 @@ type include = string | RegExp | Array<string | RegExp>;
 
 Default: `undefined`
 
-Files to include.
+Files to include for minification.
 
 **webpack.config.js**
 
@@ -221,7 +224,7 @@ type exclude = string | RegExp | Array<string | RegExp>;
 
 Default: `undefined`
 
-Files to exclude.
+Files to exclude from minification.
 
 **webpack.config.js**
 
@@ -248,8 +251,11 @@ type parallel = undefined | boolean | number;
 
 Default: `true`
 
-Use multi-process parallel running to improve the build speed.
-Default number of concurrent runs: `os.cpus().length - 1` or `os.availableParallelism() - 1` (if this function is supported).
+Enables multi-process parallelization to improve build performance.
+
+- If `true`, uses `os.cpus().length - 1` or `os.availableParallelism() - 1` (if available).
+
+- If `number`, sets the number of concurrent workers.
 
 > [!NOTE]
 >
@@ -257,7 +263,7 @@ Default number of concurrent runs: `os.cpus().length - 1` or `os.availableParall
 
 #### `boolean`
 
-Enable/disable multi-process parallel running.
+Enable or disable multi-process parallel running.
 
 **webpack.config.js**
 
@@ -346,6 +352,8 @@ Useful for using and testing unpublished versions or forks.
 
 #### `function`
 
+You can define a custom minify function, giving full control over how the HTML is processed.
+
 **webpack.config.js**
 
 ```js
@@ -375,9 +383,11 @@ module.exports = {
 
 #### `array`
 
-If an array of functions is passed to the `minify` option, the `minimizerOptions` can be an array or an object.
-If `minimizerOptions` is array, the function index in the `minify` array corresponds to the options object with the same index in the `minimizerOptions` array.
-If you use `minimizerOptions` like object, all `minify` function accept it.
+If an array of functions is passed to the `minify` option, the `minimizerOptions` can be either as:
+
+- An array; If `minimizerOptions` is array, the function index in the `minify` array corresponds to the options object with the same index in the `minimizerOptions` array.
+
+- A single object; If you use `minimizerOptions` like object, all `minify` function accept it.
 
 **webpack.config.js**
 
@@ -427,11 +437,27 @@ type minimizerOptions =
     }>;
 ```
 
-Default: `{ caseSensitive: true, collapseWhitespace: true, conservativeCollapse: true, keepClosingSlash: true, minifyCSS: true, minifyJS: true, removeComments: true, removeScriptTypeAttributes: true, removeStyleLinkTypeAttributes: true, }`
+Default:
+
+```js
+{
+caseSensitive: true,
+collapseWhitespace: true,
+conservativeCollapse: true,
+keepClosingSlash: true,
+minifyCSS: true,
+minifyJS: true,
+removeComments: true,
+removeScriptTypeAttributes: true,
+removeStyleLinkTypeAttributes: true,
+}
+```
 
 `Html-minifier-terser` optimizations [options](https://github.com/terser/html-minifier-terser#options-quick-reference).
 
 #### `object`
+
+Applies the same options to the default or custom `minify` function.
 
 ```js
 module.exports = {
@@ -534,9 +560,12 @@ module.exports = {
 
 HTML Fragments:
 
+Use this for partial HTML files (e.g. inside <template> tags or HTML strings).
+
 ```js
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const path = require("path");
 
 module.exports = {
   module: {
@@ -619,7 +648,8 @@ You can use multiple `HtmlMinimizerPlugin` plugins to compress different files w
 
 ## Contributing
 
-Please take a moment to read our contributing guidelines if you haven't yet done so.
+We welcome all contributions!
+If you're new here, please take a moment to review our contributing guidelines before submitting issues or pull requests.
 
 [CONTRIBUTING](./.github/CONTRIBUTING.md)
 
