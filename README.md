@@ -126,7 +126,7 @@ module.exports = {
       // })
       //
       //
-      // HTML fragments - HTML fragments, i.e. HTML files without doctype or used in `<template>` tags or HTML parts which injects into another HTML parts
+      // HTML fragments - HTML fragments, i.e. HTML files without doctype or used in `<template></template>` tags or HTML parts which injects into another HTML parts
       //
       // Options - https://github.com/swc-project/bindings/blob/main/packages/html/index.ts#L38
       //
@@ -560,7 +560,7 @@ module.exports = {
 
 HTML Fragments:
 
-Use this for partial HTML files (e.g. inside <template> tags or HTML strings).
+Use this for partial HTML files (e.g. inside `<template></template>` tags or HTML strings).
 
 ```js
 const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
