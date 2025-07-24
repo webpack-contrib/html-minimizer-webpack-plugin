@@ -167,7 +167,7 @@ async function swcMinify(input, minimizerOptions = {}) {
     code: result.code,
     errors: result.errors
       ? result.errors.map((diagnostic) => {
-          const error = new Error(diagnostic.message);
+          const error = /** @type {Error & { span: any; level: any }} */ (new Error(diagnostic.message));
 
           error.span = diagnostic.span;
 
@@ -208,7 +208,7 @@ async function swcMinifyFragment(input, minimizerOptions = {}) {
     code: result.code,
     errors: result.errors
       ? result.errors.map((diagnostic) => {
-          const error = new Error(diagnostic.message);
+          const error = /** @type {Error & { span: any; level: any }} */ (new Error(diagnostic.message));
 
           error.span = diagnostic.span;
 

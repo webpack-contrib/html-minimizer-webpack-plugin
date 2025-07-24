@@ -13,35 +13,35 @@ declare class HtmlMinimizerPlugin<
 > {
   /**
    * @private
-   * @param {any} warning
-   * @param {string} file
-   * @returns {Error & { hideStack?: boolean, file?: string } | undefined}
+   * @param {any} warning The warning to build
+   * @param {string} file The file path
+   * @returns {Error & { hideStack?: boolean, file?: string } | undefined} The built warning
    */
   private static buildWarning;
   /**
    * @private
-   * @param {any} error
-   * @param {string} file
-   * @returns {Error}
+   * @param {any} error The error to build
+   * @param {string} file The file path
+   * @returns {Error} The built error
    */
   private static buildError;
   /**
    * @private
-   * @param {Parallel} parallel
-   * @returns {number}
+   * @param {Parallel} parallel Parallel configuration
+   * @returns {number} The number of available cores
    */
   private static getAvailableNumberOfCores;
   /**
    * @private
    * @template T
-   * @param {BasicMinimizerImplementation<T> & MinimizeFunctionHelpers} implementation
-   * @returns {boolean}
+   * @param {BasicMinimizerImplementation<T> & MinimizeFunctionHelpers} implementation The minimizer implementation
+   * @returns {boolean} Whether worker threads are supported
    */
   private static isSupportsWorkerThreads;
   /**
-   * @param {T} [options]
+   * @param {T=} options Plugin options
    */
-  constructor(options?: T);
+  constructor(options?: T | undefined);
   /**
    * @private
    * @type {InternalPluginOptions<T>}
@@ -49,15 +49,15 @@ declare class HtmlMinimizerPlugin<
   private options;
   /**
    * @private
-   * @param {Compiler} compiler
-   * @param {Compilation} compilation
-   * @param {Record<string, import("webpack").sources.Source>} assets
-   * @param {{availableNumberOfCores: number}} optimizeOptions
-   * @returns {Promise<void>}
+   * @param {Compiler} compiler The webpack compiler
+   * @param {Compilation} compilation The webpack compilation
+   * @param {Record<string, import("webpack").sources.Source>} assets The assets to optimize
+   * @param {{availableNumberOfCores: number}} optimizeOptions Optimization options
+   * @returns {Promise<void>} Promise that resolves when optimization is complete
    */
   private optimize;
   /**
-   * @param {Compiler} compiler
+   * @param {Compiler} compiler The webpack compiler
    * @returns {void}
    */
   apply(compiler: Compiler): void;
@@ -118,22 +118,58 @@ type Warning =
     })
   | string;
 type WarningObject = {
+  /**
+   * - The warning message
+   */
   message: string;
+  /**
+   * - The plugin name
+   */
   plugin?: string | undefined;
+  /**
+   * - The text content
+   */
   text?: string | undefined;
+  /**
+   * - The line number
+   */
   line?: number | undefined;
+  /**
+   * - The column number
+   */
   column?: number | undefined;
 };
 type ErrorObject = {
+  /**
+   * - The error message
+   */
   message: string;
+  /**
+   * - The line number
+   */
   line?: number | undefined;
+  /**
+   * - The column number
+   */
   column?: number | undefined;
+  /**
+   * - The error stack trace
+   */
   stack?: string | undefined;
 };
 type MinimizedResultObj = {
+  /**
+   * - The minimized code
+   */
   code: string;
-  errors?: (string | Error | ErrorObject)[] | undefined;
-  warnings?: (Warning | WarningObject)[] | undefined;
+  /**
+   * - Array of errors
+   */
+  errors?: Array<Error | ErrorObject | string> | undefined;
+  /**
+   * - Array of warnings
+   */
+  warnings?: Array<Warning | WarningObject | string> | undefined;
 };
 type MinimizedResult = MinimizedResultObj | string;
 type Input = {
@@ -151,6 +187,9 @@ type BasicMinimizerImplementation<T> = (
   minifyOptions: InferDefaultType<T>,
 ) => Promise<MinimizedResult> | MinimizedResult;
 type MinimizeFunctionHelpers = {
+  /**
+   * - Function to check if worker threads are supported
+   */
   supportsWorkerThreads?: (() => boolean | undefined) | undefined;
 };
 type MinimizerImplementation<T> = T extends any[]
@@ -160,18 +199,36 @@ type MinimizerImplementation<T> = T extends any[]
     }
   : BasicMinimizerImplementation<T> & MinimizeFunctionHelpers;
 type InternalOptions<T> = {
+  /**
+   * - The name of the minimizer
+   */
   name: string;
+  /**
+   * - The input content
+   */
   input: string;
+  /**
+   * - The minimizer configuration
+   */
   minimizer: {
     implementation: MinimizerImplementation<T>;
     options: MinimizerOptions<T>;
   };
 };
 type InternalResult = {
+  /**
+   * - Array of output objects
+   */
   outputs: Array<{
     code: string;
   }>;
+  /**
+   * - Array of warnings
+   */
   warnings: Array<Warning | WarningObject | string>;
+  /**
+   * - Array of errors
+   */
   errors: Array<Error | ErrorObject | string>;
 };
 type MinimizerWorker<T> = JestWorker & {
@@ -180,10 +237,22 @@ type MinimizerWorker<T> = JestWorker & {
 };
 type Parallel = undefined | boolean | number;
 type BasePluginOptions = {
+  /**
+   * - Test rule for files to process
+   */
   test?: Rule | undefined;
+  /**
+   * - Include rule for files to process
+   */
   include?: Rule | undefined;
+  /**
+   * - Exclude rule for files to process
+   */
   exclude?: Rule | undefined;
-  parallel?: Parallel;
+  /**
+   * - Parallel processing configuration
+   */
+  parallel?: Parallel | undefined;
 };
 type InternalPluginOptions<T> = BasePluginOptions & {
   minimizer: {
