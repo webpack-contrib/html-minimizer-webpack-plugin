@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`parallel option should match snapshot for the "2" value: assets 1`] = `
 {
@@ -89,7 +89,11 @@ exports[`parallel option should match snapshot for the "true" value: assets 1`] 
 }
 `;
 
-exports[`parallel option should match snapshot for the "true" value: assets 2`] = `
+exports[`parallel option should match snapshot for the "true" value: errors 1`] = `[]`;
+
+exports[`parallel option should match snapshot for the "true" value: warnings 1`] = `[]`;
+
+exports[`parallel option should match snapshot for the "undefined" value: assets 1`] = `
 {
   "parallel/foo-0.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
   "parallel/foo-1.html": "<!doctype html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Cache-1</title> </head> <body> <h1>My First Heading</h1> <p>My first paragraph.</p> <h2>An Unordered HTML List</h2> <ul> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ul> <h2>An Ordered HTML List</h2> <ol> <li>Coffee</li> <li>Tea</li> <li>Milk</li> </ol> </body> </html> ",
@@ -99,13 +103,9 @@ exports[`parallel option should match snapshot for the "true" value: assets 2`] 
 }
 `;
 
-exports[`parallel option should match snapshot for the "true" value: errors 1`] = `[]`;
+exports[`parallel option should match snapshot for the "undefined" value: errors 1`] = `[]`;
 
-exports[`parallel option should match snapshot for the "true" value: errors 2`] = `[]`;
-
-exports[`parallel option should match snapshot for the "true" value: warnings 1`] = `[]`;
-
-exports[`parallel option should match snapshot for the "true" value: warnings 2`] = `[]`;
+exports[`parallel option should match snapshot for the "undefined" value: warnings 1`] = `[]`;
 
 exports[`parallel option should match snapshot when a value is not specify: assets 1`] = `
 {
