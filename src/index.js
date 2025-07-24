@@ -93,16 +93,16 @@ const {
 /**
  * @template T
  * @typedef {object} InternalOptions
- * @property {string} name - The name of the minimizer
- * @property {string} input - The input content
- * @property {{ implementation: MinimizerImplementation<T>, options: MinimizerOptions<T> }} minimizer - The minimizer configuration
+ * @property {string} name The name of the minimizer
+ * @property {string} input The input content
+ * @property {{ implementation: MinimizerImplementation<T>, options: MinimizerOptions<T> }} minimizer The minimizer configuration
  */
 
 /**
  * @typedef InternalResult
- * @property {Array<{ code: string }>} outputs - Array of output objects
- * @property {Array<Warning | WarningObject | string>} warnings - Array of warnings
- * @property {Array<Error | ErrorObject | string>} errors - Array of errors
+ * @property {Array<{ code: string }>} outputs Array of output objects
+ * @property {Array<Warning | WarningObject | string>} warnings Array of warnings
+ * @property {Array<Error | ErrorObject | string>} errors Array of errors
  */
 
 /**
@@ -116,10 +116,10 @@ const {
 
 /**
  * @typedef {object} BasePluginOptions
- * @property {Rule=} test - Test rule for files to process
- * @property {Rule=} include - Include rule for files to process
- * @property {Rule=} exclude - Exclude rule for files to process
- * @property {Parallel=} parallel - Parallel processing configuration
+ * @property {Rule=} test Test rule for files to process
+ * @property {Rule=} include Include rule for files to process
+ * @property {Rule=} exclude Exclude rule for files to process
+ * @property {Parallel=} parallel Parallel processing configuration
  */
 
 /**
