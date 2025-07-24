@@ -27,26 +27,26 @@ const {
 
 /**
  * @typedef {object} WarningObject
- * @property {string} message - The warning message
- * @property {string=} plugin - The plugin name
- * @property {string=} text - The text content
- * @property {number=} line - The line number
- * @property {number=} column - The column number
+ * @property {string} message The warning message
+ * @property {string=} plugin The plugin name
+ * @property {string=} text The text content
+ * @property {number=} line The line number
+ * @property {number=} column The column number
  */
 
 /**
  * @typedef {object} ErrorObject
- * @property {string} message - The error message
- * @property {number=} line - The line number
- * @property {number=} column - The column number
- * @property {string=} stack - The error stack trace
+ * @property {string} message The error message
+ * @property {number=} line The line number
+ * @property {number=} column The column number
+ * @property {string=} stack The error stack trace
  */
 
 /**
  * @typedef {object} MinimizedResultObj
- * @property {string} code - The minimized code
- * @property {Array<Error | ErrorObject| string>=} errors - Array of errors
- * @property {Array<Warning | WarningObject | string>=} warnings - Array of warnings
+ * @property {string} code The minimized code
+ * @property {Array<Error | ErrorObject| string>=} errors Array of errors
+ * @property {Array<Warning | WarningObject | string>=} warnings Array of warnings
  */
 
 /**

@@ -119,55 +119,55 @@ type Warning =
   | string;
 type WarningObject = {
   /**
-   * - The warning message
+   * The warning message
    */
   message: string;
   /**
-   * - The plugin name
+   * The plugin name
    */
   plugin?: string | undefined;
   /**
-   * - The text content
+   * The text content
    */
   text?: string | undefined;
   /**
-   * - The line number
+   * The line number
    */
   line?: number | undefined;
   /**
-   * - The column number
+   * The column number
    */
   column?: number | undefined;
 };
 type ErrorObject = {
   /**
-   * - The error message
+   * The error message
    */
   message: string;
   /**
-   * - The line number
+   * The line number
    */
   line?: number | undefined;
   /**
-   * - The column number
+   * The column number
    */
   column?: number | undefined;
   /**
-   * - The error stack trace
+   * The error stack trace
    */
   stack?: string | undefined;
 };
 type MinimizedResultObj = {
   /**
-   * - The minimized code
+   * The minimized code
    */
   code: string;
   /**
-   * - Array of errors
+   * Array of errors
    */
   errors?: Array<Error | ErrorObject | string> | undefined;
   /**
-   * - Array of warnings
+   * Array of warnings
    */
   warnings?: Array<Warning | WarningObject | string> | undefined;
 };
