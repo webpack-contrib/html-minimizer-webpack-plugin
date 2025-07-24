@@ -200,15 +200,15 @@ type MinimizerImplementation<T> = T extends any[]
   : BasicMinimizerImplementation<T> & MinimizeFunctionHelpers;
 type InternalOptions<T> = {
   /**
-   * - The name of the minimizer
+   * The name of the minimizer
    */
   name: string;
   /**
-   * - The input content
+   * The input content
    */
   input: string;
   /**
-   * - The minimizer configuration
+   * The minimizer configuration
    */
   minimizer: {
     implementation: MinimizerImplementation<T>;
@@ -217,17 +217,17 @@ type InternalOptions<T> = {
 };
 type InternalResult = {
   /**
-   * - Array of output objects
+   * Array of output objects
    */
   outputs: Array<{
     code: string;
   }>;
   /**
-   * - Array of warnings
+   * Array of warnings
    */
   warnings: Array<Warning | WarningObject | string>;
   /**
-   * - Array of errors
+   * Array of errors
    */
   errors: Array<Error | ErrorObject | string>;
 };
@@ -238,19 +238,19 @@ type MinimizerWorker<T> = JestWorker & {
 type Parallel = undefined | boolean | number;
 type BasePluginOptions = {
   /**
-   * - Test rule for files to process
+   * Test rule for files to process
    */
   test?: Rule | undefined;
   /**
-   * - Include rule for files to process
+   * Include rule for files to process
    */
   include?: Rule | undefined;
   /**
-   * - Exclude rule for files to process
+   * Exclude rule for files to process
    */
   exclude?: Rule | undefined;
   /**
-   * - Parallel processing configuration
+   * Parallel processing configuration
    */
   parallel?: Parallel | undefined;
 };
