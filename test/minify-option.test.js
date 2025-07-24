@@ -18,8 +18,8 @@ describe('"minify" option', () => {
         collapseWhitespace: true,
       },
       minify: (data, minimizerOptions) => {
-        // eslint-disable-next-line global-require
         const htmlMinifier = require("html-minifier-terser");
+
         const [[, input]] = Object.entries(data);
 
         return htmlMinifier.minify(input, minimizerOptions);

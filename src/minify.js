@@ -3,8 +3,8 @@
 
 /**
  * @template T
- * @param {import("./index.js").InternalOptions<T>} options
- * @returns {Promise<InternalResult>}
+ * @param {import("./index.js").InternalOptions<T>} options The minification options
+ * @returns {Promise<InternalResult>} Promise that resolves to the minification result
  */
 async function minify(options) {
   const minifyFns = Array.isArray(options.minimizer.implementation)
@@ -25,7 +25,7 @@ async function minify(options) {
         : { code: options.input };
     const { code } = prevResult;
     /** @type {MinimizedResult} */
-    // eslint-disable-next-line no-await-in-loop
+
     const minifyResult = await minifyFn(
       { [options.name]: code },
       minifyOptions,
@@ -44,11 +44,11 @@ async function minify(options) {
       result.outputs.push({ code: minifyResult });
     } else {
       if (minifyResult.errors) {
-        result.errors = result.errors.concat(minifyResult.errors);
+        result.errors = [...result.errors, ...minifyResult.errors];
       }
 
       if (minifyResult.warnings) {
-        result.warnings = result.warnings.concat(minifyResult.warnings);
+        result.warnings = [...result.warnings, ...minifyResult.warnings];
       }
 
       result.outputs.push({ code: minifyResult.code });
@@ -62,13 +62,13 @@ async function minify(options) {
 
 /**
  * @template T
- * @param {import("./index.js").InternalOptions<T>} options
- * @returns {Promise<InternalResult>}
+ * @param {import("./index.js").InternalOptions<T>} options The transformation options
+ * @returns {Promise<InternalResult>} Promise that resolves to the transformation result
  */
 async function transform(options) {
   // 'use strict' => this === undefined (Clean Scope)
   // Safer for possible security issues, albeit not critical at all here
-  // eslint-disable-next-line no-new-func, no-param-reassign
+  // eslint-disable-next-line no-new-func
   const evaluatedOptions = new Function(
     "exports",
     "require",
@@ -76,7 +76,7 @@ async function transform(options) {
     "__filename",
     "__dirname",
     `'use strict'\nreturn ${options}`,
-  )(exports, require, module, __filename, __dirname);
+  )(module.exports, require, module, __filename, __dirname);
 
   return minify(evaluatedOptions);
 }

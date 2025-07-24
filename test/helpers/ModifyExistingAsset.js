@@ -9,9 +9,8 @@ export default class ExistingCommentsFile {
 
     compiler.hooks.thisCompilation.tap(plugin, (compilation) => {
       compilation.hooks.additionalAssets.tap(plugin, () => {
-        // eslint-disable-next-line no-param-reassign
         compilation.assets[this.options.name] = new ConcatSource(
-          `<p> Modified!!! </p>`,
+          "<p> Modified!!! </p>",
           compilation.assets[this.options.name],
         );
       });

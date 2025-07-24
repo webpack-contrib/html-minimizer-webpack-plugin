@@ -82,8 +82,8 @@ Then add the plugin to your `webpack` configuration. For example:
 **webpack.config.js**
 
 ```js
-const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 
 module.exports = {
   module: {
@@ -167,7 +167,7 @@ Finally, run `webpack` using the method you normally use (e.g., via CLI or an np
 Type:
 
 ```ts
-type test = string | RegExp | Array<string | RegExp>;
+type test = string | RegExp | (string | RegExp)[];
 ```
 
 Default: `/\.html(\?.*)?$/i`
@@ -192,7 +192,7 @@ module.exports = {
 Type:
 
 ```ts
-type include = string | RegExp | Array<string | RegExp>;
+type include = string | RegExp | (string | RegExp)[];
 ```
 
 Default: `undefined`
@@ -219,7 +219,7 @@ module.exports = {
 Type:
 
 ```ts
-type exclude = string | RegExp | Array<string | RegExp>;
+type exclude = string | RegExp | (string | RegExp)[];
 ```
 
 Default: `undefined`
@@ -306,20 +306,16 @@ Type:
 ```ts
 type minify =
   | ((
-      data: { [file: string]: string },
-      minimizerOptions: {
-        [key: string]: any;
-      },
+      data: Record<string, string>,
+      minimizerOptions: Record<string, any>,
     ) => {
       code: string;
       errors?: unknown[] | undefined;
       warnings?: unknown[] | undefined;
     })
   | ((
-      data: { [file: string]: string },
-      minimizerOptions: {
-        [key: string]: any;
-      },
+      data: Record<string, string>,
+      minimizerOptions: Record<string, any>,
     ) => {
       code: string;
       errors?: unknown[] | undefined;
@@ -367,6 +363,7 @@ module.exports = {
         },
         minify: (data, minimizerOptions) => {
           const htmlMinifier = require("html-minifier-terser");
+
           const [[filename, input]] = Object.entries(data);
 
           return {
@@ -411,7 +408,7 @@ module.exports = {
             const [[filename, input]] = Object.entries(data);
             // To do something
             return {
-              code: `optimised code`,
+              code: "optimised code",
               warnings: [],
               errors: [],
             };
@@ -428,13 +425,7 @@ module.exports = {
 Type:
 
 ```ts
-type minimizerOptions =
-  | {
-      [key: string]: any;
-    }
-  | Array<{
-      [key: string]: any;
-    }>;
+type minimizerOptions = Record<string, any> | Record<string, any>[];
 ```
 
 Default:
@@ -501,7 +492,7 @@ module.exports = {
             const [[filename, input]] = Object.entries(data);
             // To do something
             return {
-              code: `optimised code`,
+              code: "optimised code",
               warnings: [],
               errors: [],
             };
@@ -522,8 +513,8 @@ Available [`options`](https://github.com/swc-project/bindings/blob/main/packages
 HTML Documents:
 
 ```js
-const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 
 module.exports = {
   module: {
@@ -563,9 +554,9 @@ HTML Fragments:
 Use this for partial HTML files (e.g. inside `<template></template>` tags or HTML strings).
 
 ```js
-const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
+const path = require("node:path");
 const CopyPlugin = require("copy-webpack-plugin");
-const path = require("path");
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 
 module.exports = {
   module: {
@@ -608,8 +599,8 @@ Available [`options`](https://github.com/wilsonzlin/minify-html#minification).
 HTML Documents:
 
 ```js
-const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const HtmlMinimizerPlugin = require("html-minimizer-webpack-plugin");
 
 module.exports = {
   module: {

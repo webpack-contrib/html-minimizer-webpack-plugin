@@ -1,9 +1,14 @@
-import path from "path";
+import path from "node:path";
 
-import webpack from "webpack";
-import { createFsFromVolume, Volume } from "memfs";
 import CopyPlugin from "copy-webpack-plugin";
+import { Volume, createFsFromVolume } from "memfs";
+import webpack from "webpack";
 
+/**
+ * @param {string=} htmlFixture The HTML fixture file path
+ * @param {import("webpack").Configuration=} config The webpack configuration
+ * @returns {import("webpack").Compiler} The webpack compiler instance
+ */
 export default function getCompiler(htmlFixture, config = {}) {
   const compiler = webpack(
     Array.isArray(config)
@@ -25,7 +30,7 @@ export default function getCompiler(htmlFixture, config = {}) {
             chunkFilename: "[id].[name].js",
             assetModuleFilename: "[name][ext]",
           },
-          plugins: [].concat(
+          plugins: [
             htmlFixture
               ? [
                   new CopyPlugin({
@@ -38,9 +43,9 @@ export default function getCompiler(htmlFixture, config = {}) {
                   }),
                 ]
               : [],
-          ),
+          ].flat(),
           module: {
-            rules: [].concat(
+            rules: [
               !htmlFixture
                 ? [
                     {
@@ -49,7 +54,7 @@ export default function getCompiler(htmlFixture, config = {}) {
                     },
                   ]
                 : [],
-            ),
+            ].flat(),
           },
           ...config,
         },

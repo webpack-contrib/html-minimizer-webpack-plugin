@@ -1,15 +1,15 @@
-import path from "path";
+import path from "node:path";
 
 import HtmlMinimizerPlugin from "../src/index";
 
 import {
+  EmitNewAsset,
+  ModifyExistingAsset,
   compile,
   getCompiler,
   getErrors,
   getWarnings,
   readAssets,
-  ModifyExistingAsset,
-  EmitNewAsset,
 } from "./helpers";
 
 describe("HtmlMinimizerPlugin", () => {
@@ -75,9 +75,8 @@ describe("HtmlMinimizerPlugin", () => {
     new HtmlMinimizerPlugin({
       parallel: true,
       minify: () => {
-        // eslint-disable-next-line no-console
         process.stdout.write("stdout\n");
-        // eslint-disable-next-line no-console
+
         process.stderr.write("stderr\n");
 
         return '<!-- Comment --><p title="blah" id="moo">  foo  </p>';
@@ -172,19 +171,15 @@ describe("HtmlMinimizerPlugin", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
 
-    await new Promise(async (resolve) => {
-      const newStats = await compile(compiler);
+    const newStats = await compile(compiler);
 
-      expect(newStats.compilation.emittedAssets.size).toBe(0);
+    expect(newStats.compilation.emittedAssets.size).toBe(0);
 
-      expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
-        "assets",
-      );
-      expect(getWarnings(newStats)).toMatchSnapshot("errors");
-      expect(getErrors(newStats)).toMatchSnapshot("warnings");
-
-      resolve();
-    });
+    expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
+      "assets",
+    );
+    expect(getWarnings(newStats)).toMatchSnapshot("errors");
+    expect(getErrors(newStats)).toMatchSnapshot("warnings");
   });
 
   it("should work and use memory cache", async () => {
@@ -206,19 +201,15 @@ describe("HtmlMinimizerPlugin", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
 
-    await new Promise(async (resolve) => {
-      const newStats = await compile(compiler);
+    const newStats = await compile(compiler);
 
-      expect(newStats.compilation.emittedAssets.size).toBe(0);
+    expect(newStats.compilation.emittedAssets.size).toBe(0);
 
-      expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
-        "assets",
-      );
-      expect(getWarnings(newStats)).toMatchSnapshot("errors");
-      expect(getErrors(newStats)).toMatchSnapshot("warnings");
-
-      resolve();
-    });
+    expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
+      "assets",
+    );
+    expect(getWarnings(newStats)).toMatchSnapshot("errors");
+    expect(getErrors(newStats)).toMatchSnapshot("warnings");
   });
 
   it('should work and use memory cache when the "cache" option is "true"', async () => {
@@ -240,19 +231,15 @@ describe("HtmlMinimizerPlugin", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
 
-    await new Promise(async (resolve) => {
-      const newStats = await compile(compiler);
+    const newStats = await compile(compiler);
 
-      expect(newStats.compilation.emittedAssets.size).toBe(0);
+    expect(newStats.compilation.emittedAssets.size).toBe(0);
 
-      expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
-        "assets",
-      );
-      expect(getWarnings(newStats)).toMatchSnapshot("errors");
-      expect(getErrors(newStats)).toMatchSnapshot("warnings");
-
-      resolve();
-    });
+    expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
+      "assets",
+    );
+    expect(getWarnings(newStats)).toMatchSnapshot("errors");
+    expect(getErrors(newStats)).toMatchSnapshot("warnings");
   });
 
   it('should work and use memory cache when the "cache" option is "true" and the asset has been changed', async () => {
@@ -277,19 +264,15 @@ describe("HtmlMinimizerPlugin", () => {
     new ModifyExistingAsset({ name: "cache.html" }).apply(compiler);
     new ModifyExistingAsset({ name: "cache-1.html" }).apply(compiler);
 
-    await new Promise(async (resolve) => {
-      const newStats = await compile(compiler);
+    const newStats = await compile(compiler);
 
-      expect(newStats.compilation.emittedAssets.size).toBe(2);
+    expect(newStats.compilation.emittedAssets.size).toBe(2);
 
-      expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
-        "assets",
-      );
-      expect(getWarnings(newStats)).toMatchSnapshot("errors");
-      expect(getErrors(newStats)).toMatchSnapshot("warnings");
-
-      resolve();
-    });
+    expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
+      "assets",
+    );
+    expect(getWarnings(newStats)).toMatchSnapshot("errors");
+    expect(getErrors(newStats)).toMatchSnapshot("warnings");
   });
 
   it('should work and do not use memory cache when the "cache" option is "false"', async () => {
@@ -311,19 +294,15 @@ describe("HtmlMinimizerPlugin", () => {
     expect(getErrors(stats)).toMatchSnapshot("errors");
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
 
-    await new Promise(async (resolve) => {
-      const newStats = await compile(compiler);
+    const newStats = await compile(compiler);
 
-      expect(newStats.compilation.emittedAssets.size).toBe(6);
+    expect(newStats.compilation.emittedAssets.size).toBe(6);
 
-      expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
-        "assets",
-      );
-      expect(getWarnings(newStats)).toMatchSnapshot("errors");
-      expect(getErrors(newStats)).toMatchSnapshot("warnings");
-
-      resolve();
-    });
+    expect(readAssets(compiler, newStats, /\.html$/i)).toMatchSnapshot(
+      "assets",
+    );
+    expect(getWarnings(newStats)).toMatchSnapshot("errors");
+    expect(getErrors(newStats)).toMatchSnapshot("warnings");
   });
 
   it("should run plugin against assets added later by plugins", async () => {
