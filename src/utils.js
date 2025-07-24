@@ -167,7 +167,10 @@ async function swcMinify(input, minimizerOptions = {}) {
     code: result.code,
     errors: result.errors
       ? result.errors.map((diagnostic) => {
-          const error = /** @type {Error & { span: any; level: any }} */ (new Error(diagnostic.message));
+          // eslint-disable-next-line jsdoc/no-restricted-syntax
+          const error = /** @type {Error & { span: any; level: any }} */ (
+            new Error(diagnostic.message)
+          );
 
           error.span = diagnostic.span;
 
@@ -208,7 +211,10 @@ async function swcMinifyFragment(input, minimizerOptions = {}) {
     code: result.code,
     errors: result.errors
       ? result.errors.map((diagnostic) => {
-          const error = /** @type {Error & { span: any; level: any }} */ (new Error(diagnostic.message));
+          // eslint-disable-next-line jsdoc/no-restricted-syntax
+          const error = /** @type {Error & { span: any; level: any }} */ (
+            new Error(diagnostic.message)
+          );
 
           error.span = diagnostic.span;
 
