@@ -430,6 +430,8 @@ type minimizerOptions = Record<string, any> | Record<string, any>[];
 
 Default:
 
+<!-- eslint-skip -->
+
 ```js
 {
 caseSensitive: true,
@@ -597,6 +599,8 @@ module.exports = {
 Available [`options`](https://github.com/wilsonzlin/minify-html#minification).
 
 HTML Documents:
+
+<!-- eslint-skip -->
 
 ```js
 const CopyPlugin = require("copy-webpack-plugin");

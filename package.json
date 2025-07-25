@@ -38,7 +38,7 @@
     "commitlint": "commitlint --from=master",
     "security": "npm audit",
     "lint:prettier": "prettier --cache --list-different .",
-    "lint:js": "eslint --cache . --ignore-pattern \"*.md\"",
+    "lint:js": "eslint --cache .",
     "lint:spelling": "cspell --cache --no-must-find-files --quiet \"**/*.*\"",
     "lint:types": "tsc --pretty --noEmit",
     "lint": "npm-run-all -l -p \"lint:**\"",
