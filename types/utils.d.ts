@@ -2,6 +2,7 @@ export type Task<T> = () => Promise<T>;
 export type MinimizedResult = import("./index.js").MinimizedResult;
 export type CustomOptions = import("./index.js").CustomOptions;
 export type Input = import("./index.js").Input;
+export type EXPECTED_ANY = any;
 /**
  * @param {Input} input The input to minify
  * @param {CustomOptions=} minimizerOptions The minimizer options
@@ -24,10 +25,10 @@ export namespace htmlMinifierTerser {
 }
 /**
  * @template T
- * @param {(() => any) | undefined} fn The function to memoize
+ * @param {(() => EXPECTED_ANY) | undefined} fn The function to memoize
  * @returns {() => T} The memoized function
  */
-export function memoize<T>(fn: (() => any) | undefined): () => T;
+export function memoize<T>(fn: (() => EXPECTED_ANY) | undefined): () => T;
 /**
  * @param {Input} input The input to minify
  * @param {CustomOptions=} minimizerOptions The minimizer options

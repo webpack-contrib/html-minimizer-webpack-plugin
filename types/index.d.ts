@@ -13,14 +13,14 @@ declare class HtmlMinimizerPlugin<
 > {
   /**
    * @private
-   * @param {any} warning The warning to build
+   * @param {EXPECTED_ANY} warning The warning to build
    * @param {string} file The file path
    * @returns {Error & { hideStack?: boolean, file?: string } | undefined} The built warning
    */
   private static buildWarning;
   /**
    * @private
-   * @param {any} error The error to build
+   * @param {EXPECTED_ANY} error The error to build
    * @param {string} file The file path
    * @returns {Error} The built error
    */
@@ -76,6 +76,7 @@ declare namespace HtmlMinimizerPlugin {
     JestWorker,
     Rule,
     Rules,
+    EXPECTED_ANY,
     Warning,
     WarningObject,
     ErrorObject,
@@ -110,6 +111,7 @@ type Asset = import("webpack").Asset;
 type JestWorker = import("jest-worker").Worker;
 type Rule = RegExp | string;
 type Rules = Rule[] | Rule;
+type EXPECTED_ANY = any;
 type Warning =
   | (Error & {
       plugin?: string;
@@ -176,7 +178,7 @@ type Input = {
   [file: string]: string;
 };
 type CustomOptions = {
-  [key: string]: any;
+  [key: string]: EXPECTED_ANY;
 };
 type InferDefaultType<T> = T extends infer U ? U : CustomOptions;
 type MinimizerOptions<T> = T extends any[]
