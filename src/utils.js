@@ -1,6 +1,8 @@
 /** @typedef {import("./index.js").MinimizedResult} MinimizedResult */
 /** @typedef {import("./index.js").CustomOptions} CustomOptions */
 /** @typedef {import("./index.js").Input} Input */
+// eslint-disable-next-line jsdoc/no-restricted-syntax
+/** @typedef {any} EXPECTED_ANY */
 
 const notSettled = Symbol("not-settled");
 
@@ -167,10 +169,10 @@ async function swcMinify(input, minimizerOptions = {}) {
     code: result.code,
     errors: result.errors
       ? result.errors.map((diagnostic) => {
-          // eslint-disable-next-line jsdoc/no-restricted-syntax
-          const error = /** @type {Error & { span: any; level: any }} */ (
-            new Error(diagnostic.message)
-          );
+          const error =
+            /** @type {Error & { span: EXPECTED_ANY; level: EXPECTED_ANY }} */ (
+              new Error(diagnostic.message)
+            );
 
           error.span = diagnostic.span;
 
@@ -211,10 +213,10 @@ async function swcMinifyFragment(input, minimizerOptions = {}) {
     code: result.code,
     errors: result.errors
       ? result.errors.map((diagnostic) => {
-          // eslint-disable-next-line jsdoc/no-restricted-syntax
-          const error = /** @type {Error & { span: any; level: any }} */ (
-            new Error(diagnostic.message)
-          );
+          const error =
+            /** @type {Error & { span: EXPECTED_ANY; level: EXPECTED_ANY }} */ (
+              new Error(diagnostic.message)
+            );
 
           error.span = diagnostic.span;
 
@@ -231,10 +233,9 @@ async function swcMinifyFragment(input, minimizerOptions = {}) {
  */
 swcMinifyFragment.supportsWorkerThreads = () => false;
 
-// eslint-disable-next-line jsdoc/no-restricted-syntax
 /**
  * @template T
- * @param {(() => any) | undefined} fn The function to memoize
+ * @param {(() => EXPECTED_ANY) | undefined} fn The function to memoize
  * @returns {() => T} The memoized function
  */
 function memoize(fn) {
@@ -246,8 +247,7 @@ function memoize(fn) {
     if (cache) {
       return result;
     }
-    // eslint-disable-next-line jsdoc/no-restricted-syntax
-    result = /** @type {() => any} */ (fn)();
+    result = /** @type {() => EXPECTED_ANY} */ (fn)();
     cache = true;
     // Allow to clean up memory for fn
     // and all dependent resources

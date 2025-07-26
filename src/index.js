@@ -22,6 +22,8 @@ const {
 
 /** @typedef {RegExp | string} Rule */
 /** @typedef {Rule[] | Rule} Rules */
+// eslint-disable-next-line jsdoc/no-restricted-syntax
+/** @typedef {any} EXPECTED_ANY */
 
 /** @typedef {Error & { plugin?: string, text?: string, source?: string } | string} Warning */
 
@@ -57,9 +59,8 @@ const {
  * @typedef {{ [file: string]: string }} Input
  */
 
-// eslint-disable-next-line jsdoc/no-restricted-syntax
 /**
- * @typedef {{ [key: string]: any }} CustomOptions
+ * @typedef {{ [key: string]: EXPECTED_ANY }} CustomOptions
  */
 
 /**
@@ -177,10 +178,9 @@ class HtmlMinimizerPlugin {
     };
   }
 
-  // eslint-disable-next-line jsdoc/no-restricted-syntax
   /**
    * @private
-   * @param {any} warning The warning to build
+   * @param {EXPECTED_ANY} warning The warning to build
    * @param {string} file The file path
    * @returns {Error & { hideStack?: boolean, file?: string } | undefined} The built warning
    */
@@ -203,10 +203,9 @@ class HtmlMinimizerPlugin {
     return builtWarning;
   }
 
-  // eslint-disable-next-line jsdoc/no-restricted-syntax
   /**
    * @private
-   * @param {any} error The error to build
+   * @param {EXPECTED_ANY} error The error to build
    * @param {string} file The file path
    * @returns {Error} The built error
    */
