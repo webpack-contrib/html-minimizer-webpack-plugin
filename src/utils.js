@@ -1,8 +1,10 @@
 /** @typedef {import("./index.js").MinimizedResult} MinimizedResult */
 /** @typedef {import("./index.js").CustomOptions} CustomOptions */
 /** @typedef {import("./index.js").Input} Input */
+// eslint-disable-next-line jsdoc/no-restricted-syntax
+/** @typedef {any} EXPECTED_ANY */
 
-const notSettled = Symbol(`not-settled`);
+const notSettled = Symbol("not-settled");
 
 /**
  * @template T
@@ -12,8 +14,8 @@ const notSettled = Symbol(`not-settled`);
 /**
  * Run tasks with limited concurrency.
  * @template T
- * @param {number} limit - Limit of tasks that run at once.
- * @param {Task<T>[]} tasks - List of tasks to run.
+ * @param {number} limit Limit of tasks that run at once.
+ * @param {Task<T>[]} tasks List of tasks to run.
  * @returns {Promise<T[]>} A promise that fulfills to an array of the results
  */
 function throttleAll(limit, tasks) {
@@ -25,15 +27,15 @@ function throttleAll(limit, tasks) {
 
   if (
     !Array.isArray(tasks) ||
-    !tasks.every((task) => typeof task === `function`)
+    !tasks.every((task) => typeof task === "function")
   ) {
     throw new TypeError(
-      `Expected \`tasks\` to be a list of functions returning a promise`,
+      "Expected `tasks` to be a list of functions returning a promise",
     );
   }
 
   return new Promise((resolve, reject) => {
-    const result = Array(tasks.length).fill(notSettled);
+    const result = Array.from({ length: tasks.length }).fill(notSettled);
 
     const entries = tasks.entries();
 
@@ -43,7 +45,7 @@ function throttleAll(limit, tasks) {
       if (done) {
         const isLast = !result.includes(notSettled);
 
-        if (isLast) resolve(/** @type{T[]} **/ (result));
+        if (isLast) resolve(/** @type {T[]} */ (result));
 
         return;
       }
@@ -51,29 +53,36 @@ function throttleAll(limit, tasks) {
       const [index, task] = value;
 
       /**
-       * @param {T} x
+       * @param {T} value The resolved value
        */
-      const onFulfilled = (x) => {
-        result[index] = x;
+      const onFulfilled = (value) => {
+        result[index] = value;
         next();
       };
 
       task().then(onFulfilled, reject);
     };
 
-    Array(limit).fill(0).forEach(next);
+    for (const _ of Array.from({ length: limit }, () => 0)) {
+      next();
+    }
   });
 }
 
 /**
- * @param {Input} input
- * @param {CustomOptions } [minimizerOptions]
- * @returns {Promise<MinimizedResult>}
+ * @param {Input} input The input to minify
+ * @param {CustomOptions=} minimizerOptions The minimizer options
+ * @returns {Promise<MinimizedResult>} Promise that resolves to the minified result
  */
 /* istanbul ignore next */
+/**
+ * @param {Input} input The input to minify
+ * @param {CustomOptions=} minimizerOptions The minimizer options
+ * @returns {Promise<MinimizedResult>} Promise that resolves to the minified result
+ */
 async function htmlMinifierTerser(input, minimizerOptions = {}) {
-  // eslint-disable-next-line global-require, import/no-extraneous-dependencies
   const htmlMinifier = require("html-minifier-terser");
+
   const [[, code]] = Object.entries(input);
   /** @type {import("html-minifier-terser").Options} */
   const defaultMinimizerOptions = {
@@ -102,17 +111,25 @@ async function htmlMinifierTerser(input, minimizerOptions = {}) {
   return { code: result };
 }
 
+/**
+ * @returns {boolean} Whether worker threads are supported
+ */
 htmlMinifierTerser.supportsWorkerThreads = () => true;
 
 /**
- * @param {Input} input
- * @param {CustomOptions} [minimizerOptions]
- * @returns {Promise<MinimizedResult>}
+ * @param {Input} input The input to minify
+ * @param {CustomOptions=} minimizerOptions The minimizer options
+ * @returns {Promise<MinimizedResult>} Promise that resolves to the minified result
  */
 /* istanbul ignore next */
+/**
+ * @param {Input} input The input to minify
+ * @param {CustomOptions=} minimizerOptions The minimizer options
+ * @returns {Promise<MinimizedResult>} Promise that resolves to the minified result
+ */
 async function minifyHtmlNode(input, minimizerOptions = {}) {
-  // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
   const minifyHtmlPkg = require("@minify-html/node");
+
   const [[, code]] = Object.entries(input);
   const options =
     /** @type {Parameters<import("@minify-html/node").minify>[1]} */ ({
@@ -123,17 +140,25 @@ async function minifyHtmlNode(input, minimizerOptions = {}) {
   return { code: result.toString() };
 }
 
+/**
+ * @returns {boolean} Whether worker threads are supported
+ */
 minifyHtmlNode.supportsWorkerThreads = () => false;
 
 /**
- * @param {Input} input
- * @param {CustomOptions} [minimizerOptions]
- * @returns {Promise<MinimizedResult>}
+ * @param {Input} input The input to minify
+ * @param {CustomOptions=} minimizerOptions The minimizer options
+ * @returns {Promise<MinimizedResult>} Promise that resolves to the minified result
  */
 /* istanbul ignore next */
+/**
+ * @param {Input} input The input to minify
+ * @param {CustomOptions=} minimizerOptions The minimizer options
+ * @returns {Promise<MinimizedResult>} Promise that resolves to the minified result
+ */
 async function swcMinify(input, minimizerOptions = {}) {
-  // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
   const swcMinifier = require("@swc/html");
+
   const [[, code]] = Object.entries(input);
   const options = /** @type {import("@swc/html").Options} */ ({
     ...minimizerOptions,
@@ -144,31 +169,40 @@ async function swcMinify(input, minimizerOptions = {}) {
     code: result.code,
     errors: result.errors
       ? result.errors.map((diagnostic) => {
-          const error = new Error(diagnostic.message);
+          const error =
+            /** @type {Error & { span: EXPECTED_ANY; level: EXPECTED_ANY }} */ (
+              new Error(diagnostic.message)
+            );
 
-          // @ts-ignore
           error.span = diagnostic.span;
-          // @ts-ignore
+
           error.level = diagnostic.level;
 
           return error;
         })
-      : // eslint-disable-next-line no-undefined
-        undefined,
+      : undefined,
   };
 }
 
+/**
+ * @returns {boolean} Whether worker threads are supported
+ */
 swcMinify.supportsWorkerThreads = () => false;
 
 /**
- * @param {Input} input
- * @param {CustomOptions} [minimizerOptions]
- * @returns {Promise<MinimizedResult>}
+ * @param {Input} input The input to minify
+ * @param {CustomOptions=} minimizerOptions The minimizer options
+ * @returns {Promise<MinimizedResult>} Promise that resolves to the minified result
  */
 /* istanbul ignore next */
+/**
+ * @param {Input} input The input to minify
+ * @param {CustomOptions=} minimizerOptions The minimizer options
+ * @returns {Promise<MinimizedResult>} Promise that resolves to the minified result
+ */
 async function swcMinifyFragment(input, minimizerOptions = {}) {
-  // eslint-disable-next-line global-require, import/no-extraneous-dependencies, import/no-unresolved
   const swcMinifier = require("@swc/html");
+
   const [[, code]] = Object.entries(input);
   const options = /** @type {import("@swc/html").FragmentOptions} */ ({
     ...minimizerOptions,
@@ -179,26 +213,30 @@ async function swcMinifyFragment(input, minimizerOptions = {}) {
     code: result.code,
     errors: result.errors
       ? result.errors.map((diagnostic) => {
-          const error = new Error(diagnostic.message);
+          const error =
+            /** @type {Error & { span: EXPECTED_ANY; level: EXPECTED_ANY }} */ (
+              new Error(diagnostic.message)
+            );
 
-          // @ts-ignore
           error.span = diagnostic.span;
-          // @ts-ignore
+
           error.level = diagnostic.level;
 
           return error;
         })
-      : // eslint-disable-next-line no-undefined
-        undefined,
+      : undefined,
   };
 }
 
+/**
+ * @returns {boolean} Whether worker threads are supported
+ */
 swcMinifyFragment.supportsWorkerThreads = () => false;
 
 /**
  * @template T
- * @param fn {(function(): any) | undefined}
- * @returns {function(): T}
+ * @param {(() => EXPECTED_ANY) | undefined} fn The function to memoize
+ * @returns {() => T} The memoized function
  */
 function memoize(fn) {
   let cache = false;
@@ -209,11 +247,11 @@ function memoize(fn) {
     if (cache) {
       return result;
     }
-    result = /** @type {function(): any} */ (fn)();
+    result = /** @type {() => EXPECTED_ANY} */ (fn)();
     cache = true;
     // Allow to clean up memory for fn
     // and all dependent resources
-    // eslint-disable-next-line no-undefined, no-param-reassign
+
     fn = undefined;
 
     return result;
@@ -221,10 +259,10 @@ function memoize(fn) {
 }
 
 module.exports = {
-  throttleAll,
-  memoize,
   htmlMinifierTerser,
+  memoize,
+  minifyHtmlNode,
   swcMinify,
   swcMinifyFragment,
-  minifyHtmlNode,
+  throttleAll,
 };

@@ -1,4 +1,4 @@
-import os from "os";
+import os from "node:os";
 
 import { Worker } from "jest-worker";
 
@@ -24,9 +24,7 @@ jest.mock("os", () => {
 
   const mocked = {
     availableParallelism: isAvailableParallelism ? jest.fn(() => 4) : undefined,
-    cpus: jest.fn(() => {
-      return { length: 4 };
-    }),
+    cpus: jest.fn(() => ({ length: 4 })),
   };
 
   return { ...actualOs, ...mocked };
@@ -36,22 +34,16 @@ jest.mock("os", () => {
 let workerTransform;
 let workerEnd;
 
-jest.mock("jest-worker", () => {
-  return {
-    Worker: jest.fn().mockImplementation((workerPath) => {
-      return {
-        // eslint-disable-next-line global-require, import/no-dynamic-require
-        transform: (workerTransform = jest.fn((data) =>
-          // eslint-disable-next-line global-require, import/no-dynamic-require
-          require(workerPath).transform(data),
-        )),
-        end: (workerEnd = jest.fn()),
-        getStderr: jest.fn(),
-        getStdout: jest.fn(),
-      };
-    }),
-  };
-});
+jest.mock("jest-worker", () => ({
+  Worker: jest.fn().mockImplementation((workerPath) => ({
+    transform: (workerTransform = jest.fn((data) =>
+      require(workerPath).transform(data),
+    )),
+    end: (workerEnd = jest.fn()),
+    getStderr: jest.fn(),
+    getStdout: jest.fn(),
+  })),
+}));
 
 const workerPath = require.resolve("../src/minify");
 
@@ -126,7 +118,7 @@ describe("parallel option", () => {
     expect(getWarnings(stats)).toMatchSnapshot("warnings");
   });
 
-  it('should match snapshot for the "true" value', async () => {
+  it('should match snapshot for the "undefined" value', async () => {
     new HtmlMinimizerPlugin({ parallel: undefined }).apply(compiler);
 
     const stats = await compile(compiler);

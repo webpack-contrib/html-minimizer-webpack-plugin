@@ -1,7 +1,7 @@
 import serialize from "serialize-javascript";
 
-import { transform } from "../src/minify";
 import HtmlMinimizerPlugin from "../src";
+import { transform } from "../src/minify";
 
 import { normalizeErrors } from "./helpers";
 
@@ -43,11 +43,9 @@ describe("worker", () => {
       name: "entry.html",
       input: '<!-- Comment --><p title="blah" id="moo">     foo     </p>',
       minimizer: {
-        implementation: () => {
-          return {
-            code: '<!-- From minify function --><p class="atata">from-minify-function</p>',
-          };
-        },
+        implementation: () => ({
+          code: '<!-- From minify function --><p class="atata">from-minify-function</p>',
+        }),
         options: { removeComments: false },
       },
     };
@@ -62,16 +60,12 @@ describe("worker", () => {
       input: '<!-- Comment --><p title="blah" id="moo">     foo     </p>',
       minimizer: {
         implementation: [
-          () => {
-            return {
-              code: '<!-- From minify function 1 --><p class="atata">from-minify-function</p>',
-            };
-          },
-          () => {
-            return {
-              code: '<!-- From minify function 2 --><p class="atata">from-minify-function</p>',
-            };
-          },
+          () => ({
+            code: '<!-- From minify function 1 --><p class="atata">from-minify-function</p>',
+          }),
+          () => ({
+            code: '<!-- From minify function 2 --><p class="atata">from-minify-function</p>',
+          }),
         ],
         options: { removeComments: false },
       },
@@ -87,16 +81,12 @@ describe("worker", () => {
       input: '<!-- Comment --><p title="blah" id="moo">     foo     </p>',
       minimizer: {
         implementation: [
-          () => {
-            return {
-              code: '<!-- From minify function 1 --><p class="atata">from-minify-function</p>',
-            };
-          },
-          (_code, opt) => {
-            return {
-              code: `<!-- From minify function with "{ removeComments: ${opt.removeComments} }" --><p class="atata">from-minify-function</p>`,
-            };
-          },
+          () => ({
+            code: '<!-- From minify function 1 --><p class="atata">from-minify-function</p>',
+          }),
+          (_code, opt) => ({
+            code: `<!-- From minify function with "{ removeComments: ${opt.removeComments} }" --><p class="atata">from-minify-function</p>`,
+          }),
         ],
         options: [{ removeComments: false }, { removeComments: true }],
       },

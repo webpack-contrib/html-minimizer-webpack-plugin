@@ -1,17 +1,17 @@
-const os = require("os");
+const os = require("node:os");
 
 const { validate } = require("schema-utils");
 
+const { minify: internalMinify } = require("./minify");
+const schema = require("./options.json");
 const {
-  throttleAll,
-  memoize,
   htmlMinifierTerser,
+  memoize,
+  minifyHtmlNode,
   swcMinify,
   swcMinifyFragment,
-  minifyHtmlNode,
+  throttleAll,
 } = require("./utils");
-const schema = require("./options.json");
-const { minify: internalMinify } = require("./minify");
 
 /** @typedef {import("schema-utils/declarations/validate").Schema} Schema */
 /** @typedef {import("webpack").Compiler} Compiler */
@@ -22,31 +22,33 @@ const { minify: internalMinify } = require("./minify");
 
 /** @typedef {RegExp | string} Rule */
 /** @typedef {Rule[] | Rule} Rules */
+// eslint-disable-next-line jsdoc/no-restricted-syntax
+/** @typedef {any} EXPECTED_ANY */
 
 /** @typedef {Error & { plugin?: string, text?: string, source?: string } | string} Warning */
 
 /**
- * @typedef {Object} WarningObject
- * @property {string} message
- * @property {string} [plugin]
- * @property {string} [text]
- * @property {number} [line]
- * @property {number} [column]
+ * @typedef {object} WarningObject
+ * @property {string} message The warning message
+ * @property {string=} plugin The plugin name
+ * @property {string=} text The text content
+ * @property {number=} line The line number
+ * @property {number=} column The column number
  */
 
 /**
- * @typedef {Object} ErrorObject
- * @property {string} message
- * @property {number} [line]
- * @property {number} [column]
- * @property {string} [stack]
+ * @typedef {object} ErrorObject
+ * @property {string} message The error message
+ * @property {number=} line The line number
+ * @property {number=} column The column number
+ * @property {string=} stack The error stack trace
  */
 
 /**
- * @typedef {Object} MinimizedResultObj
- * @property {string} code
- * @property {Array<Error | ErrorObject| string>} [errors]
- * @property {Array<Warning | WarningObject | string>} [warnings]
+ * @typedef {object} MinimizedResultObj
+ * @property {string} code The minimized code
+ * @property {Array<Error | ErrorObject| string>=} errors Array of errors
+ * @property {Array<Warning | WarningObject | string>=} warnings Array of warnings
  */
 
 /**
@@ -58,7 +60,7 @@ const { minify: internalMinify } = require("./minify");
  */
 
 /**
- * @typedef {{ [key: string]: any }} CustomOptions
+ * @typedef {{ [key: string]: EXPECTED_ANY }} CustomOptions
  */
 
 /**
@@ -81,7 +83,7 @@ const { minify: internalMinify } = require("./minify");
 
 /**
  * @typedef {object} MinimizeFunctionHelpers
- * @property {() => boolean | undefined} [supportsWorkerThreads]
+ * @property {() => boolean | undefined=} supportsWorkerThreads - Function to check if worker threads are supported
  */
 
 /**
@@ -91,17 +93,17 @@ const { minify: internalMinify } = require("./minify");
 
 /**
  * @template T
- * @typedef {Object} InternalOptions
- * @property {string} name
- * @property {string} input
- * @property {{ implementation: MinimizerImplementation<T>, options: MinimizerOptions<T> }} minimizer
+ * @typedef {object} InternalOptions
+ * @property {string} name The name of the minimizer
+ * @property {string} input The input content
+ * @property {{ implementation: MinimizerImplementation<T>, options: MinimizerOptions<T> }} minimizer The minimizer configuration
  */
 
 /**
  * @typedef InternalResult
- * @property {Array<{ code: string }>} outputs
- * @property {Array<Warning | WarningObject | string>} warnings
- * @property {Array<Error | ErrorObject | string>} errors
+ * @property {Array<{ code: string }>} outputs Array of output objects
+ * @property {Array<Warning | WarningObject | string>} warnings Array of warnings
+ * @property {Array<Error | ErrorObject | string>} errors Array of errors
  */
 
 /**
@@ -114,11 +116,11 @@ const { minify: internalMinify } = require("./minify");
  */
 
 /**
- * @typedef {Object} BasePluginOptions
- * @property {Rule} [test]
- * @property {Rule} [include]
- * @property {Rule} [exclude]
- * @property {Parallel} [parallel]
+ * @typedef {object} BasePluginOptions
+ * @property {Rule=} test Test rule for files to process
+ * @property {Rule=} include Include rule for files to process
+ * @property {Rule=} exclude Exclude rule for files to process
+ * @property {Parallel=} parallel Parallel processing configuration
  */
 
 /**
@@ -131,10 +133,7 @@ const { minify: internalMinify } = require("./minify");
  * @typedef {T extends import("html-minifier-terser").Options ? { minify?: MinimizerImplementation<T> | undefined, minimizerOptions?: MinimizerOptions<T> | undefined } : { minify: MinimizerImplementation<T>, minimizerOptions?: MinimizerOptions<T> | undefined }} DefinedDefaultMinimizerAndOptions
  */
 
-const getSerializeJavascript = memoize(() =>
-  // eslint-disable-next-line global-require
-  require("serialize-javascript"),
-);
+const getSerializeJavascript = memoize(() => require("serialize-javascript"));
 
 /**
  * @template [T=import("html-minifier-terser").Options]
@@ -146,7 +145,7 @@ const getSerializeJavascript = memoize(() =>
  */
 class HtmlMinimizerPlugin {
   /**
-   * @param {T} [options]
+   * @param {T=} options Plugin options
    */
   constructor(options) {
     validate(/** @type {Schema} */ (schema), options || {}, {
@@ -181,9 +180,9 @@ class HtmlMinimizerPlugin {
 
   /**
    * @private
-   * @param {any} warning
-   * @param {string} file
-   * @returns {Error & { hideStack?: boolean, file?: string } | undefined}
+   * @param {EXPECTED_ANY} warning The warning to build
+   * @param {string} file The file path
+   * @returns {Error & { hideStack?: boolean, file?: string } | undefined} The built warning
    */
   static buildWarning(warning, file) {
     /**
@@ -206,9 +205,9 @@ class HtmlMinimizerPlugin {
 
   /**
    * @private
-   * @param {any} error
-   * @param {string} file
-   * @returns {Error}
+   * @param {EXPECTED_ANY} error The error to build
+   * @param {string} file The file path
+   * @returns {Error} The built error
    */
   static buildError(error, file) {
     /**
@@ -224,7 +223,6 @@ class HtmlMinimizerPlugin {
     }
 
     if (error.stack) {
-      // @ts-ignore
       builtError = new Error(
         `${file} from Html Minimizer plugin\n${
           typeof error.message !== "undefined" ? error.message : ""
@@ -245,16 +243,18 @@ class HtmlMinimizerPlugin {
 
   /**
    * @private
-   * @param {Parallel} parallel
-   * @returns {number}
+   * @param {Parallel} parallel Parallel configuration
+   * @returns {number} The number of available cores
    */
   static getAvailableNumberOfCores(parallel) {
     // In some cases cpus() returns undefined
     // https://github.com/nodejs/node/issues/19022
+    /* eslint-disable n/no-unsupported-features/node-builtins */
     const cpus =
       typeof os.availableParallelism === "function"
-        ? { length: os.availableParallelism() }
+        ? { length: /** @type {number} */ (os.availableParallelism()) }
         : os.cpus() || { length: 1 };
+    /* eslint-enable n/no-unsupported-features/node-builtins */
 
     return parallel === true || typeof parallel === "undefined"
       ? cpus.length - 1
@@ -264,8 +264,8 @@ class HtmlMinimizerPlugin {
   /**
    * @private
    * @template T
-   * @param {BasicMinimizerImplementation<T> & MinimizeFunctionHelpers} implementation
-   * @returns {boolean}
+   * @param {BasicMinimizerImplementation<T> & MinimizeFunctionHelpers} implementation The minimizer implementation
+   * @returns {boolean} Whether worker threads are supported
    */
   static isSupportsWorkerThreads(implementation) {
     return typeof implementation.supportsWorkerThreads !== "undefined"
@@ -275,11 +275,11 @@ class HtmlMinimizerPlugin {
 
   /**
    * @private
-   * @param {Compiler} compiler
-   * @param {Compilation} compilation
-   * @param {Record<string, import("webpack").sources.Source>} assets
-   * @param {{availableNumberOfCores: number}} optimizeOptions
-   * @returns {Promise<void>}
+   * @param {Compiler} compiler The webpack compiler
+   * @param {Compilation} compilation The webpack compilation
+   * @param {Record<string, import("webpack").sources.Source>} assets The assets to optimize
+   * @param {{availableNumberOfCores: number}} optimizeOptions Optimization options
+   * @returns {Promise<void>} Promise that resolves when optimization is complete
    */
   async optimize(compiler, compilation, assets, optimizeOptions) {
     const cache = compilation.getCache("HtmlMinimizerWebpackPlugin");
@@ -296,7 +296,6 @@ class HtmlMinimizerPlugin {
 
           if (
             !compiler.webpack.ModuleFilenameHelpers.matchObject.bind(
-              // eslint-disable-next-line no-undefined
               undefined,
               this.options,
             )(name)
@@ -340,13 +339,12 @@ class HtmlMinimizerPlugin {
         numberOfAssets,
         optimizeOptions.availableNumberOfCores,
       );
-      // eslint-disable-next-line consistent-return
+
       getWorker = () => {
         if (initializedWorker) {
           return initializedWorker;
         }
 
-        // eslint-disable-next-line global-require
         const { Worker } = require("jest-worker");
 
         initializedWorker =
@@ -477,7 +475,7 @@ class HtmlMinimizerPlugin {
   }
 
   /**
-   * @param {Compiler} compiler
+   * @param {Compiler} compiler The webpack compiler
    * @returns {void}
    */
   apply(compiler) {
@@ -506,8 +504,10 @@ class HtmlMinimizerPlugin {
             "html-minimizer-webpack-plugin",
             (minimized, { green, formatFlag }) =>
               minimized
-                ? /** @type {Function} */ (green)(
-                    /** @type {Function} */ (formatFlag)("minimized"),
+                ? /** @type {(text: string) => string} */ (green)(
+                    /** @type {(flag: string) => string} */ (formatFlag)(
+                      "minimized",
+                    ),
                   )
                 : "",
           );
