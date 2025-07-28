@@ -24,8 +24,8 @@ async function minify(options) {
         ? result.outputs[result.outputs.length - 1]
         : { code: options.input };
     const { code } = prevResult;
-    /** @type {MinimizedResult} */
 
+    /** @type {MinimizedResult} */
     const minifyResult = await minifyFn(
       { [options.name]: code },
       minifyOptions,

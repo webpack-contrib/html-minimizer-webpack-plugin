@@ -1,6 +1,15 @@
 // Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
-exports[`"minify" option should emit error: errors 1`] = `[]`;
+exports[`"minify" option should emit error: errors 1`] = `
+[
+  "Error: simple.html from Html Minimizer plugin
+simple.html from Html Minimizer plugin",
+  "Error: simple.html from Html Minimizer plugin
+simple.html from Html Minimizer plugin",
+  "Error: simple.html from Html Minimizer plugin
+simple.html from Html Minimizer plugin",
+]
+`;
 
 exports[`"minify" option should emit error: warnings 1`] = `[]`;
 
@@ -12,7 +21,13 @@ exports[`"minify" option should minimize code and emit warning: assets 1`] = `
 
 exports[`"minify" option should minimize code and emit warning: errors 1`] = `[]`;
 
-exports[`"minify" option should minimize code and emit warning: warnings 1`] = `[]`;
+exports[`"minify" option should minimize code and emit warning: warnings 1`] = `
+[
+  "Warning: object warning",
+  "Warning: string warning",
+  "Warning: test warning",
+]
+`;
 
 exports[`"minify" option should work if minify function return object: assets 1`] = `
 {
@@ -76,7 +91,42 @@ Text ><img src=image.png>
 }
 `;
 
-exports[`"minify" option should work with 'swcMinify' and throw errors: errors 1`] = `[]`;
+exports[`"minify" option should work with 'swcMinify' and throw errors: errors 1`] = `
+[
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+]
+`;
 
 exports[`"minify" option should work with 'swcMinify' and throw errors: warnings 1`] = `[]`;
 
@@ -128,7 +178,38 @@ Text ><img src=image.png>
 }
 `;
 
-exports[`"minify" option should work with 'swcMinifyFragment' and throw errors: errors 1`] = `[]`;
+exports[`"minify" option should work with 'swcMinifyFragment' and throw errors: errors 1`] = `
+[
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+  "Error: broken-html-syntax.html from Html Minimizer plugin
+broken-html-syntax.html from Html Minimizer plugin",
+]
+`;
 
 exports[`"minify" option should work with 'swcMinifyFragment' and throw errors: warnings 1`] = `[]`;
 
