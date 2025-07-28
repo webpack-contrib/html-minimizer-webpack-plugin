@@ -15,7 +15,7 @@ declare class HtmlMinimizerPlugin<
    * @private
    * @param {EXPECTED_ANY} warning The warning to build
    * @param {string} file The file path
-   * @returns {Error & { hideStack?: boolean, file?: string } | undefined} The built warning
+   * @returns {Error & { hideStack?: boolean, file?: string }} The built warning
    */
   private static buildWarning;
   /**

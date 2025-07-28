@@ -182,7 +182,7 @@ class HtmlMinimizerPlugin {
    * @private
    * @param {EXPECTED_ANY} warning The warning to build
    * @param {string} file The file path
-   * @returns {Error & { hideStack?: boolean, file?: string } | undefined} The built warning
+   * @returns {Error & { hideStack?: boolean, file?: string }} The built warning
    */
   static buildWarning(warning, file) {
     /**
@@ -430,6 +430,16 @@ class HtmlMinimizerPlugin {
           output.source = new RawSource(
             result.outputs[result.outputs.length - 1].code,
           );
+
+          for (const error of result.errors) {
+            output.errors.push(HtmlMinimizerPlugin.buildError(error, name));
+          }
+
+          for (const warning of result.warnings) {
+            output.warnings.push(
+              HtmlMinimizerPlugin.buildWarning(warning, name),
+            );
+          }
 
           await cacheItem.storePromise({
             source: output.source,
